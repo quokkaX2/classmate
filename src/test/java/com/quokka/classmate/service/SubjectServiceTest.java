@@ -74,4 +74,25 @@ class SubjectServiceTest {
         assertThat(mockSubject.getTime()).isEqualTo(result.getTime());
         assertThat(mockSubject.getCredit()).isEqualTo(result.getCredit());
     }
+
+    @Test
+    @DisplayName("과목 키워드 검색 시, 해당 키워드를 포함하는 과목이 반환되어야 한다.")
+    void testFindByInput() {
+        // given
+        String keyword = "검색";
+        List<Subject> mockSubjects = new ArrayList<>();
+        mockSubjects.add(new Subject("과목1 검색", 30, 3, 3));
+        mockSubjects.add(new Subject("검색 과목2", 30, 3, 3));
+        mockSubjects.add(new Subject("과목3", 30, 3, 3));
+        when(subjectRepository.findByNameContaining(keyword)).thenReturn(
+                mockSubjects.stream().filter(subject -> subject.getName().contains(keyword)).toList());
+
+        // when
+        List<SubjectResponseDto> result = subjectService.findByInput(keyword);
+
+        // then
+        assertThat(result.size()).isEqualTo(2); // 검색 키워드 포함하는 단어 개수
+        assertThat(result.get(0).getName()).isEqualTo("과목1 검색");
+        assertThat(result.get(1).getName()).isEqualTo("검색 과목2");
+    }
 }
