@@ -29,4 +29,11 @@ public class SubjectService {
 
         return new SubjectResponseDto(subject);
     }
+
+    // 과목 키워드 검색
+    @Transactional(readOnly = true)
+    public List<SubjectResponseDto> findByInput(String input) {
+        return subjectRepository.findByNameContaining(input)
+                .stream().map(SubjectResponseDto::new).toList();
+    }
 }
