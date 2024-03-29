@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
@@ -34,19 +35,26 @@ class SubjectServiceTest {
         // given
         // Mock 데이터 담기용 리스트 생성
         List<Subject> mockSubjects = new ArrayList<>();
-
         for (int i = 0; i < 10; i++) {
             Subject subject = new Subject("가짜과목 " + i, 30, 3, 3);
             mockSubjects.add(subject);
         }
-
-        when(subjectRepository.saveAll(mockSubjects)).thenReturn(mockSubjects);
+        // 스프링 프로젝트에서의 컨테이너에 등록된 빈을 테스트코드에도 주입받을 수 없음
+        // 그래서 임의로 해당 메소드의 결과값을 강제 조정
+        when(subjectRepository.findAll()).thenReturn(mockSubjects);
 
         // when
         List<SubjectResponseDto> result = subjectService.findAll();
 
         // then
         assertThat(result.size()).isEqualTo(10);
+
+        for (int i = 0; i < 10; i++) {
+            assertThat(result.get(i).getName()).isEqualTo("가짜과목 " + i);
+            assertThat(result.get(i).getLimitCount()).isEqualTo(30);
+            assertThat(result.get(i).getTime()).isEqualTo(3);
+            assertThat(result.get(i).getCredit()).isEqualTo(3);
+        }
     }
 
     @Test
@@ -55,7 +63,7 @@ class SubjectServiceTest {
         // given
         Long id = 1L;
         Subject mockSubject = new Subject("가짜과목", 30, 3, 3);
-        when(subjectRepository.findById(id)).thenReturn(java.util.Optional.of(mockSubject));
+        when(subjectRepository.findById(id)).thenReturn(Optional.of(mockSubject));
 
         // when
         SubjectResponseDto result = subjectService.findById(id);
