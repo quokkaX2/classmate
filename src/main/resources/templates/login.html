@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+
+    <!--  css  -->
+    <link rel="stylesheet" type="text/css" href="/css/login.css">
+</head>
+<body>
+<div class="container">
+    <h2>로그인</h2>
+    <input type="text" id="email" name="email" placeholder="Email" required>
+    <input type="password" id="password" name="password" placeholder="Password" required>
+    <button class="login-btn" onclick="login()">로그인</button>
+    <button class="signup-btn" onclick="window.location.href = '/signup'">회원가입</button>
+    <div id="login-failed" style="display: none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
+</div>
+</body>
+</html>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // 토큰 삭제 - 이전 시간으로 돌려서 삭제함
+        document.cookie = "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+
+        const href = location.href;
+        const queryString = href.substring(href.indexOf("?") + 1)
+        if (queryString === 'error') {
+            const errorDiv = document.getElementById('login-failed');
+            errorDiv.style.display = 'block';
+        }
+    });
+
+    function login() {
+        let email = document.getElementById('email').value;
+        let password = document.getElementById('password').value;
+        console.log(email, password);
+
+        fetch('/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({email: email, password: password}),
+        })
+            .then(response => {
+                if (response.ok) {
+                    window.location.href = '/';
+                } else {
+                    console.log('statusCode: ' + response.status);
+                    window.location.href = '/login?error';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = '/login?error';
+            });
+    }
+</script>
+</body>
+</html>
