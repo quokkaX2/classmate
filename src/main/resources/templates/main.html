@@ -14,14 +14,14 @@
         }
 
         .field {
-            border: 10px solid purple;
+            /*border: 10px solid purple;*/
             padding: 1rem;
             width: 50%;
             height: 30rem;
         }
 
         .subject-container {
-            border: 2px solid purple;
+            /*border: 2px solid purple;*/
             border-radius: 20px;
             box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
             padding: 1rem;
@@ -33,9 +33,9 @@
         }
 
         .search-component {
-            border: 2px solid purple;
+            /*border: 2px solid purple;*/
             border-radius: 5px;
-            box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);
+            /*box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);*/
             height: 8%;
             display: flex;
             flex-direction: row;
@@ -45,11 +45,27 @@
         #search-input {
             width: 82.5%;
             font-size: 17px;
+            border-radius: 5px;
+            border: 1px solid #afafaf;
         }
 
         #search-button {
+            background-color: #b2d2ff;
+            border: transparent solid;
             width: 12.5%;
             font-size: 17px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #search-button:hover {
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        #search-button:active {
+            opacity: 1.4;
+            cursor: grab;
         }
 
         .subject-introduce {
@@ -58,15 +74,18 @@
         }
 
         .subjects-component {
-            border: 2px solid purple;
+            /*border: 2px solid purple;*/
+            box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);
             border-radius: 5px;
             height: 84%;
             display: flex;
             flex-direction: column;
+            padding-right: 0.25rem;
+            padding-left: 0.25rem;
         }
 
         .subjects {
-            border: 2px solid purple;
+            /*border: 2px solid purple;*/
             list-style-type: none;
             padding: 0.5rem;
             width: 97%;
@@ -75,7 +94,7 @@
         }
 
         .subject {
-            border: 2px solid purple;
+            /*border: 2px solid purple;*/
             box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
             border-radius: 5px;
             width: 99%;
@@ -103,6 +122,17 @@
 
         .subject-info:last-child {
             margin-right: 0;
+        }
+
+        .non-result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .non-result p {
+            font-size: 20px;
         }
 
     </style>
@@ -143,8 +173,8 @@
                     </ul>
 
                     <!-- 검색 결과가 없을 때 -->
-                    <div th:if="${#lists.isEmpty(subjects)}">
-                        <p>검색 결과가 없습니다.</p>
+                    <div class="non-result" th:if="${#lists.isEmpty(subjects)}">
+                        <p>검색 결과가 없습니다</p>
                     </div>
                 </div>
             </div>
