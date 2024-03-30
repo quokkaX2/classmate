@@ -7,7 +7,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "students")
 public class Student {
@@ -28,4 +27,15 @@ public class Student {
     @Column(nullable = false, name = "current_credit")
     private Integer currentCredit;
 
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    public Student(String email, String password, String name, Integer currentCredit) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.currentCredit = currentCredit;
+        this.role = Role.USER; // 회원 권한
+    }
 }

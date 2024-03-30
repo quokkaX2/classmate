@@ -1,6 +1,6 @@
 package com.quokka.classmate.service;
 
-import com.quokka.classmate.domain.dto.StudentRequestDto;
+import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class StudentService {
     }
 
     // 회원가입
-    public void signup(StudentRequestDto requestDto) {
+    public void signup(StudentSignUpRequestDto requestDto) {
         String email = requestDto.getEmail();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
@@ -39,14 +39,9 @@ public class StudentService {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
 
-        Student student = new Student();
-        student.setEmail(requestDto.getEmail());
-        student.setPassword(password);
-        student.setName(requestDto.getName());
-        student.setCurrentCredit(0);
+        Student student = new Student(requestDto.getEmail(), password, requestDto.getName(), 0);
 
         studentRepository.save(student);
-
     }
 
 }

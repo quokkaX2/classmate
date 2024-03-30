@@ -1,12 +1,9 @@
 package com.quokka.classmate.domain.dto;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
-@Setter
-public class StudentRequestDto {
+public class StudentLoginRequestDto {
     private String email;
     private String password;
-    private String name;
 }
