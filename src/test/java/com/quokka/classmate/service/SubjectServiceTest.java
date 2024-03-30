@@ -3,8 +3,6 @@ package com.quokka.classmate.service;
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.domain.entity.Subject;
 import com.quokka.classmate.repository.SubjectRepository;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class) // JUnit 5와 Mockito 연동
@@ -50,7 +47,7 @@ class SubjectServiceTest {
         assertThat(result.size()).isEqualTo(10);
 
         for (int i = 0; i < 10; i++) {
-            assertThat(result.get(i).getName()).isEqualTo("가짜과목 " + i);
+            assertThat(result.get(i).getTitle()).isEqualTo("가짜과목 " + i);
             assertThat(result.get(i).getLimitCount()).isEqualTo(30);
             assertThat(result.get(i).getTime()).isEqualTo(3);
             assertThat(result.get(i).getCredit()).isEqualTo(3);
@@ -69,7 +66,7 @@ class SubjectServiceTest {
         SubjectResponseDto result = subjectService.findById(id);
 
         // then
-        assertThat(mockSubject.getName()).isEqualTo(result.getName());
+        assertThat(mockSubject.getTitle()).isEqualTo(result.getTitle());
         assertThat(mockSubject.getLimitCount()).isEqualTo(result.getLimitCount());
         assertThat(mockSubject.getTime()).isEqualTo(result.getTime());
         assertThat(mockSubject.getCredit()).isEqualTo(result.getCredit());
@@ -77,7 +74,7 @@ class SubjectServiceTest {
 
     @Test
     @DisplayName("과목 키워드 검색 시, 해당 키워드를 포함하는 과목이 반환되어야 한다.")
-    void testFindByInput() {
+    void testFindByKeyword() {
         // given
         String keyword = "검색";
         List<Subject> mockSubjects = new ArrayList<>();
@@ -85,14 +82,14 @@ class SubjectServiceTest {
         mockSubjects.add(new Subject("검색 과목2", 30, 3, 3));
         mockSubjects.add(new Subject("과목3", 30, 3, 3));
         when(subjectRepository.findByNameContaining(keyword)).thenReturn(
-                mockSubjects.stream().filter(subject -> subject.getName().contains(keyword)).toList());
+                mockSubjects.stream().filter(subject -> subject.getTitle().contains(keyword)).toList());
 
         // when
-        List<SubjectResponseDto> result = subjectService.findByInput(keyword);
+        List<SubjectResponseDto> result = subjectService.findByKeyword(keyword);
 
         // then
         assertThat(result.size()).isEqualTo(2); // 검색 키워드 포함하는 단어 개수
-        assertThat(result.get(0).getName()).isEqualTo("과목1 검색");
-        assertThat(result.get(1).getName()).isEqualTo("검색 과목2");
+        assertThat(result.get(0).getTitle()).isEqualTo("과목1 검색");
+        assertThat(result.get(1).getTitle()).isEqualTo("검색 과목2");
     }
 }

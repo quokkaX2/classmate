@@ -34,7 +34,7 @@ public class SubjectController {
 
     @GetMapping("/api/search")
     public String getSubjectByInput(@RequestParam String input, Model model) {
-        List<SubjectResponseDto> subjects = subjectService.findByInput(input);
+        List<SubjectResponseDto> subjects = subjectService.findByKeyword(input);
         model.addAttribute("subjects", subjects);
 
         return null; // 추후 html이 작성되면 타임리프 문법 적용

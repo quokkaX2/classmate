@@ -7,13 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SubjectResponseDto {
-    private String name;
+    private String title;
     private Integer limitCount;
     private Integer time;
     private Integer credit;
 
     public SubjectResponseDto(Subject subject) {
-        this.name = subject.getName();
+        this.title = subject.getTitle();
         this.limitCount = subject.getLimitCount();
         this.time = subject.getTime();
         this.credit = subject.getCredit();

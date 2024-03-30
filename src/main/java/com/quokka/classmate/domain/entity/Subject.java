@@ -14,8 +14,8 @@ public class Subject {
     @Column(name = "subject_id")
     private Long id;
 
-    @Column(nullable = false, unique = true, name = "subject_name")
-    private String name;
+    @Column(nullable = false, unique = true, name = "title")
+    private String title;
 
     @Column(nullable = false, name = "limit_count")
     private Integer limitCount;
@@ -26,8 +26,8 @@ public class Subject {
     @Column(nullable = false, name = "credit")
     private Integer credit;
 
-    public Subject(String name, Integer limitCount, Integer time, Integer credit) {
-        this.name = name;
+    public Subject(String title, Integer limitCount, Integer time, Integer credit) {
+        this.title = title;
         this.limitCount = limitCount;
         this.time = time;
         this.credit = credit;
