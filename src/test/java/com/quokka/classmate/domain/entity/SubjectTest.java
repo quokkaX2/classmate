@@ -23,4 +23,18 @@ class SubjectTest {
         // then
         assertThat(mockSubject.getLimitCount()).isEqualTo(0);
     }
+
+    @Test
+    @DisplayName("수강 제한인원이 다 찼을 때, 수강 신청을 시도하면 IllegalArgumentException 발생.")
+    void cutCountException() {
+        // given
+        Subject mockEndSubject = new Subject("가짜과목", 0, 3, 3);
+
+        // when
+        // then
+        Throwable exception =
+                assertThrows(IllegalArgumentException.class, mockEndSubject::cutCount);
+
+        assertThat("수강 인원이 다 찼습니다").isEqualTo(exception.getMessage());
+    }
 }
