@@ -77,6 +77,27 @@
             margin-top: 0.5rem;
             margin-bottom: 0.5rem;
             height: 1.9rem;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .subject-info {
+            flex: 1;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-name {
+            flex: 4.2;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .subject-info:last-child {
+            margin-right: 0;
         }
 
     </style>
@@ -101,10 +122,10 @@
                 <div class="subjects-component" >
                     <ul class="subjects" th:if="${not #lists.isEmpty(subjects)}">
                         <li class="subject" th:each="subject : ${subjects}">
-                            <span class="subject-info" th:text="${subject.title}"></span>
-                            <span class="subject-info" th:text="${subject.limitCount}"></span>
                             <span class="subject-info" th:text="${subject.time}"></span>
+                            <span class="subject-name" th:text="${subject.title}"></span>
                             <span class="subject-info" th:text="${subject.credit}"></span>
+                            <span class="subject-info" th:text="${subject.limitCount}"></span>
             <!--                수강 신청 버튼 추후 추가-->
                         </li>
                     </ul>
