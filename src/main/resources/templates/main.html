@@ -52,12 +52,17 @@
             font-size: 17px;
         }
 
+        .subject-introduce {
+            display: flex;
+            flex-direction: row;
+        }
+
         .subjects-component {
             border: 2px solid purple;
             border-radius: 5px;
             height: 84%;
             display: flex;
-            flex-direction: row;
+            flex-direction: column;
         }
 
         .subjects {
@@ -121,6 +126,13 @@
                 <!-- 검색 결과가 있을 때 -->
                 <div class="subjects-component" >
                     <ul class="subjects" th:if="${not #lists.isEmpty(subjects)}">
+                        <div class="subject-introduce">
+                            <span class="subject-info">시간</span>
+                            <span class="subject-name">과목</span>
+                            <span class="subject-info">학점</span>
+                            <span class="subject-info">잔여 인원</span>
+                        </div>
+
                         <li class="subject" th:each="subject : ${subjects}">
                             <span class="subject-info" th:text="${subject.time}"></span>
                             <span class="subject-name" th:text="${subject.title}"></span>
