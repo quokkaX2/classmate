@@ -54,23 +54,23 @@ class SubjectServiceTest {
         }
     }
 
-    @Test
-    @DisplayName("강의 과목의 ID로 조회 시, 해당 과목의 정보가 조회돼야 한다.")
-    void findById() {
-        // given
-        Long id = 1L;
-        Subject mockSubject = new Subject("가짜과목", 30, 3, 3);
-        when(subjectRepository.findById(id)).thenReturn(Optional.of(mockSubject));
-
-        // when
-        SubjectResponseDto result = subjectService.findById(id);
-
-        // then
-        assertThat(mockSubject.getTitle()).isEqualTo(result.getTitle());
-        assertThat(mockSubject.getLimitCount()).isEqualTo(result.getLimitCount());
-        assertThat(mockSubject.getTime()).isEqualTo(result.getTime());
-        assertThat(mockSubject.getCredit()).isEqualTo(result.getCredit());
-    }
+//    @Test
+//    @DisplayName("강의 과목의 ID로 조회 시, 해당 과목의 정보가 조회돼야 한다.")
+//    void findById() {
+//        // given
+//        Long id = 1L;
+//        Subject mockSubject = new Subject("가짜과목", 30, 3, 3);
+//        when(subjectRepository.findById(id)).thenReturn(Optional.of(mockSubject));
+//
+//        // when
+//        SubjectResponseDto result = subjectService.findById(id);
+//
+//        // then
+//        assertThat(mockSubject.getTitle()).isEqualTo(result.getTitle());
+//        assertThat(mockSubject.getLimitCount()).isEqualTo(result.getLimitCount());
+//        assertThat(mockSubject.getTime()).isEqualTo(result.getTime());
+//        assertThat(mockSubject.getCredit()).isEqualTo(result.getCredit());
+//    }
 
     @Test
     @DisplayName("과목 키워드 검색 시, 해당 키워드를 포함하는 과목이 반환되어야 한다.")

@@ -22,13 +22,13 @@ public class SubjectService {
     }
 
     // 과목 검색 기능
-    @Transactional(readOnly = true)
-    public SubjectResponseDto findById(Long id) throws NullPointerException {
-        Subject subject = subjectRepository.findById(id)
-                .orElseThrow(() -> new NullPointerException("조회하는 과목이 존재하지 않습니다."));
-
-        return new SubjectResponseDto(subject);
-    }
+//    @Transactional(readOnly = true)
+//    public SubjectResponseDto findById(Long id) throws NullPointerException {
+//        Subject subject = subjectRepository.findById(id)
+//                .orElseThrow(() -> new NullPointerException("조회하는 과목이 존재하지 않습니다."));
+//
+//        return new SubjectResponseDto(subject);
+//    }
 
     // 과목 키워드 검색
     @Transactional(readOnly = true)
