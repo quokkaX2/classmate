@@ -14,11 +14,42 @@
         }
 
         .field {
-            background-color: gray;
-            border: 20px solid purple;
+            border: 10px solid purple;
+            padding: 1rem;
             width: 50%;
             height: 30rem;
         }
+
+        .subject-container {
+            border: 2px solid purple;
+            border-radius: 20px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            width: 95%;
+            height: 92%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .search-component {
+            border: 2px solid purple;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.5);
+            height : 8%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .subjects-component {
+            border: 2px solid purple;
+            border-radius: 5px;
+            box-shadow: inset 0 0 10px 0 rgba(0, 0, 0, 0.5);
+            height : 84%;
+            display: flex;
+            flex-direction: row;
+        }
+
     </style>
     <title>main</title>
 </head>
@@ -32,14 +63,14 @@
 
         <div class="field">
             <div class="subject-container">
-                <form action="/api/search" method="GET">
+                <form class="search-component" action="/api/search" method="GET">
                     <label for="searchInput">과목 검색:</label>
                     <input type="text" id="searchInput" name="input" placeholder="과목 이름을 입력하세요">
                     <button type="submit">검색</button>
                 </form>
 
                 <!-- 검색 결과가 있을 때 -->
-                <div th:if="${not #lists.isEmpty(subjects)}">
+                <div class="subjects-component" th:if="${not #lists.isEmpty(subjects)}">
                     <h2>검색 결과</h2>
                     <ul>
                         <li th:each="subject : ${subjects}">
