@@ -35,14 +35,6 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testCompileOnly 'org.projectlombok:lombok'
     testAnnotationProcessor 'org.projectlombok:lombok'
-
-
-//    testCompile 'junit:junit'
-//    testCompile 'org.assertj:assertj-core'
-//    testCompile 'org.junit.jupiter:junit-jupiter-params'
-//
-//    // Tests
-//    testCompile 'org.mockito:mockito-inline'
 }
 
 tasks.named('test') {
