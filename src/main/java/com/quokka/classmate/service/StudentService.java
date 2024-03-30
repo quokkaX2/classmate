@@ -39,12 +39,7 @@ public class StudentService {
             throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
         }
 
-        Student student = new Student();
-        student.setEmail(requestDto.getEmail());
-        student.setPassword(password);
-        student.setName(requestDto.getName());
-        student.setCurrentCredit(0);
-
+        Student student = new Student(requestDto.getEmail(), password, requestDto.getName(), 0);
         studentRepository.save(student);
 
     }

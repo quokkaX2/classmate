@@ -3,11 +3,9 @@ package com.quokka.classmate.domain.entity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor
 @Table(name = "students")
 public class Student {
@@ -28,4 +26,10 @@ public class Student {
     @Column(nullable = false, name = "current_credit")
     private Integer currentCredit;
 
+    public Student(String email, String password, String name, Integer currentCredit) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.currentCredit = currentCredit;
+    }
 }
