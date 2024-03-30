@@ -1,6 +1,6 @@
 package com.quokka.classmate.service;
 
-import com.quokka.classmate.domain.dto.StudentRequestDto;
+import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.repository.StudentRepository;
 import org.junit.jupiter.api.Test;
@@ -29,7 +29,7 @@ public class StudentServiceTest {
 
     @Test
     public void signup_success() {
-        StudentRequestDto requestDto = new StudentRequestDto(
+        StudentSignUpRequestDto requestDto = new StudentSignUpRequestDto(
                 "text@example.com",
                 "securePassword",
                 "Test Student Name"
@@ -37,7 +37,9 @@ public class StudentServiceTest {
 
         when(studentRepository.findByEmail(any(String.class))).thenReturn(Optional.empty());
         when(passwordEncoder.encode(any(String.class))).thenReturn("hashedPassword");
-        when(studentRepository.save(any(Student.class))).thenAnswer(invocation -> invocation.getArguments());
+        when(studentRepository.save(any(Student.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        studentService.signup(requestDto);
 
         verify(studentRepository, times(1)).save(any(Student.class));
 
