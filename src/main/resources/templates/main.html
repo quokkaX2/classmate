@@ -16,6 +16,14 @@
         <button type="submit">검색</button>
     </form>
 
+    <div class="subject-component" th:each="subject: ${subjects}">
+        <span class="subject-info" th:text="${subject.title}"></span>
+        <span class="subject-info" th:text="${subject.limitCount}"></span>
+        <span class="subject-info" th:text="${subject.time}"></span>
+        <span class="subject-info" th:text="${subject.credit}"></span>
+<!--        수강 신청 버튼 추가-->
+    </div>
+
 
 </body>
 </html>
