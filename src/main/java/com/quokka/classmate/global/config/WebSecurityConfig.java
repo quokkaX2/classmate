@@ -1,4 +1,4 @@
-package com.quokka.classmate.config;
+package com.quokka.classmate.global.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
