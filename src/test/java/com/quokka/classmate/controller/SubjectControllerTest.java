@@ -10,6 +10,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +32,6 @@ class SubjectControllerTest {
 
     private List<SubjectResponseDto> mockSubjectResponses;
 
-
     @BeforeEach
     void setUp() {
         // given
@@ -48,6 +48,7 @@ class SubjectControllerTest {
     }
 
     @Test
+    @WithMockUser
     void getAllSubjects() throws Exception {
         // when
         // mock 서비스 메소드 반환타입 지정
