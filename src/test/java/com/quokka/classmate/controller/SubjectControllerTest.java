@@ -1,0 +1,68 @@
+package com.quokka.classmate.controller;
+
+import com.quokka.classmate.domain.dto.SubjectResponseDto;
+import com.quokka.classmate.domain.entity.Subject;
+import com.quokka.classmate.service.SubjectService;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+@WebMvcTest(SubjectController.class)
+@MockBean(JpaMetamodelMappingContext.class)
+class SubjectControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc; // HTTP 호출 담당
+
+    @MockBean
+    private SubjectService subjectService;
+
+    private List<SubjectResponseDto> mockSubjectResponses;
+
+
+    @BeforeEach
+    void setUp() {
+        // given
+        mockSubjectResponses = new ArrayList<>();
+        List<Subject> mockSubjects = new ArrayList<>();
+
+        mockSubjects.add(new Subject("과목1 검색", 30, 3, 3));
+        mockSubjects.add(new Subject("검색 과목2", 30, 3, 3));
+        mockSubjects.add(new Subject("과목3", 30, 3, 3));
+
+        for (Subject mockSubject: mockSubjects) {
+            mockSubjectResponses.add(new SubjectResponseDto(mockSubject));
+        }
+    }
+
+    @Test
+    void getAllSubjects() throws Exception {
+        // when
+        // mock 서비스 메소드 반환타입 지정
+        when(subjectService.findAll()).thenReturn(mockSubjectResponses);
+
+        // then
+        // GET 요청 및 뷰 및 모델 검증
+        mockMvc.perform(get("/")) // GET 요청 수행
+                .andExpect(status().isOk()) // 상태 검증
+                .andExpect(view().name("main"))
+                .andExpect(model().attributeExists("subjects"))
+                .andExpect(model().attribute("subjects", mockSubjectResponses));
+    }
+
+    @Test
+    void getSubjectByInput() {
+    }
+}
