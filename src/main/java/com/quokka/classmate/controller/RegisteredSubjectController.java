@@ -33,6 +33,7 @@ public class RegisteredSubjectController {
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
+        registeredSubjectService.createRegisterSubject(subjectId, userDetails);
         return "redorect:/";
     }
 }
