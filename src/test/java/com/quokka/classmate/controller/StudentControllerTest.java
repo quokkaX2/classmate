@@ -2,6 +2,7 @@ package com.quokka.classmate.controller;
 
 import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
 import com.quokka.classmate.service.StudentService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -11,6 +12,10 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.lang.annotation.Documented;
+
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -29,6 +34,7 @@ public class StudentControllerTest {
 
     @Test
     @WithMockUser
+    @DisplayName("회원가입 성공 경우")
     public void signup_success() throws Exception {
         StudentSignUpRequestDto requestDto = new StudentSignUpRequestDto(
                 "test@example.com",
@@ -42,9 +48,28 @@ public class StudentControllerTest {
                         .param("password", requestDto.getPassword())
                         .param("name", requestDto.getName())
                         .with(csrf())
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)) // Ensure to set the correct content type for form submission
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/"));
     }
 
+    @Test
+    @WithMockUser
+    @DisplayName("회원가입 실패 경우 - 이메일 중복")
+    public void signup_failure_duplicateEmail() throws Exception {
+        String duplicateEmailMessage = "중복된 사용자가 존재합니다.";
+        doThrow(new IllegalArgumentException(duplicateEmailMessage))
+                .when(studentService).signup(any(StudentSignUpRequestDto.class));
+
+        mockMvc.perform(post("/signup")
+                        .param("email", "duplicate@example.com")
+                        .param("password", "password123")
+                        .param("name", "Duplicate User")
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED))
+                .andExpect(status().isOk())
+                .andExpect(view().name("signup"))
+                .andExpect(model().attributeExists("errorMessage"))
+                .andExpect(model().attribute("errorMessage", "회원가입 실패: 중복된 사용자가 존재합니다."));
+    }
 }
