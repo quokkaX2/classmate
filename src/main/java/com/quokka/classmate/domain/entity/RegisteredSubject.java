@@ -28,4 +28,10 @@ public class RegisteredSubject {
     // bit 라는 것을 프로그램마다 의미하는게 약간 다른 경우가 있어서, 이런 경우에 같다 착각하고 시행착오를 겪을 수 있다.
     @Column(columnDefinition = "TINYINT(1)") // TINYINT(1)의 경우 0~255
     private boolean isRegistered; // 0 - false, 1 - true
+
+    // boolean 필드는 false 가 초기값
+    public RegisteredSubject(Student student, Subject subject) {
+        this.student = student;
+        this.subject = subject;
+    }
 }
