@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Getter
 @NoArgsConstructor
@@ -29,6 +32,9 @@ public class Student {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "student")
+    private List<RegisteredSubject> registeredSubjects = new ArrayList<>();
 
     public Student(String email, String password, String name, Integer currentCredit) {
         this.email = email;
