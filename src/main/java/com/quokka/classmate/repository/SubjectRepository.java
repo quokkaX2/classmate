@@ -11,5 +11,5 @@ import java.util.Optional;
 @Repository
 public interface SubjectRepository extends JpaRepository<Subject, Long> {
     // 검색 기반 강의 조회
-    List<Subject> findByNameContaining(String input);
+    List<Subject> findByTitleContaining(String input);
 }

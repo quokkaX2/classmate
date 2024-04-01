@@ -23,7 +23,7 @@ public class SubjectService {
 
     // 과목 키워드 검색
     public List<SubjectResponseDto> findByKeyword(String input) {
-        return subjectRepository.findByNameContaining(input)
+        return subjectRepository.findByTitleContaining(input)
                 .stream().map(SubjectResponseDto::new).toList();
     }
 }

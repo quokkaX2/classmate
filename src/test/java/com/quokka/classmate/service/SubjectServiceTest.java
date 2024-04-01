@@ -63,7 +63,7 @@ class SubjectServiceTest {
         mockSubjects.add(new Subject("과목1 검색", 30, 3, 3));
         mockSubjects.add(new Subject("검색 과목2", 30, 3, 3));
         mockSubjects.add(new Subject("과목3", 30, 3, 3));
-        when(subjectRepository.findByNameContaining(keyword)).thenReturn(
+        when(subjectRepository.findByTitleContaining(keyword)).thenReturn(
                 mockSubjects.stream().filter(subject -> subject.getTitle().contains(keyword)).toList());
 
         // when
