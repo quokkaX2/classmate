@@ -21,7 +21,7 @@ public class SubjectController {
         List<SubjectResponseDto> subjects = subjectService.findAll();
         model.addAttribute("subjects", subjects);
 
-        return "main"; // 추후 html이 작성되면 타임리프 문법 적용
+        return "main";
     }
 
     @GetMapping("/api/search")
@@ -29,6 +29,6 @@ public class SubjectController {
         List<SubjectResponseDto> subjects = subjectService.findByKeyword(input);
         model.addAttribute("subjects", subjects);
 
-        return null; // 추후 html이 작성되면 타임리프 문법 적용
+        return "main";
     }
 }
