@@ -8,6 +8,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -23,5 +25,14 @@ public class RegisteredSubjectController {
         List<CartResponseDto> carts = registeredSubjectService.findAll(userDetails.getUser());
         model.addAttribute("carts", carts);
         return "cart";
+    }
+
+    // 수강 과목 장바구니에 추가
+    @PostMapping("/api/cart/{subjectId}")
+    public String containCart(
+            @PathVariable Long subjectId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        return "redorect:/";
     }
 }
