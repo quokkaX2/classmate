@@ -31,17 +31,17 @@ public class RegisteredSubjectController {
 
     // 수강 과목 장바구니에 추가
     @PostMapping("/api/cart/{subjectId}")
-    public ResponseEntity<String> saveRegisterSubject(
+    public ResponseEntity<String> saveRegisteredSubject(
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return registeredSubjectService.createRegisterSubject(subjectId, userDetails);
+        return registeredSubjectService.createRegisteredSubject(subjectId, userDetails);
     }
 
     // 수강 과목 장바구니에서 삭제
     // html 파일에서 타임리프로 뿌리기 필요
     @DeleteMapping("/api/cart/{subjectId}")
-    public ResponseEntity<String> deleteRegisterSubject(
+    public ResponseEntity<String> deleteRegisteredSubject(
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 

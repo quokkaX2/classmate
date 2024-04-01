@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -34,7 +35,7 @@ public class RegisteredSubjectService {
 
     // 장바구니에 강의 담기(코드 최적화 x)
     @Transactional
-    public ResponseEntity<String> createRegisterSubject(
+    public ResponseEntity<String> createRegisteredSubject(
             Long subjectId, UserDetailsImpl userDetails) {
         Subject subject = subjectRepository.findById(subjectId).orElseThrow(
                 () -> new IllegalArgumentException("추가하려는 강의가 존재하지 않습니다.")
@@ -55,5 +56,35 @@ public class RegisteredSubjectService {
         registeredSubjectRepository.save(new RegisteredSubject(student, subject));
 
         return ResponseEntity.ok("장바구니에 담겼습니다.");
+    }
+
+    // 장바구니에서 과목 삭제
+    // 등록 과목 자체의 아이디로 처리할 것인지, 혹은 학생과 과목의 정보 기반으로 처리할 것인지 논의 필요
+    // 우선은 후자의 형태로 구현. 추후 논의사항 및 html 의 처리 여하에 따라서 수정 예정
+    @Transactional
+    public ResponseEntity<String> deleteRegisteredSubject(
+            Long subjectId, UserDetailsImpl userDetails) {
+        Subject subject = subjectRepository.findById(subjectId).orElseThrow(
+                () -> new IllegalArgumentException("추가하려는 강의가 존재하지 않습니다.")
+        );
+
+        Student student = studentRepository.findById(userDetails.getUser().getId()).orElseThrow(
+                () -> new IllegalArgumentException("유효하지 않은 회원 정보입니다.")
+        );
+
+        Optional<RegisteredSubject> optionalRegisteredSubject =
+                registeredSubjectRepository.findByStudentAndSubject(student, subject);
+
+        // 존재하지 않는 과목을 삭제할 수 없도록 예외처리를 해야 한다
+        if (optionalRegisteredSubject.isEmpty()) {
+            throw new NullPointerException("존재하지 않는 과목입니다.");
+        }
+
+        System.out.println("학생 이름: " + student.getName());
+        System.out.println("과목 이름: " + subject.getTitle());
+
+        registeredSubjectRepository.deleteById(optionalRegisteredSubject.get().getId());
+
+        return ResponseEntity.ok("정상적으로 삭제됐습니다.");
     }
 }
