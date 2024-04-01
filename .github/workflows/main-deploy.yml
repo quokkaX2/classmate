@@ -68,4 +68,4 @@ jobs:
         run: aws deploy create-deployment --application-name spring-deploy
           --deployment-config-name CodeDeployDefault.OneAtATime
           --deployment-group-name spring-deploy-group
-          --s3-location bucket=tcat-spring,bundleType=zip,key=spring-build.zip
+          --s3-location bucket=quokkax2,bundleType=zip,key=spring-build.zip
