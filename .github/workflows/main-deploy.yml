@@ -42,8 +42,8 @@ jobs:
 
       - name: Build with Gradle
         run: ./gradlew build
-        
-	  # 수정
+
+
       - name: Make zip file
         run: |
           mkdir deploy
@@ -65,8 +65,7 @@ jobs:
           aws s3 cp \
             --region ap-northeast-2 \
             ./spring-build.zip s3://classmate-spring
-      
-	  # 추가
+
       - name: Code Deploy
         run: aws deploy create-deployment --application-name spring-deploy
           --deployment-config-name CodeDeployDefault.OneAtATime
