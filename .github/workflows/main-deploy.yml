@@ -48,6 +48,7 @@ jobs:
           cp ./docker-compose.green.yml ./deploy/
           cp ./appspec.yml ./deploy/
           cp ./Dockerfile ./deploy/
+          cp ./deploy.sh ./deploy/
           cp ./build/libs/*.jar ./deploy/
           zip -r -qq -j ./spring-build.zip ./deploy
           
