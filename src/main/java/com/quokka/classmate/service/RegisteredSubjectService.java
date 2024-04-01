@@ -44,8 +44,13 @@ public class RegisteredSubjectService {
                 () -> new IllegalArgumentException("유효하지 않은 회원 정보입니다.")
         );
 
-        registeredSubjectRepository.save(new RegisteredSubject());
+        // 이미 신청된 과목은 신청할 수 없도록 예외처리를 해야 한다
+        if (registeredSubjectRepository.findByStudentAndSubject(student, subject).isPresent()) {
+            throw new NullPointerException("이미 장바구니에 담긴 과목입니다.");
+        }
 
-        return null;
+        registeredSubjectRepository.save(new RegisteredSubject(student, subject));
+
+        return ResponseEntity.ok("장바구니에 담겼습니다.");
     }
 }
