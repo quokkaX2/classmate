@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .field {
+            /*border: 10px solid purple;*/
+            padding: 1rem;
+            width: 50%;
+            height: 30rem;
+        }
+
+        .subject-container {
+            /*border: 2px solid purple;*/
+            border-radius: 20px;
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            width: 95%;
+            height: 92%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .subject-introduce {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .subjects-component {
+            /*border: 2px solid purple;*/
+            box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            height: 84%;
+            display: flex;
+            flex-direction: column;
+            padding-right: 0.25rem;
+            padding-left: 0.25rem;
+        }
+
+        .subjects {
+            /*border: 2px solid purple;*/
+            list-style-type: none;
+            padding: 0.5rem;
+            width: 97%;
+            overflow-y: auto;
+            display: inline-block;
+        }
+
+        .subject {
+            /*border: 2px solid purple;*/
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            width: 99%;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            height: 1.9rem;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .subject-info {
+            flex: 1;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-name {
+            flex: 4.2;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+        }
+
+        .subject-info:last-child {
+            margin-right: 0;
+        }
+
+        .non-result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .non-result p {
+            font-size: 20px;
+        }
+
+    </style>
+    <title>장바구니</title>
+</head>
+<body>
+<!--    필요시 헤더 추가 공간-->
+
+<h1>수강신청 장바구니</h1>
+
+<main>
+<!--    <div class="field"></div>-->
+
+    <div class="field">
+        <div class="subject-container">
+
+            <!-- 장바구니 리스트가 있을 때 -->
+            <div class="subjects-component" >
+                <ul class="subjects" th:if="${not #lists.isEmpty(carts)}">
+                    <div class="subject-introduce">
+                        <span class="subject-info">시간</span>
+                        <span class="subject-name">과목</span>
+                        <span class="subject-info">학점</span>
+                        <span class="subject-info">잔여 인원</span>
+                        <span class="subject-info">수강 신청 상태</span>
+                        <span class="subject-info">수강 신청</span>
+                    </div>
+
+                    <li class="subject" th:each="cart : ${carts}">
+                        <span class="subject-info" th:text="${cart.time}"></span>
+                        <span class="subject-name" th:text="${cart.title}"></span>
+                        <span class="subject-info" th:text="${cart.credit}"></span>
+                        <span class="subject-info" th:text="${cart.limitCount}"></span>
+                        <span class="subject-info" th:if="${cart.isRegistered()}" th:style="${'color: green'}">
+                            <span>신청완료</span> <!-- cart.registered가 true일 때 보여질 텍스트 -->
+                        </span>
+                        <span class="subject-info" th:if="${not cart.isRegistered()}" th:style="${'color: red'}">
+                            <span>미신청</span> <!-- cart.registered가 false일 때 보여질 텍스트 -->
+                        </span>
+                        <span class="subject-info"><button th:if="${not cart.isRegistered()}">신청하기</button></span>
+                    </li>
+                </ul>
+
+                <!-- 검색 결과가 없을 때 -->
+                <div class="non-result" th:if="${#lists.isEmpty(carts)}">
+                    <p>장바구니가 비어있습니다.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+</body>
+</html>
