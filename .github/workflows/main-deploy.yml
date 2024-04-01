@@ -60,7 +60,7 @@ jobs:
         run: |
           aws s3 cp \
             --region ap-northeast-2 \
-            ./spring-build.zip s3://classmate-spring
+            ./spring-build.zip s3://quokkax2
 
       - name: Code Deploy
         run: aws deploy create-deployment --application-name spring-deploy
