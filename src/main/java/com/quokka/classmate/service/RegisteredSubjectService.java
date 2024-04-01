@@ -49,6 +49,9 @@ public class RegisteredSubjectService {
             throw new NullPointerException("이미 장바구니에 담긴 과목입니다.");
         }
 
+        System.out.println("학생 이름: " + student.getName());
+        System.out.println("과목 이름: " + subject.getTitle());
+
         registeredSubjectRepository.save(new RegisteredSubject(student, subject));
 
         return ResponseEntity.ok("장바구니에 담겼습니다.");

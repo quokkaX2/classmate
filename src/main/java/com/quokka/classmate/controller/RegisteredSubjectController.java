@@ -4,6 +4,7 @@ import com.quokka.classmate.domain.dto.CartResponseDto;
 import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.service.RegisteredSubjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,11 +30,10 @@ public class RegisteredSubjectController {
 
     // 수강 과목 장바구니에 추가
     @PostMapping("/api/cart/{subjectId}")
-    public String containCart(
+    public ResponseEntity<String> containCart(
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        registeredSubjectService.createRegisterSubject(subjectId, userDetails);
-        return "redorect:/";
+        return registeredSubjectService.createRegisterSubject(subjectId, userDetails);
     }
 }

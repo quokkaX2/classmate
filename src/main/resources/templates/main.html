@@ -199,9 +199,9 @@
                             <span class="subject-name" th:text="${subject.title}"></span>
                             <span class="subject-info" th:text="${subject.credit}"></span>
                             <span class="subject-info" th:text="${subject.limitCount}"></span>
-                            <span class="register-button-info">
-                                <button id="register-button" type="button">신청</button>
-                            </span>
+                            <form th:action="@{/api/cart/{subjectId}(subjectId=${subject.id})}" method="post">
+                                <button type="submit" class="register-button">신청</button>
+                            </form>
                         </li>
                     </ul>
 
