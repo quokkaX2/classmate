@@ -30,10 +30,7 @@ jobs:
             ${{ runner.os }}-gradle-
       - name: Make application.yml
         run: |
-          cd ./src/main
-          mkdir resources
-          cd ./resources
-          touch ./application.yml
+          cd ./src/main/resources
           echo "${{ secrets.APPLICATION }}" > ./application.yml
         shell: bash
         
