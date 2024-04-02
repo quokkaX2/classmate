@@ -1,5 +1,6 @@
 package com.quokka.classmate.domain.entity;
 
+import com.quokka.classmate.utility.WeekTime;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,5 +41,10 @@ public class Subject {
         }
 
         this.limitCount--;
+    }
+
+    // 강의시간요일 String 반환
+    public String getClassTime() {
+        return WeekTime.calculateWeekTime(this.time);
     }
 }
