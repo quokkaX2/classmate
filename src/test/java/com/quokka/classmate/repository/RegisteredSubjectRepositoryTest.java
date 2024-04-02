@@ -1,10 +1,15 @@
 package com.quokka.classmate.repository;
 
+import com.quokka.classmate.domain.entity.RegisteredSubject;
+import com.quokka.classmate.domain.entity.Student;
+import com.quokka.classmate.domain.entity.Subject;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,15 +22,40 @@ class RegisteredSubjectRepositoryTest {
     @Autowired
     private RegisteredSubjectRepository registeredSubjectRepository;
 
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private SubjectRepository subjectRepository;
+
 
     @Test
-    @DisplayName("학생 엔티티와 과목 엔티티를 기반으로 장바구니 등록 과목을 조회할 수 있다.")
-    // 엔티티 기반과 아이디 기반 서로 비교 필요
+    @DisplayName("학생 아이디와 과목 아이디를 기반으로 장바구니 등록 과목을 조회할 수 있다.")
     void findByStudentAndSubject() {
         // given
+        Student mockStudent = new Student("mock@test.com", "password", "이름", 18);
+        Subject mockSubject = new Subject("과목", 30, 3, 3);
+
+        studentRepository.save(mockStudent);
+        subjectRepository.save(mockSubject);
+
+        System.out.println("과목 ID: " + mockSubject.getId());
+        System.out.println("학생 ID: " + mockStudent.getId());
+
+        registeredSubjectRepository.save(new RegisteredSubject(mockStudent, mockSubject));
 
         // when
+        Optional<RegisteredSubject> optionalRegisteredSubject =
+                registeredSubjectRepository.findByStudentIdAndSubjectId(mockStudent.getId(), mockSubject.getId());
 
         // then
+        assertTrue(optionalRegisteredSubject.isPresent()); // 조회 시, 존재해야 함
+
+        // 조회 학생의 이름 및 조회 과목의 이름 비교
+        RegisteredSubject foundRegisteredSubject = optionalRegisteredSubject.get();
+        assertEquals(mockStudent.getName(), foundRegisteredSubject.getStudent().getName());
+        assertEquals(mockSubject.getTitle(), foundRegisteredSubject.getSubject().getTitle());
     }
 }
+
+// 삭제 테스트는 매개값을 어떤 것으로 두냐에 따라서 테스트 코드가 달라질 것으로 생각돼서 우선은 보류
