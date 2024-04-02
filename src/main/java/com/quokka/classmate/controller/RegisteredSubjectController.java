@@ -22,6 +22,7 @@ public class RegisteredSubjectController {
     public String getAllCarts(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<CartResponseDto> carts = registeredSubjectService.findAll(userDetails.getUser());
         model.addAttribute("carts", carts);
+        model.addAttribute("currentPage", "cart");
         return "cart";
     }
 }

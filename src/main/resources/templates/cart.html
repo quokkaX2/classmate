@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -101,10 +101,33 @@
 
     </style>
     <title>장바구니</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+
 </head>
 <body>
 <!--    필요시 헤더 추가 공간-->
+<nav class="navbar navbar-expand-custom navbar-mainbg">
+    <a class="navbar-brand navbar-logo" href="#">수강신청 페이지(장바구니)</a>
+    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+        <i class="fas fa-bars text-white"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ml-auto">
+            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
+            <li class="nav-item" th:classappend="${currentPage} == 'courses' ? 'active' : ''">
+                <a class="nav-link" href="/">Courses</a>
+            </li>
+            <li class="nav-item" th:classappend="${currentPage} == 'cart' ? 'active' : ''">
+                <a class="nav-link" href="/cart">Cart</a>
+            </li>
+            <li class="nav-item" th:classappend="${currentPage} == 'mypage' ? 'active' : ''">
+                <a class="nav-link" href="#">My Page</a>
+            </li>
 
+        </ul>
+    </div>
+</nav>
 <h1>수강신청 장바구니</h1>
 
 <main>
@@ -149,5 +172,8 @@
     </div>
 
 </main>
+
+<script th:src="@{/js/navbar.js}"></script>
+
 </body>
 </html>
