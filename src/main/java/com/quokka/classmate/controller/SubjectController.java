@@ -20,6 +20,7 @@ public class SubjectController {
     public String getAllSubjects(Model model) {
         List<SubjectResponseDto> subjects = subjectService.findAll();
         model.addAttribute("subjects", subjects);
+        model.addAttribute("currentPage", "courses");
 
         return "main";
     }
@@ -28,6 +29,7 @@ public class SubjectController {
     public String getSubjectByInput(@RequestParam String input, Model model) {
         List<SubjectResponseDto> subjects = subjectService.findByKeyword(input);
         model.addAttribute("subjects", subjects);
+        model.addAttribute("currentPage", "courses");
 
         return "main";
     }
