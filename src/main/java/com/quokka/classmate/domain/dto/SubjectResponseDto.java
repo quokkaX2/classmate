@@ -7,12 +7,14 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SubjectResponseDto {
+    private Long id;
     private String title;
     private Integer limitCount;
     private Integer time;
     private Integer credit;
 
     public SubjectResponseDto(Subject subject) {
+        this.id = subject.getId();
         this.title = subject.getTitle();
         this.limitCount = subject.getLimitCount();
         this.time = subject.getTime();
