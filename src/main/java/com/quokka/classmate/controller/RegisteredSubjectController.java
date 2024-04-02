@@ -39,12 +39,12 @@ public class RegisteredSubjectController {
     }
 
     // 수강 과목 장바구니에서 삭제
-    // html 파일에서 타임리프로 뿌리기 필요
+    // html 파일에서 타임리프 버튼 추가 필요
     @DeleteMapping("/api/cart/{subjectId}")
     public ResponseEntity<String> deleteRegisteredSubject(
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        return null;
+        return registeredSubjectService.deleteRegisteredSubject(subjectId, userDetails);
     }
 }
