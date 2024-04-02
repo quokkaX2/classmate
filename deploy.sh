@@ -5,7 +5,7 @@ cd /home/ec2-user/app
 DOCKER_APP_NAME=spring
 
 # 실행중인 blue가 있는지
-EXIST_BLUE=$(docker-compose -p ${DOCKER_APP_NAME}-blue -f docker-compose.blue.yml ps | grep running)
+EXIST_BLUE=$(docker ps --filter "name=spring-blue" --format "{{.ID}}")
 
 # green이 실행중이면 blue up
 if [ -z "$EXIST_BLUE" ]; then
