@@ -108,6 +108,22 @@
             flex-direction: row;
         }
 
+        .subject-time-title {
+            flex: 2.7;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-time {
+            flex: 2.7;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .subject-info {
             flex: 1;
             margin-right: 5px;
@@ -121,6 +137,7 @@
             margin-right: 5px;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
         .subject-info:last-child {
@@ -220,7 +237,7 @@
                 <div class="subjects-component" >
                     <ul class="subjects" th:if="${not #lists.isEmpty(subjects)}">
                         <div class="subject-introduce">
-                            <span class="subject-info">시간</span>
+                            <span class="subject-time-title">시간</span>
                             <span class="subject-name">과목</span>
                             <span class="subject-info">학점</span>
                             <span class="subject-info">잔여 인원</span>
@@ -228,7 +245,7 @@
                         </div>
 
                         <li class="subject" th:each="subject : ${subjects}">
-                            <span class="subject-info" th:text="${subject.time}"></span>
+                            <span class="subject-time" th:text="${subject.time}"></span>
                             <span class="subject-name" th:text="${subject.title}"></span>
                             <span class="subject-info" th:text="${subject.credit}"></span>
                             <span class="subject-info" th:text="${subject.limitCount}"></span>
