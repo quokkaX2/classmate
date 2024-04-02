@@ -39,9 +39,6 @@ class RegisteredSubjectRepositoryTest {
         studentRepository.save(mockStudent);
         subjectRepository.save(mockSubject);
 
-        System.out.println("과목 ID: " + mockSubject.getId());
-        System.out.println("학생 ID: " + mockStudent.getId());
-
         registeredSubjectRepository.save(new RegisteredSubject(mockStudent, mockSubject));
 
         // when
