@@ -175,28 +175,37 @@
 
 <body>
 <!--    필요시 헤더 추가 공간-->
-<nav class="navbar navbar-expand-custom navbar-mainbg">
-    <a class="navbar-brand navbar-logo" href="#">수강신청 페이지(메인 페이지)</a>
-    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"
-            aria-label="Toggle navigation">
-        <i class="fas fa-bars text-white"></i>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav ml-auto">
-            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>
-            <li class="nav-item" th:classappend="${currentPage} == 'courses' ? 'active' : ''">
-                <a class="nav-link" href="/">Courses</a>
-            </li>
-            <li class="nav-item" th:classappend="${currentPage} == 'cart' ? 'active' : ''">
-                <a class="nav-link" href="/cart">Cart</a>
-            </li>
-            <li class="nav-item" th:classappend="${currentPage} == 'mypage' ? 'active' : ''">
-                <a class="nav-link" href="#">My Page</a>
-            </li>
+<!--<nav class="navbar navbar-expand-custom navbar-mainbg">-->
+<!--    <a class="navbar-brand navbar-logo" href="#">수강신청 페이지(메인 페이지)</a>-->
+<!--    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"-->
+<!--            aria-label="Toggle navigation">-->
+<!--        <i class="fas fa-bars text-white"></i>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--        <ul class="navbar-nav ml-auto">-->
+<!--            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>-->
+<!--            <li class="nav-item" th:classappend="${currentPage} == 'courses' ? 'active' : ''">-->
+<!--                <a class="nav-link" href="/">Courses</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item" th:classappend="${currentPage} == 'cart' ? 'active' : ''">-->
+<!--                <a class="nav-link" href="/cart">Cart</a>-->
+<!--            </li>-->
+<!--&lt;!&ndash;            <li class="nav-item" th:classappend="${currentPage} == 'mypage' ? 'active' : ''">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a class="nav-link" href="#">My Page</a>&ndash;&gt;-->
+<!--&lt;!&ndash;            </li>&ndash;&gt;-->
 
-        </ul>
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<header class="navbar">
+
+    <div class="rightBox">
+        <p class="navMenu navMenuTarget" id="courses">Courses</p>
+        <p class="navMenu" id="cart">Cart</p>
+        <p class="navMenu" id="profile">My Page</p>
     </div>
-</nav>
+</header>
     <main>
 <!--        <div class="field"></div>-->
 
@@ -239,6 +248,7 @@
 
     </main>
 <script th:src="@{/js/navbar.js}"></script>
+
 </body>
 
 </html>
