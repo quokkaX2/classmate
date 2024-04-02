@@ -10,7 +10,9 @@
             width: 100%;
             height: 100%;
             display: flex;
-            flex-direction: row;
+            /*flex-direction: row;*/
+            justify-content: center;
+            align-items: center;
         }
 
         .field {
@@ -124,6 +126,34 @@
             margin-right: 0;
         }
 
+        .register-button-info {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #register-button {
+            /*flex: 1;*/
+            background-color: #b2d2ff;
+            border: 1px transparent solid;
+            width: 80%;
+            height: 90%;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #register-button:hover {
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        #register-button:active {
+            opacity: 1.4;
+            cursor: grab;
+        }
+
         .non-result {
             display: flex;
             justify-content: center;
@@ -144,7 +174,7 @@
     <h1>수강신청 페이지(메인 페이지)</h1>
 
     <main>
-        <div class="field"></div>
+<!--        <div class="field"></div>-->
 
         <div class="field">
             <div class="subject-container">
@@ -161,6 +191,7 @@
                             <span class="subject-name">과목</span>
                             <span class="subject-info">학점</span>
                             <span class="subject-info">잔여 인원</span>
+                            <span class="subject-info">신청</span>
                         </div>
 
                         <li class="subject" th:each="subject : ${subjects}">
@@ -168,7 +199,9 @@
                             <span class="subject-name" th:text="${subject.title}"></span>
                             <span class="subject-info" th:text="${subject.credit}"></span>
                             <span class="subject-info" th:text="${subject.limitCount}"></span>
-            <!--                수강 신청 버튼 추후 추가-->
+                            <span class="register-button-info">
+                                <button id="register-button" type="button">신청</button>
+                            </span>
                         </li>
                     </ul>
 
