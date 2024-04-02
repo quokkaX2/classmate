@@ -13,5 +13,7 @@ public interface RegisteredSubjectRepository extends JpaRepository<RegisteredSub
     List<RegisteredSubject> findAllByStudentId(Long id);
 
     // 학생 정보와 과목 정보 기반으로 조회
-    Optional<RegisteredSubject> findByStudentAndSubject(Student student, Subject subject);
+//    Optional<RegisteredSubject> findByStudentAndSubject(Student student, Subject subject);
+
+    Optional<RegisteredSubject> findByStudentIdAndSubjectId(Long studentId, Long subjectId);
 }

@@ -46,7 +46,8 @@ public class RegisteredSubjectService {
         );
 
         // 이미 신청된 과목은 신청할 수 없도록 예외처리를 해야 한다
-        if (registeredSubjectRepository.findByStudentAndSubject(student, subject).isPresent()) {
+        if (registeredSubjectRepository.findByStudentIdAndSubjectId(
+                userDetails.getUser().getId(), subjectId).isPresent()) {
             throw new NullPointerException("이미 장바구니에 담긴 과목입니다.");
         }
 
@@ -73,7 +74,7 @@ public class RegisteredSubjectService {
         );
 
         Optional<RegisteredSubject> optionalRegisteredSubject =
-                registeredSubjectRepository.findByStudentAndSubject(student, subject);
+                registeredSubjectRepository.findByStudentIdAndSubjectId(userDetails.getUser().getId(), subjectId);
 
         // 존재하지 않는 과목을 삭제할 수 없도록 예외처리를 해야 한다
         if (optionalRegisteredSubject.isEmpty()) {
