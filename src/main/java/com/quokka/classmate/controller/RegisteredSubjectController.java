@@ -4,10 +4,14 @@ import com.quokka.classmate.domain.dto.CartResponseDto;
 import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.service.RegisteredSubjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
@@ -23,5 +27,25 @@ public class RegisteredSubjectController {
         List<CartResponseDto> carts = registeredSubjectService.findAll(userDetails.getUser());
         model.addAttribute("carts", carts);
         return "cart";
+    }
+
+    // 수강 과목 장바구니에 추가
+    @PostMapping("/api/cart/{subjectId}")
+    public ResponseEntity<String> saveRegisteredSubject(
+            @PathVariable Long subjectId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        return registeredSubjectService.createRegisteredSubject(subjectId, userDetails);
+    }
+
+    // 수강 과목 장바구니에서 삭제
+    // html 파일에서 타임리프 버튼 추가 필요
+    // 과목 기반 경로변수 vs 등록과목 기반 경로변수 -> 비교 필요
+    @DeleteMapping("/api/cart/{subjectId}")
+    public ResponseEntity<String> deleteRegisteredSubject(
+            @PathVariable Long subjectId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        return registeredSubjectService.deleteRegisteredSubject(subjectId, userDetails);
     }
 }
