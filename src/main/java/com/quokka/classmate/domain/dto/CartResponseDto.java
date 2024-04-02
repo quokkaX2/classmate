@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class CartResponseDto {
+    private Long subjectId;
     private String title;
     private Integer limitCount;
     private Integer time;
@@ -12,6 +13,7 @@ public class CartResponseDto {
     private boolean isRegistered;
 
     public CartResponseDto(RegisteredSubject registeredSubject) {
+        this.subjectId = registeredSubject.getSubject().getId();
         this.title = registeredSubject.getSubject().getTitle();
         this.limitCount = registeredSubject.getSubject().getLimitCount();
         this.time = registeredSubject.getSubject().getTime();

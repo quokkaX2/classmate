@@ -34,4 +34,9 @@ public class RegisteredSubject {
         this.student = student;
         this.subject = subject;
     }
+
+    // 수강 신청 상태 변경. false -> true
+    public void changeRegisterStatus() {
+        this.isRegistered = true;
+    }
 }

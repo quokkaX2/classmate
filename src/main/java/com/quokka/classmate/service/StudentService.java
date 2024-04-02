@@ -2,6 +2,7 @@ package com.quokka.classmate.service;
 
 import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
 import com.quokka.classmate.domain.entity.Student;
+import com.quokka.classmate.global.constant.GlobalVariables;
 import com.quokka.classmate.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,8 +17,6 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
 
-    private final int MAX_CREDIT = 20;
-
     // 수강 신청 가능 여부를 확인하는 메서드
     public boolean canRegister(Long studentId, Integer subjectCredit) {
         Student student = studentRepository.findById(studentId).orElseThrow(() ->
@@ -25,7 +24,7 @@ public class StudentService {
 
         int totalCredit = student.getCurrentCredit() + subjectCredit;
 
-        return totalCredit <= MAX_CREDIT;
+        return totalCredit <= GlobalVariables.MAX_CREDIT;
     }
 
     // 회원가입

@@ -43,4 +43,9 @@ public class Student {
         this.currentCredit = currentCredit;
         this.role = Role.USER; // 회원 권한
     }
+
+    // 수강 신청 시, 학생 학점을 더해준다.
+    public void plusCurrentCredit(Integer subjectCredit) {
+        this.currentCredit += subjectCredit;
+    }
 }
