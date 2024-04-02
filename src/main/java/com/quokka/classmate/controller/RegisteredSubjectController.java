@@ -40,6 +40,7 @@ public class RegisteredSubjectController {
 
     // 수강 과목 장바구니에서 삭제
     // html 파일에서 타임리프 버튼 추가 필요
+    // 과목 기반 경로변수 vs 등록과목 기반 경로변수 -> 비교 필요
     @DeleteMapping("/api/cart/{subjectId}")
     public ResponseEntity<String> deleteRegisteredSubject(
             @PathVariable Long subjectId,
