@@ -33,12 +33,13 @@ public class Subject {
         this.credit = credit;
     }
 
-    // 제한인원 카운팅 엔티티 로직
-    public void cutCount() throws IllegalArgumentException {
+    // 제한인원 카운팅 엔티티 로직 - 성공시 true 반환
+    public boolean cutCount() throws IllegalArgumentException {
         if (this.limitCount == 0) {
             throw new IllegalArgumentException("수강 인원이 다 찼습니다");
         }
 
         this.limitCount--;
+        return true;
     }
 }
