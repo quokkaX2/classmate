@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
@@ -14,7 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest // 테스트 종료 후, 트랜잭션 롤백이 돼서 실제 DB에 저장되지 않음
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+//@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@ActiveProfiles("test")
 // 테스트용 데이터베이스를 사용하는 것이 아닌, 실제 연동된 데이터베이스를 기반으로 테스트하겠다는 의미
 // 얘가 추후에 어떤 영향을 끼칠 지는 추가 확인 더 필요
 class SubjectRepositoryTest {
