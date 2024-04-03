@@ -49,7 +49,7 @@ class SubjectServiceTest {
         for (int i = 0; i < 10; i++) {
             assertThat(result.get(i).getTitle()).isEqualTo("가짜과목 " + i);
             assertThat(result.get(i).getLimitCount()).isEqualTo(30);
-            assertThat(result.get(i).getTime()).isEqualTo(3);
+            assertThat(result.get(i).getTime()).isEqualTo("월요일 11:00 ~ 12:00");
             assertThat(result.get(i).getCredit()).isEqualTo(3);
         }
     }
