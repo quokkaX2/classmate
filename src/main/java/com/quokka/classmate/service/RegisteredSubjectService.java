@@ -1,6 +1,7 @@
 package com.quokka.classmate.service;
 
 import com.quokka.classmate.domain.dto.CartResponseDto;
+import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.domain.entity.RegisteredSubject;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.domain.entity.Subject;
@@ -115,4 +116,10 @@ public class RegisteredSubjectService {
 
         return ResponseEntity.ok("수강신청이 완료됐습니다.");
     }
+
+    public List<CartResponseDto> getRegisteredSubjects(Student user) {
+        return registeredSubjectRepository.findByStudentIdAndIsRegisteredTrue(user.getId())
+                .stream().map(CartResponseDto::new).toList();
+    }
+
 }

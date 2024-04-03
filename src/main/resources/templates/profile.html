@@ -1,0 +1,247 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="icon" href="data:,">
+    <style>
+        main {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            /*flex-direction: row;*/
+            justify-content: center;
+            align-items: center;
+        }
+
+        .field {
+            /*border: 10px solid purple;*/
+            padding: 1rem;
+            width: 50%;
+            height: 30rem;
+        }
+
+        .subject-container {
+            /*border: 2px solid purple;*/
+            border-radius: 20px;
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+            padding: 1rem;
+            width: 95%;
+            height: 92%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .search-component {
+            /*border: 2px solid purple;*/
+            border-radius: 5px;
+            /*box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);*/
+            height: 8%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        #search-input {
+            width: 82.5%;
+            font-size: 17px;
+            border-radius: 5px;
+            border: 1px solid #afafaf;
+        }
+
+        #search-button {
+            background-color: #b2d2ff;
+            border: transparent solid;
+            width: 12.5%;
+            font-size: 17px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #search-button:hover {
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        #search-button:active {
+            opacity: 1.4;
+            cursor: grab;
+        }
+
+        .subject-introduce {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .subjects-component {
+            /*border: 2px solid purple;*/
+            box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            height: 84%;
+            display: flex;
+            flex-direction: column;
+            padding-right: 0.25rem;
+            padding-left: 0.25rem;
+        }
+
+        .subjects {
+            /*border: 2px solid purple;*/
+            list-style-type: none;
+            padding: 0.5rem;
+            width: 97%;
+            overflow-y: auto;
+            display: inline-block;
+        }
+
+        .subject {
+            /*border: 2px solid purple;*/
+            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            width: 99%;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+            height: 1.9rem;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .subject-time-title {
+            flex: 2.7;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-time {
+            flex: 2.7;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-info {
+            flex: 1;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-name {
+            flex: 4.2;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-info:last-child {
+            margin-right: 0;
+        }
+
+        .register-button-info {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #register-button {
+            /*flex: 1;*/
+            background-color: #b2d2ff;
+            border: 1px transparent solid;
+            width: 80%;
+            height: 90%;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #register-button:hover {
+            opacity: 0.6;
+            cursor: pointer;
+        }
+
+        #register-button:active {
+            opacity: 1.4;
+            cursor: grab;
+        }
+
+        .non-result {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+        .non-result p {
+            font-size: 20px;
+        }
+
+
+    </style>
+    <title>main</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+
+</head>
+
+<body>
+
+
+<header class="navbar">
+    <div class="leftBox">
+        <p class="navTitle">내 정보</p>
+    </div>
+    <div class="rightBox">
+        <p class="navMenu " id="courses">Courses</p>
+        <p class="navMenu" id="cart">Cart</p>
+        <p class="navMenu navMenuTarget" id="profile">My Page</p>
+    </div>
+</header>
+<main>
+    <!--        <div class="field"></div>-->
+
+    <div class="field">
+        <div class="subject-container">
+            <div>
+                <h2>Information</h2>
+                <p th:text="'Name: ' + ${student.name}">studentName</p>
+                <p th:text="'Email: ' + ${student.email}">studentEmail</p>
+                <p th:text="'Current Credit: ' + ${student.currentCredit}">currentCredit</p>
+
+            </div>
+            <!-- 검색 결과가 있을 때 -->
+            <div class="subjects-component" >
+                    <h2>Registered Subjects</h2>
+                <ul class="subjects" th:if="${not #lists.isEmpty(registered)}">
+                            <div class="subject-introduce">
+                                <span class="subject-time-title">시간</span>
+                                <span class="subject-name">과목</span>
+                                <span class="subject-info">학점</span>
+                            </div>
+                            <li class="subject" th:each="subject : ${registered}">
+                                <span class="subject-time" th:text="${subject.time}"></span>
+                                <span class="subject-name" th:text="${subject.title}"></span>
+                                <span class="subject-info" th:text="${subject.credit}"></span>
+                            </li>
+                    </ul>
+
+                <div class="non-result" th:if="${#lists.isEmpty(registered)}">
+                    <p>신청된 과목이 없습니다.</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</main>
+<script th:src="@{/js/navbar.js}"></script>
+
+</body>
+
+</html>

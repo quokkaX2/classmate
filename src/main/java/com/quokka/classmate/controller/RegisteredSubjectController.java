@@ -58,4 +58,15 @@ public class RegisteredSubjectController {
 
         return registeredSubjectService.registrationSubject(subjectId, userDetails);
     }
+
+    @GetMapping("/profile")
+    public String getStudentProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
+        List<CartResponseDto> registered = registeredSubjectService.getRegisteredSubjects(userDetails.getUser());
+        model.addAttribute("registered", registered);
+        model.addAttribute("student", userDetails.getUser());
+        model.addAttribute("currentPage", "profile");
+        return "profile";
+
+
+    }
 }
