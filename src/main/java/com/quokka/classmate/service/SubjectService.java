@@ -1,7 +1,6 @@
 package com.quokka.classmate.service;
 
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
-import com.quokka.classmate.domain.entity.Subject;
 import com.quokka.classmate.repository.SubjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,12 +17,14 @@ public class SubjectService {
 
     // 모든 과목 정보들 조회(과목 리스트 메인 페이지 접속)
     public List<SubjectResponseDto> findAll() {
-        return subjectRepository.findAll().stream().map(SubjectResponseDto::new).toList();
+        return subjectRepository.findAll().stream().map(
+                subject -> new SubjectResponseDto(subject, subject.getClassTime())).toList();
     }
 
     // 과목 키워드 검색
     public List<SubjectResponseDto> findByKeyword(String input) {
         return subjectRepository.findByTitleContaining(input)
-                .stream().map(SubjectResponseDto::new).toList();
+                .stream().map(
+                        subject -> new SubjectResponseDto(subject, subject.getClassTime())).toList();
     }
 }

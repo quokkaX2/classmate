@@ -4,6 +4,7 @@ import com.quokka.classmate.domain.dto.CartResponseDto;
 import com.quokka.classmate.domain.entity.RegisteredSubject;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.domain.entity.Subject;
+import com.quokka.classmate.global.constant.GlobalVariables;
 import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.repository.RegisteredSubjectRepository;
 import com.quokka.classmate.repository.StudentRepository;
@@ -51,9 +52,6 @@ public class RegisteredSubjectService {
             throw new NullPointerException("이미 장바구니에 담긴 과목입니다.");
         }
 
-        System.out.println("학생 이름: " + student.getName());
-        System.out.println("과목 이름: " + subject.getTitle());
-
         registeredSubjectRepository.save(new RegisteredSubject(student, subject));
 
         return ResponseEntity.ok("장바구니에 담겼습니다.");
@@ -66,7 +64,7 @@ public class RegisteredSubjectService {
     public ResponseEntity<String> deleteRegisteredSubject(
             Long subjectId, UserDetailsImpl userDetails) {
         Subject subject = subjectRepository.findById(subjectId).orElseThrow(
-                () -> new IllegalArgumentException("추가하려는 강의가 존재하지 않습니다.")
+                () -> new IllegalArgumentException("삭제하려는 강의가 존재하지 않습니다.")
         );
 
         Student student = studentRepository.findById(userDetails.getUser().getId()).orElseThrow(
@@ -81,11 +79,40 @@ public class RegisteredSubjectService {
             throw new NullPointerException("존재하지 않는 과목입니다.");
         }
 
-        System.out.println("학생 이름: " + student.getName());
-        System.out.println("과목 이름: " + subject.getTitle());
-
         registeredSubjectRepository.deleteById(optionalRegisteredSubject.get().getId());
 
         return ResponseEntity.ok("정상적으로 삭제됐습니다.");
+    }
+
+    // 장바구니에 담은 과목 --> '수강 신청'
+    @Transactional
+    public ResponseEntity<String> registrationSubject(Long subjectId, UserDetailsImpl userDetails) {
+
+        // 장바구니 목록에서 해당하는 데이터 찾기
+        RegisteredSubject registeredSubject =
+                registeredSubjectRepository.findByStudentIdAndSubjectId(userDetails.getUser().getId(), subjectId).orElseThrow(
+                        () -> new IllegalArgumentException("신청하려는 강의가 장바구니에 존재하지 않거나, 유효한 회원이 아닙니다.")
+                );
+
+        Student student = registeredSubject.getStudent();
+        Subject subject = registeredSubject.getSubject();
+
+        Integer subjectCredit = subject.getCredit(); // 과목의 학점
+
+        // 수강 신청 가능한 학점을 초과하는지 확인한다.
+        if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
+            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
+        }
+
+        // 과목 정보 에서, 수강 가능 count - 1 해준다.
+        boolean isRegistered = subject.cutCount();
+
+        // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
+        if (isRegistered) {
+            registeredSubject.changeRegisterStatus(); // 상태값 true로 변경
+            student.plusCurrentCredit(subjectCredit); // 학생의 전체 학점에 더해준다.
+        }
+
+        return ResponseEntity.ok("수강신청이 완료됐습니다.");
     }
 }

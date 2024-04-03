@@ -17,7 +17,6 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -46,7 +45,7 @@ class SubjectControllerTest {
         mockSubjects.add(new Subject("과목3", 30, 3, 3));
 
         for (Subject mockSubject: mockSubjects) {
-            mockSubjectResponses.add(new SubjectResponseDto(mockSubject));
+            mockSubjectResponses.add(new SubjectResponseDto(mockSubject, mockSubject.getClassTime()));
         }
     }
 

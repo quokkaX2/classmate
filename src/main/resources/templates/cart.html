@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -99,13 +99,62 @@
             font-size: 20px;
         }
 
+        .register-button-info {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .register-button {
+            /*flex: 1;*/
+            background-color: #b2d2ff;
+            border: 1px transparent solid;
+            width: 80%;
+            height: 90%;
+            font-size: 14px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
     </style>
     <title>장바구니</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+
 </head>
 <body>
 <!--    필요시 헤더 추가 공간-->
+<!--<nav class="navbar navbar-expand-custom navbar-mainbg">-->
+<!--    <a class="navbar-brand navbar-logo" href="#">수강신청 페이지(장바구니 페이지)</a>-->
+<!--    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"-->
+<!--            aria-label="Toggle navigation">-->
+<!--        <i class="fas fa-bars text-white"></i>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--        <ul class="navbar-nav ml-auto">-->
+<!--            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>-->
+<!--            <li class="nav-item" th:classappend="${currentPage} == 'courses' ? 'active' : ''">-->
+<!--                <a class="nav-link" href="/">Courses</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item" th:classappend="${currentPage} == 'cart' ? 'active' : ''">-->
+<!--                <a class="nav-link" href="/cart">Cart</a>-->
+<!--            </li>-->
+<!--            &lt;!&ndash;            <li class="nav-item" th:classappend="${currentPage} == 'mypage' ? 'active' : ''">&ndash;&gt;-->
+<!--            &lt;!&ndash;                <a class="nav-link" href="#">My Page</a>&ndash;&gt;-->
+<!--            &lt;!&ndash;            </li>&ndash;&gt;-->
 
-<h1>수강신청 장바구니</h1>
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
+
+<header class="navbar">
+
+    <div class="rightBox">
+        <p class="navMenu" id="courses">Courses</p>
+        <p class="navMenu navMenuTarget" id="cart">Cart</p>
+        <p class="navMenu" id="profile">My Page</p>
+    </div>
+</header>
 
 <main>
 <!--    <div class="field"></div>-->
@@ -121,26 +170,25 @@
                         <span class="subject-name">과목</span>
                         <span class="subject-info">학점</span>
                         <span class="subject-info">잔여 인원</span>
-                        <span class="subject-info">수강 신청 상태</span>
                         <span class="subject-info">수강 신청</span>
+                        <span class="subject-info">삭제</span>
                     </div>
 
-                    <li class="subject" th:each="cart : ${carts}">
+                    <li class="subject" th:each="cart : ${carts}" th:if="${not cart.isRegistered()}">
                         <span class="subject-info" th:text="${cart.time}"></span>
                         <span class="subject-name" th:text="${cart.title}"></span>
                         <span class="subject-info" th:text="${cart.credit}"></span>
                         <span class="subject-info" th:text="${cart.limitCount}"></span>
-                        <span class="subject-info" th:if="${cart.isRegistered()}" th:style="${'color: green'}">
-                            <span>신청완료</span> <!-- cart.registered가 true일 때 보여질 텍스트 -->
-                        </span>
-                        <span class="subject-info" th:if="${not cart.isRegistered()}" th:style="${'color: red'}">
-                            <span>미신청</span> <!-- cart.registered가 false일 때 보여질 텍스트 -->
-                        </span>
-                        <span class="subject-info"><button th:if="${not cart.isRegistered()}">신청하기</button></span>
+                        <form class ="register-button-info" th:action="@{/api/register/{subjectId}(subjectId=${cart.subjectId})}" th:method="post">
+                            <span><button class="register-button" type="submit">신청</button></span>
+                        </form>
+                        <form class ="register-button-info" th:action="@{/api/cart/{subjectId}(subjectId=${cart.subjectId})}" th:method="delete">
+                            <span><button class="register-button" type="submit">삭제</button></span>
+                        </form>
                     </li>
                 </ul>
 
-                <!-- 검색 결과가 없을 때 -->
+                <!-- 장바구니가 없을 때 -->
                 <div class="non-result" th:if="${#lists.isEmpty(carts)}">
                     <p>장바구니가 비어있습니다.</p>
                 </div>
@@ -149,5 +197,8 @@
     </div>
 
 </main>
+
+<script th:src="@{/js/navbar.js}"></script>
+
 </body>
 </html>

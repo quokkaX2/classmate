@@ -26,6 +26,7 @@ public class RegisteredSubjectController {
     public String getAllCarts(Model model, @AuthenticationPrincipal UserDetailsImpl userDetails) {
         List<CartResponseDto> carts = registeredSubjectService.findAll(userDetails.getUser());
         model.addAttribute("carts", carts);
+        model.addAttribute("currentPage", "cart");
         return "cart";
     }
 
@@ -47,5 +48,14 @@ public class RegisteredSubjectController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
         return registeredSubjectService.deleteRegisteredSubject(subjectId, userDetails);
+    }
+
+    // 장바구니에 담은 과목 --> '수강 신청'
+    @PostMapping("/api/register/{subjectId}")
+    public ResponseEntity<String> registrationSubject(
+            @PathVariable Long subjectId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        return registeredSubjectService.registrationSubject(subjectId, userDetails);
     }
 }

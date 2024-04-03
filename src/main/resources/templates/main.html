@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -108,6 +108,22 @@
             flex-direction: row;
         }
 
+        .subject-time-title {
+            flex: 2.7;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .subject-time {
+            flex: 2.7;
+            margin-right: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
         .subject-info {
             flex: 1;
             margin-right: 5px;
@@ -121,6 +137,7 @@
             margin-right: 5px;
             display: flex;
             align-items: center;
+            justify-content: center;
         }
 
         .subject-info:last-child {
@@ -166,14 +183,46 @@
             font-size: 20px;
         }
 
+
     </style>
     <title>main</title>
+    <link rel="stylesheet" th:href="@{/css/navbar.css}" />
+
 </head>
+
 <body>
 <!--    필요시 헤더 추가 공간-->
+<!--<nav class="navbar navbar-expand-custom navbar-mainbg">-->
+<!--    <a class="navbar-brand navbar-logo" href="#">수강신청 페이지(메인 페이지)</a>-->
+<!--    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"-->
+<!--            aria-label="Toggle navigation">-->
+<!--        <i class="fas fa-bars text-white"></i>-->
+<!--    </button>-->
+<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
+<!--        <ul class="navbar-nav ml-auto">-->
+<!--            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>-->
+<!--            <li class="nav-item" th:classappend="${currentPage} == 'courses' ? 'active' : ''">-->
+<!--                <a class="nav-link" href="/">Courses</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item" th:classappend="${currentPage} == 'cart' ? 'active' : ''">-->
+<!--                <a class="nav-link" href="/cart">Cart</a>-->
+<!--            </li>-->
+<!--&lt;!&ndash;            <li class="nav-item" th:classappend="${currentPage} == 'mypage' ? 'active' : ''">&ndash;&gt;-->
+<!--&lt;!&ndash;                <a class="nav-link" href="#">My Page</a>&ndash;&gt;-->
+<!--&lt;!&ndash;            </li>&ndash;&gt;-->
 
-    <h1>수강신청 페이지(메인 페이지)</h1>
+<!--        </ul>-->
+<!--    </div>-->
+<!--</nav>-->
 
+<header class="navbar">
+
+    <div class="rightBox">
+        <p class="navMenu navMenuTarget" id="courses">Courses</p>
+        <p class="navMenu" id="cart">Cart</p>
+        <p class="navMenu" id="profile">My Page</p>
+    </div>
+</header>
     <main>
 <!--        <div class="field"></div>-->
 
@@ -188,7 +237,7 @@
                 <div class="subjects-component" >
                     <ul class="subjects" th:if="${not #lists.isEmpty(subjects)}">
                         <div class="subject-introduce">
-                            <span class="subject-info">시간</span>
+                            <span class="subject-time-title">시간</span>
                             <span class="subject-name">과목</span>
                             <span class="subject-info">학점</span>
                             <span class="subject-info">잔여 인원</span>
@@ -196,7 +245,7 @@
                         </div>
 
                         <li class="subject" th:each="subject : ${subjects}">
-                            <span class="subject-info" th:text="${subject.time}"></span>
+                            <span class="subject-time" th:text="${subject.time}"></span>
                             <span class="subject-name" th:text="${subject.title}"></span>
                             <span class="subject-info" th:text="${subject.credit}"></span>
                             <span class="subject-info" th:text="${subject.limitCount}"></span>
@@ -215,5 +264,8 @@
         </div>
 
     </main>
+<script th:src="@{/js/navbar.js}"></script>
+
 </body>
+
 </html>
