@@ -64,6 +64,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests((authorizeHttpRequests) ->
                 authorizeHttpRequests
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll() // resources 접근 허용 설정
+                        .requestMatchers("/actuator/**").permitAll() // 프로메테우스 임시 허가
                         .requestMatchers("/signup").permitAll() // 메인 페이지 요청 허가
                         .anyRequest().authenticated()
         );
