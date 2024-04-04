@@ -191,81 +191,55 @@
 </head>
 
 <body>
-<!--    필요시 헤더 추가 공간-->
-<!--<nav class="navbar navbar-expand-custom navbar-mainbg">-->
-<!--    <a class="navbar-brand navbar-logo" href="#">수강신청 페이지(메인 페이지)</a>-->
-<!--    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"-->
-<!--            aria-label="Toggle navigation">-->
-<!--        <i class="fas fa-bars text-white"></i>-->
-<!--    </button>-->
-<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--        <ul class="navbar-nav ml-auto">-->
-<!--            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>-->
-<!--            <li class="nav-item" th:classappend="${currentPage} == 'courses' ? 'active' : ''">-->
-<!--                <a class="nav-link" href="/">Courses</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item" th:classappend="${currentPage} == 'cart' ? 'active' : ''">-->
-<!--                <a class="nav-link" href="/cart">Cart</a>-->
-<!--            </li>-->
-<!--&lt;!&ndash;            <li class="nav-item" th:classappend="${currentPage} == 'mypage' ? 'active' : ''">&ndash;&gt;-->
-<!--&lt;!&ndash;                <a class="nav-link" href="#">My Page</a>&ndash;&gt;-->
-<!--&lt;!&ndash;            </li>&ndash;&gt;-->
 
-<!--        </ul>-->
-<!--    </div>-->
-<!--</nav>-->
 
 <header class="navbar">
     <div class="leftBox">
-        <p class="navTitle">수강신청 페이지</p>
+        <p class="navTitle">내 정보</p>
     </div>
     <div class="rightBox">
-        <p class="navMenu navMenuTarget" id="courses">Courses</p>
+        <p class="navMenu " id="courses">Courses</p>
         <p class="navMenu" id="cart">Cart</p>
-        <p class="navMenu" id="profile">My Page</p>
+        <p class="navMenu navMenuTarget" id="profile">My Page</p>
     </div>
 </header>
-    <main>
-<!--        <div class="field"></div>-->
+<main>
+    <!--        <div class="field"></div>-->
 
-        <div class="field">
-            <div class="subject-container">
-                <form class="search-component" action="/api/search" method="GET">
-                    <input type="text" id="search-input" name="input" placeholder="과목 이름을 입력하세요">
-                    <button type="submit" id="search-button">검색</button>
-                </form>
+    <div class="field">
+        <div class="subject-container">
+            <div>
+                <h2>Information</h2>
+                <p th:text="'Name: ' + ${student.name}">studentName</p>
+                <p th:text="'Email: ' + ${student.email}">studentEmail</p>
+                <p th:text="'Current Credit: ' + ${student.currentCredit}">currentCredit</p>
 
-                <!-- 검색 결과가 있을 때 -->
-                <div class="subjects-component" >
-                    <ul class="subjects" th:if="${not #lists.isEmpty(subjects)}">
-                        <div class="subject-introduce">
-                            <span class="subject-time-title">시간</span>
-                            <span class="subject-name">과목</span>
-                            <span class="subject-info">학점</span>
-                            <span class="subject-info">잔여 인원</span>
-                            <span class="subject-info">신청</span>
-                        </div>
-
-                        <li class="subject" th:each="subject : ${subjects}">
-                            <span class="subject-time" th:text="${subject.time}"></span>
-                            <span class="subject-name" th:text="${subject.title}"></span>
-                            <span class="subject-info" th:text="${subject.credit}"></span>
-                            <span class="subject-info" th:text="${subject.limitCount}"></span>
-                            <form class="register-button-info" th:action="@{/api/cart/{subjectId}(subjectId=${subject.id})}" method="post">
-                                <button type="submit" id="register-button">신청</button>
-                            </form>
-                        </li>
+            </div>
+            <!-- 검색 결과가 있을 때 -->
+            <div class="subjects-component" >
+                    <h2>Registered Subjects</h2>
+                <ul class="subjects" th:if="${not #lists.isEmpty(registered)}">
+                            <div class="subject-introduce">
+                                <span class="subject-time-title">시간</span>
+                                <span class="subject-name">과목</span>
+                                <span class="subject-info">학점</span>
+                            </div>
+                            <li class="subject" th:each="subject : ${registered}">
+                                <span class="subject-time" th:text="${subject.time}"></span>
+                                <span class="subject-name" th:text="${subject.title}"></span>
+                                <span class="subject-info" th:text="${subject.credit}"></span>
+                            </li>
                     </ul>
 
-                    <!-- 검색 결과가 없을 때 -->
-                    <div class="non-result" th:if="${#lists.isEmpty(subjects)}">
-                        <p>검색 결과가 없습니다</p>
-                    </div>
+                <div class="non-result" th:if="${#lists.isEmpty(registered)}">
+                    <p>신청된 과목이 없습니다.</p>
                 </div>
+
             </div>
         </div>
+    </div>
 
-    </main>
+</main>
 <script th:src="@{/js/navbar.js}"></script>
 
 </body>

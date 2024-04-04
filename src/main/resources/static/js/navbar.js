@@ -133,12 +133,11 @@ if(courses){
 
 if (profile) {
     profile.addEventListener("click", () => {
-        window.location.href = "/";
+        window.location.href = "/profile";
     });
 }
 if (cart) {
     cart.addEventListener("click", () => {
-        console.log("cart click")
         window.location.href = "/cart";
     });
 }
