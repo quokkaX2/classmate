@@ -15,7 +15,7 @@ public class Subject {
     @Column(name = "subject_id")
     private Long id;
 
-    @Column(nullable = false, unique = true, name = "title")
+    @Column(nullable = false, name = "title")
     private String title;
 
     @Column(nullable = false, name = "limit_count")
