@@ -19,11 +19,11 @@ public class SubjectController {
     private final SubjectService subjectService;
 
     @GetMapping("/api/search")
-    public ResponseEntity<List<SubjectResponseDto>> getSubjectByInput(@RequestParam String input) {
-        List<SubjectResponseDto> subjects = subjectService.findByKeyword(input);
+    public ResponseEntity<?> getSubjectByInput(@RequestParam String input) {
+//        List<SubjectResponseDto> subjects = subjectService.findByKeyword(input);
 //        model.addAttribute("subjects", subjects);
 //        model.addAttribute("currentPage", "courses");
 
-        return ResponseEntity.ok().body(subjects);
+        return subjectService.findByKeyword(input);
     }
 }
