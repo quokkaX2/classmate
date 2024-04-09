@@ -272,7 +272,9 @@
             .then(response => response.json())
             .then(data => {
                 console.log("data: " + data)
-                // 기존 검색 결과를 지우기
+                if(data.message) {
+                    alert(data.message);
+                }
                 clearSubjects();
                 displaySubjects(data);
             })
