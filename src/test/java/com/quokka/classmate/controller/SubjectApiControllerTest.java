@@ -1,5 +1,6 @@
 package com.quokka.classmate.controller;
 
+import com.quokka.classmate.controller.api.SubjectApiController;
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.domain.entity.Subject;
 import com.quokka.classmate.service.SubjectService;
@@ -12,19 +13,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@WebMvcTest(SubjectController.class)
+@WebMvcTest(SubjectApiController.class)
 @MockBean(JpaMetamodelMappingContext.class)
-class SubjectControllerTest {
+class SubjectApiControllerTest {
 
     @Autowired
     private MockMvc mockMvc; // HTTP 호출 담당
