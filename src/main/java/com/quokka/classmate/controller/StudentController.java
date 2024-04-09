@@ -28,16 +28,4 @@ public class StudentController {
     public String registerPage() {
         return "signup";
     }
-
-    // 회원가입
-    @PostMapping("/signup")
-    public String signup(@ModelAttribute StudentSignUpRequestDto requestDto, Model model) {
-        try {
-            studentService.signup(requestDto);
-            return "redirect:/";
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "회원가입 실패: " + e.getMessage());
-            return "signup";
-        }
-    }
 }
