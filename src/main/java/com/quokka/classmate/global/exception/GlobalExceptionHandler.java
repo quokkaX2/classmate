@@ -14,4 +14,11 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponseDto(ex.getMessage()));
     }
+
+    @ExceptionHandler
+    public ResponseEntity<ApiResponseDto> handleNullPointerExceptions(NullPointerException ex) {
+        return ResponseEntity
+                .status(HttpStatus.NOT_FOUND)
+                .body(new ApiResponseDto(ex.getMessage()));
+    }
 }
