@@ -237,37 +237,108 @@
 
                 <!-- 검색 결과가 있을 때 -->
                 <div class="subjects-component" >
-                    <ul class="subjects" th:if="${not #lists.isEmpty(subjects)}">
-                        <div class="subject-introduce">
-                            <span class="subject-time-title">시간</span>
-                            <span class="subject-name">과목</span>
-                            <span class="subject-info">학점</span>
-                            <span class="subject-info">잔여 인원</span>
-                            <span class="subject-info">신청</span>
-                        </div>
-
-                        <li class="subject" th:each="subject : ${subjects}">
-                            <span class="subject-time" th:text="${subject.time}"></span>
-                            <span class="subject-name" th:text="${subject.title}"></span>
-                            <span class="subject-info" th:text="${subject.credit}"></span>
-                            <span class="subject-info" th:text="${subject.limitCount}"></span>
-                            <form class="register-button-info" th:action="@{/api/cart/{subjectId}(subjectId=${subject.id})}" method="post">
-                                <button type="submit" id="register-button">신청</button>
-                            </form>
-                        </li>
-                    </ul>
-
-                    <!-- 검색 결과가 없을 때 -->
-                    <div class="non-result" th:if="${#lists.isEmpty(subjects)}">
-                        <p>강의를 검색하세요</p>
+                    <div class="subject-introduce">
+                        <span class="subject-time-title">시간</span>
+                        <span class="subject-name">과목</span>
+                        <span class="subject-info">학점</span>
+                        <span class="subject-info">잔여 인원</span>
+                        <span class="subject-info">신청</span>
                     </div>
+                    <div class="subjects">
+<!--                        <li class="subject" th:each="subject : ${subjects}">-->
+<!--                            <span class="subject-time" th:text="${subject.time}"></span>-->
+<!--                            <span class="subject-name" th:text="${subject.title}"></span>-->
+<!--                            <span class="subject-info" th:text="${subject.credit}"></span>-->
+<!--                            <span class="subject-info" th:text="${subject.limitCount}"></span>-->
+<!--                            <form class="register-button-info" th:action="@{/api/cart/{subjectId}(subjectId=${subject.id})}" method="post">-->
+<!--                                <button type="submit" id="register-button">신청</button>-->
+<!--                            </form>-->
+<!--                        </li>-->
+                    </div>
+
+<!--                    &lt;!&ndash; 검색 결과가 없을 때 &ndash;&gt;-->
+<!--                    <div class="non-result" th:if="${#lists.isEmpty(subjects)}">-->
+<!--                        <p>강의를 검색하세요</p>-->
+<!--                    </div>-->
                 </div>
             </div>
         </div>
 
     </main>
 <script th:src="@{/js/navbar.js}"></script>
+<script>
+    function searchSubjects(inputValue) {
+        fetch(`/api/search?input=${inputValue}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log("data: " + data)
+                // 기존 검색 결과를 지우기
+                clearSubjects();
+                displaySubjects(data);
+            })
+            .catch(error => console.error('Error:', error));
+    }
 
+    // 기존 검색 결과를 지우는 함수
+    function clearSubjects() {
+        const subjectsList = document.querySelector('.subjects');
+        subjectsList.innerHTML = ''; // 내용을 모두 지움
+    }
+
+    // 입력 데이터 화면에 표시
+    function displaySubjects(subjects) {
+        const subjectsList = document.querySelector('.subjects');
+        console.log(subjects)
+
+        subjects.forEach(subject => {
+            const subjectItem = document.createElement('div');
+            subjectItem.classList.add('subject');
+
+            const subjectTime = document.createElement('span');
+            subjectTime.classList.add('subject-time');
+            subjectTime.textContent = subject.time;
+
+            const subjectName = document.createElement('span');
+            subjectName.classList.add('subject-name');
+            subjectName.textContent = subject.title;
+
+            const subjectCredit = document.createElement('span');
+            subjectCredit.classList.add('subject-info');
+            subjectCredit.textContent = subject.credit;
+
+            const subjectLimit = document.createElement('span');
+            subjectLimit.classList.add('subject-info');
+            subjectLimit.textContent = subject.limitCount;
+
+            const registerForm = document.createElement('form');
+            registerForm.setAttribute('action', `/api/cart/${subject.id}`);
+            registerForm.setAttribute('method', 'post');
+
+            const registerButton = document.createElement('button');
+            registerButton.setAttribute('type', 'submit');
+            registerButton.setAttribute('id', 'register-button');
+            registerButton.textContent = '신청';
+
+            registerForm.appendChild(registerButton);
+
+            subjectItem.appendChild(subjectTime);
+            subjectItem.appendChild(subjectName);
+            subjectItem.appendChild(subjectCredit);
+            subjectItem.appendChild(subjectLimit);
+            subjectItem.appendChild(registerForm);
+
+            subjectsList.appendChild(subjectItem);
+        });
+    }
+
+    // 검색해서 백엔드에 입력값 전송
+    document.getElementById('search-button').addEventListener('click', function(event) {
+        event.preventDefault();
+        const inputValue = document.getElementById('search-input').value;
+        console.log(inputValue);
+        searchSubjects(inputValue);
+    });
+</script>
 </body>
 
 </html>
