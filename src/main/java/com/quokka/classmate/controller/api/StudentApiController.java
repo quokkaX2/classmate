@@ -1,6 +1,7 @@
 package com.quokka.classmate.controller.api;
 
 import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
+import com.quokka.classmate.global.exception.ApiResponseDto;
 import com.quokka.classmate.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,12 +20,9 @@ public class StudentApiController {
     // 회원가입 API
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody StudentSignUpRequestDto requestDto) {
-        try {
             studentService.signup(requestDto);
-            return ResponseEntity.ok().body("회원가입 성공");
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body("회원가입 실패: " + e.getMessage());
-        }
+            return ResponseEntity.ok(new ApiResponseDto("회원가입이 성공되었습니다."));
+
     }
 
 }

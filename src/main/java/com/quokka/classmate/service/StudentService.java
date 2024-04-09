@@ -17,15 +17,6 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // 수강 신청 가능 여부를 확인하는 메서드
-    public boolean canRegister(Long studentId, Integer subjectCredit) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() ->
-                new IllegalArgumentException("유효하지 않은 학생 ID입니다."));
-
-        int totalCredit = student.getCurrentCredit() + subjectCredit;
-
-        return totalCredit <= GlobalVariables.MAX_CREDIT;
-    }
 
     // 회원가입
     public void signup(StudentSignUpRequestDto requestDto) {
