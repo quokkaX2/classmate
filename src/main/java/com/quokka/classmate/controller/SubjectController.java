@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,17 +18,8 @@ public class SubjectController {
     @GetMapping("/")
     public String getAllSubjects(Model model) {
         List<SubjectResponseDto> subjects = subjectService.findAll();
-        model.addAttribute("subjects", subjects);
-        model.addAttribute("currentPage", "courses");
-
-        return "main";
-    }
-
-    @GetMapping("/api/search")
-    public String getSubjectByInput(@RequestParam String input, Model model) {
-        List<SubjectResponseDto> subjects = subjectService.findByKeyword(input);
-        model.addAttribute("subjects", subjects);
-        model.addAttribute("currentPage", "courses");
+//        model.addAttribute("subjects", subjects);
+//        model.addAttribute("currentPage", "courses");
 
         return "main";
     }

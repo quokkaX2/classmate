@@ -57,7 +57,7 @@ public class JwtUtil {
                 Jwts.builder()
                         .setSubject(username) // 사용자 식별자값(ID)
                         .claim(AUTHORIZATION_KEY, role) // 사용자 권한(key-value) - 권한을 가져오고싶으면 여기서 키값꺼내서 가져올 수 있음
-                        .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
+//                        .setExpiration(new Date(date.getTime() + TOKEN_TIME)) // 만료 시간
                         .setIssuedAt(date) // 발급일
                         .signWith(key, signatureAlgorithm) // 암호화 알고리즘
                         .compact();
