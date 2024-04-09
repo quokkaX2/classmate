@@ -50,15 +50,6 @@ public class RegisteredSubjectController {
         return registeredSubjectService.deleteRegisteredSubject(subjectId, userDetails);
     }
 
-    // 장바구니에 담은 과목 --> '수강 신청'
-    @PostMapping("/api/register/{subjectId}")
-    public ResponseEntity<String> registrationSubject(
-            @PathVariable Long subjectId,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        return registeredSubjectService.registrationSubject(subjectId, userDetails);
-    }
-
     @GetMapping("/profile")
     public String getStudentProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         List<CartResponseDto> registered = registeredSubjectService.getRegisteredSubjects(userDetails.getUser());
