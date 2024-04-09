@@ -36,6 +36,11 @@ public class SubjectService {
                         subject ->
                                 new SubjectResponseDto(subject, subject.getClassTime())).toList();
 
+        if (subjects.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
+                    new ApiResponseDto("과목이 존재하지 않습니다."));
+        }
+
         return ResponseEntity.ok().body(subjects);
     }
 }
