@@ -30,26 +30,6 @@ public class RegisteredSubjectController {
         return "cart";
     }
 
-    // 수강 과목 장바구니에 추가
-    @PostMapping("/api/cart/{subjectId}")
-    public ResponseEntity<String> saveRegisteredSubject(
-            @PathVariable Long subjectId,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        return registeredSubjectService.createRegisteredSubject(subjectId, userDetails);
-    }
-
-    // 수강 과목 장바구니에서 삭제
-    // html 파일에서 타임리프 버튼 추가 필요
-    // 과목 기반 경로변수 vs 등록과목 기반 경로변수 -> 비교 필요
-    @DeleteMapping("/api/cart/{subjectId}")
-    public ResponseEntity<String> deleteRegisteredSubject(
-            @PathVariable Long subjectId,
-            @AuthenticationPrincipal UserDetailsImpl userDetails) {
-
-        return registeredSubjectService.deleteRegisteredSubject(subjectId, userDetails);
-    }
-
     @GetMapping("/profile")
     public String getStudentProfile(@AuthenticationPrincipal UserDetailsImpl userDetails, Model model) {
         List<CartResponseDto> registered = registeredSubjectService.getRegisteredSubjects(userDetails.getUser());

@@ -242,7 +242,7 @@
                         <span class="subject-name">과목</span>
                         <span class="subject-info">학점</span>
                         <span class="subject-info">잔여 인원</span>
-                        <span class="subject-info">신청</span>
+                        <span class="subject-info">장바구니</span>
                     </div>
                     <div class="subjects">
 <!--                        <li class="subject" th:each="subject : ${subjects}">-->
@@ -317,7 +317,7 @@
             const registerButton = document.createElement('button');
             registerButton.setAttribute('type', 'submit');
             registerButton.setAttribute('id', 'register-button');
-            registerButton.textContent = '신청';
+            registerButton.textContent = '담기';
 
             registerForm.appendChild(registerButton);
 
