@@ -1,41 +1,70 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up Page</title>
-
-    <!--  css  -->
     <link rel="stylesheet" type="text/css" href="/css/login.css">
 </head>
 <body>
 <div class="container">
     <h2>회원가입</h2>
-    <form action="/signup" method="post">
-        <input type="text" name="email" placeholder="Email" required>
+    <form id="signupForm">
+        <input type="text" name="email" id="email" placeholder="Email" required>
         <input type="password" name="password" id="password" placeholder="Password" required>
         <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
-        <input type="text" name="name" placeholder="Name" required>
-        <button class="signup-btn" type="submit">회원가입</button>
+        <input type="text" name="name" id="name" placeholder="Name" required>
+        <button class="signup-btn" type="button" id="signupButton">회원가입</button>
     </form>
-    <div class="error-message" th:text="${errorMessage}"></div>
+    <div class="error-message"></div>
 </div>
 
 <script>
     var passwordInput = document.getElementById("password");
     var confirmPasswordInput = document.getElementById("confirmPassword");
+    var signupButton = document.getElementById("signupButton");
 
     confirmPasswordInput.addEventListener("input", validatePassword);
 
     function validatePassword() {
-        var password = passwordInput.value;
-        var confirmPassword = confirmPasswordInput.value;
-        if (password !== confirmPassword) {
-            confirmPasswordInput.setCustomValidity("Passwords do not match");
+        if (passwordInput.value !== confirmPasswordInput.value) {
+            confirmPasswordInput.setCustomValidity("비밀번호가 일치하지 않습니다.");
         } else {
             confirmPasswordInput.setCustomValidity("");
         }
     }
+
+    signupButton.addEventListener("click", function() {
+        var email = document.getElementById("email").value;
+        var password = document.getElementById("password").value;
+        var name = document.getElementById("name").value;
+
+        fetch('/api/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password,
+                name: name,
+            })
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('회원가입에 실패하였습니다.');
+                }
+            })
+            .then(data => {
+                // Success logic here
+                alert('회원가입이 성공되었습니다.');
+                window.location.href = '/login';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert("회원가입 실패: " + error.message);
+            });
+    });
 </script>
 </body>
 </html>

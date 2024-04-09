@@ -3,8 +3,10 @@ package com.quokka.classmate.service;
 import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.global.constant.GlobalVariables;
+import com.quokka.classmate.global.exception.ApiResponseDto;
 import com.quokka.classmate.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -17,30 +19,21 @@ public class StudentService {
     private final StudentRepository studentRepository;
     private final PasswordEncoder passwordEncoder;
 
-    // 수강 신청 가능 여부를 확인하는 메서드
-    public boolean canRegister(Long studentId, Integer subjectCredit) {
-        Student student = studentRepository.findById(studentId).orElseThrow(() ->
-                new IllegalArgumentException("유효하지 않은 학생 ID입니다."));
-
-        int totalCredit = student.getCurrentCredit() + subjectCredit;
-
-        return totalCredit <= GlobalVariables.MAX_CREDIT;
-    }
 
     // 회원가입
-    public void signup(StudentSignUpRequestDto requestDto) {
+    public ResponseEntity<?> signup(StudentSignUpRequestDto requestDto) {
         String email = requestDto.getEmail();
         String password = passwordEncoder.encode(requestDto.getPassword());
 
-        // 회원 중복 확인
-        Optional<Student> checkUsername = studentRepository.findByEmail(email);
-        if (checkUsername.isPresent()) {
-            throw new IllegalArgumentException("중복된 사용자가 존재합니다.");
+        Optional<Student> existingStudent = studentRepository.findByEmail(email);
+        if (existingStudent.isPresent()) {
+           throw new IllegalArgumentException("Error: 중복된 사용자가 존재합니다.");
         }
 
-        Student student = new Student(requestDto.getEmail(), password, requestDto.getName(), 0);
+        Student newStudent = new Student(email, password, requestDto.getName(), 0);
+        studentRepository.save(newStudent);
 
-        studentRepository.save(student);
+        return ResponseEntity.ok(new ApiResponseDto("회원가입이 성공되었습니다."));
     }
 
 }
