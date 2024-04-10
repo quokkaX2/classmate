@@ -19,4 +19,6 @@ public interface RegisteredSubjectRepository extends JpaRepository<RegisteredSub
     Optional<RegisteredSubject> findByStudentIdAndSubjectId(Long studentId, Long subjectId);
 
     List<RegisteredSubject> findByStudentIdAndIsRegisteredTrue(Long studentId);
+
+    long countBySubjectId(Long savedSubjectId);
 }

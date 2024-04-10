@@ -48,4 +48,12 @@ public class Student {
     public void plusCurrentCredit(Integer subjectCredit) {
         this.currentCredit += subjectCredit;
     }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
 }

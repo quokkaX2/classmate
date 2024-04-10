@@ -36,7 +36,7 @@ public class Subject {
 
     // 제한인원 카운팅 엔티티 로직 - 성공시 true 반환
     public boolean cutCount() throws IllegalArgumentException {
-        if (this.limitCount == 0) {
+        if (this.limitCount <= 0) {
             throw new IllegalArgumentException("수강 인원이 다 찼습니다");
         }
 
@@ -47,5 +47,13 @@ public class Subject {
     // 강의시간요일 String 반환
     public String getClassTime() {
         return WeekTime.calculateWeekTime(this.time);
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setLimitCount(int limitCount) {
+        this.limitCount = limitCount;
     }
 }
