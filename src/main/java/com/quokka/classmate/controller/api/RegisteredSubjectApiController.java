@@ -23,7 +23,7 @@ public class RegisteredSubjectApiController {
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        registeredSubjectService.createRegisteredSubject(subjectId, userDetails);
+        registeredSubjectService.createRegisteredSubject(subjectId, userDetails.getUser().getId());
 
         return ResponseEntity.ok(new ApiResponseDto("수강 과목이 장바구니에 추가 되었습니다."));
     }
@@ -36,7 +36,7 @@ public class RegisteredSubjectApiController {
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        registeredSubjectService.deleteRegisteredSubject(subjectId, userDetails);
+        registeredSubjectService.deleteRegisteredSubject(subjectId, userDetails.getUser().getId());
 
         return ResponseEntity.ok(new ApiResponseDto("장바구니에서 삭제 되었습니다."));
     }
@@ -47,7 +47,7 @@ public class RegisteredSubjectApiController {
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        registeredSubjectService.registrationSubject(subjectId, userDetails);
+        registeredSubjectService.registrationSubject(subjectId, userDetails.getUser().getId());
 
         return ResponseEntity.ok(new ApiResponseDto("수강 신청이 완료되었습니다."));
     }
