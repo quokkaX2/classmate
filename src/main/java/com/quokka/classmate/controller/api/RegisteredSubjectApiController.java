@@ -48,7 +48,7 @@ public class RegisteredSubjectApiController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 //        registeredSubjectService.registrationSubject(subjectId, userDetails);
-        registeredSubjectService.registerSubjectDirectly(subjectId, userDetails);
+        registeredSubjectService.registrationSubject(subjectId, userDetails);
 
         return ResponseEntity.ok(new ApiResponseDto("수강 신청이 완료되었습니다."));
     }

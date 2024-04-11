@@ -85,35 +85,42 @@ public class RegisteredSubjectService {
     @Transactional
     public void registrationSubject(Long subjectId, UserDetailsImpl userDetails) {
 
+        Student student = studentRepository.findById(userDetails.getUser().getId())
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
+
+        Subject subject = subjectRepository.findByIdForUpdate(subjectId)
+                .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 존재하지 않습니다."));
+
         // 장바구니 목록에서 해당하는 데이터 찾기
         RegisteredSubject registeredSubject =
-                registeredSubjectRepository.findByStudentIdAndSubjectId(userDetails.getUser().getId(), subjectId).orElseThrow(
-                        () -> new IllegalArgumentException("신청하려는 강의가 장바구니에 존재하지 않거나, 유효한 회원이 아닙니다.")
-                );
+                registeredSubjectRepository.findByStudentIdAndSubjectId(userDetails.getUser().getId(), subjectId)
+                        .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 장바구니에 존재하지 않거나, 유효한 회원이 아닙니다."));
 
         // 수강 신청이 이미 완료되었는지 확인
         if (registeredSubject.isRegistered()) {
             throw new IllegalArgumentException("이미 수강신청이 완료된 과목입니다.");
         }
 
-        Student student = registeredSubject.getStudent(); // 학생 정보
-        Subject subject = registeredSubject.getSubject(); // 과목 정보
-
-        Integer subjectCredit = subject.getCredit(); // 과목의 학점
-
         // 수강 신청 가능한 학점을 초과하는지 확인한다.
+        Integer subjectCredit = subject.getCredit();
         if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
             throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
         }
 
-        // 과목 정보 에서, 수강 가능 count - 1 해준다.
-        boolean isRegistered = subject.cutCount();
-
-        // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
-        if (isRegistered) {
-            registeredSubject.changeRegisterStatus(); // 상태값 true로 변경
-            student.plusCurrentCredit(subjectCredit); // 학생의 전체 학점에 더해준다.
+        // 과목의 수강 가능 여부 확인
+        if (subject.getLimitCount() <= 0) {
+            throw new IllegalArgumentException("수강 인원이 다 찼습니다.");
         }
+
+        // 과목 정보 에서, 수강 가능 count - 1 해준다.
+        boolean updated = subject.cutCount();
+        if (!updated) {
+            // Handle failure to decrement (e.g., limit already reached by another transaction)
+            throw new IllegalStateException("Unable to register due to limit count.");
+        }
+        // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
+        registeredSubject.changeRegisterStatus(); // 상태값 true로 변경
+        student.plusCurrentCredit(subject.getCredit());
     }
 
     public List<CartResponseDto> getRegisteredSubjects(Student user) {
@@ -121,21 +128,21 @@ public class RegisteredSubjectService {
                 .stream().map(CartResponseDto::new).toList();
     }
 
-    @Transactional
-    public void registerSubjectDirectly(Long subjectId, UserDetailsImpl userDetails) {
-        Student student = studentRepository.findById(userDetails.getUser().getId())
-                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
-
-        // 비관적 락을 사용하여 과목 정보 조회
-        Subject subject = subjectRepository.findByIdForUpdate(subjectId)
-                .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 존재하지 않습니다."));
-
-        // 학생의 현재 학점 확인
-        Integer subjectCredit = subject.getCredit();
-        if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
-            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
-        }
+//    @Transactional
+//    public void registerSubjectDirectly(Long subjectId, UserDetailsImpl userDetails) {
+//        Student student = studentRepository.findById(userDetails.getUser().getId())
+//                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
 //
+//        // 비관적 락을 사용하여 과목 정보 조회
+//        Subject subject = subjectRepository.findByIdForUpdate(subjectId)
+//                .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 존재하지 않습니다."));
+//
+//        // 학생의 현재 학점 확인
+//        Integer subjectCredit = subject.getCredit();
+//        if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
+//            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
+//        }
+////
 //        // 과목의 수강 가능 여부 확인
 //        if (subject.getLimitCount() <= 0) {
 //            throw new IllegalArgumentException("수강 인원이 다 찼습니다.");
@@ -143,17 +150,10 @@ public class RegisteredSubjectService {
 //
 //        // 수강 신청 로직 (과목 수강 인원 감소, 학생 학점 증가)
 //        subject.cutCount(); // 과목의 수강 가능 인원 감소
-        if (subject.getLimitCount() > 0) {
-            subject.setLimitCount(subject.getLimitCount() - 1); // 정원 감소
-            subjectRepository.save(subject); // 변경 사항 저장
-        } else {
-            throw new IllegalArgumentException("No more seats available");
-        }
-
-        student.plusCurrentCredit(subjectCredit); // 학생의 학점 증가
-
-        // 수강 신청 상태를 나타내는 새로운 RegisteredSubject 엔티티 저장
-        registeredSubjectRepository.save(new RegisteredSubject(student, subject, true));
-    }
+//        student.plusCurrentCredit(subjectCredit); // 학생의 학점 증가
+//
+//        // 수강 신청 상태를 나타내는 새로운 RegisteredSubject 엔티티 저장
+//        registeredSubjectRepository.save(new RegisteredSubject(student, subject, true));
+//    }
 
 }
