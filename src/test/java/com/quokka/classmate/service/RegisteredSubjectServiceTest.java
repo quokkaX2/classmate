@@ -44,9 +44,9 @@ class RegisteredSubjectServiceTest {
     @BeforeEach
     void setUp() {
 
-        registeredSubjectRepository.deleteAllInBatch();
-        subjectRepository.deleteAllInBatch();
-        studentRepository.deleteAllInBatch();
+//        registeredSubjectRepository.deleteAllInBatch();
+//        subjectRepository.deleteAllInBatch();
+//        studentRepository.deleteAllInBatch();
 
         // 테스트 데이터 준비
         Subject subject =  subjectRepository.save(new Subject("test 1", 30, 31, 2));
