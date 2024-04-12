@@ -25,17 +25,17 @@ public class RedissonLockFacade {
             boolean available = lock.tryLock(10, 1, TimeUnit.SECONDS);
 
             if (!available) {
-                log.error("해당 {} 과목에 대한 잠금 획득 실패", subjectId);
+                log.error("학생 {}의 해당 {} 과목에 대한 잠금 획득 실패", studentId, subjectId);
                 return;
             }
 
-            log.info("해당 {} 과목에 대한 잠금 획득 성공", subjectId);
+            log.info("학생 {}의 해당 {} 과목에 대한 잠금 획득 성공", studentId, subjectId);
             registeredSubjectService.registrationSubject(subjectId, studentId);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
             lock.unlock();
-            log.info("해당 {} 과목에 대한 잠금 해제", subjectId);
+            log.info("학생 {}의 해당 {} 과목에 대한 잠금 해제", studentId, subjectId);
         }
     }
 
