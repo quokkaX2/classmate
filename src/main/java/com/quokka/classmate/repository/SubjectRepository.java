@@ -18,7 +18,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     // 검색 기반 강의 조회
     List<Subject> findByTitleContaining(String input);
 
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select s from Subject s where s.id = :id")
     Optional<Subject> findByIdForUpdate(Long id);
 

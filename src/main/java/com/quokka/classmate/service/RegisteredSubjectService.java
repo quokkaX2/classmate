@@ -11,6 +11,7 @@ import com.quokka.classmate.repository.RegisteredSubjectRepository;
 import com.quokka.classmate.repository.StudentRepository;
 import com.quokka.classmate.repository.SubjectRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
@@ -88,7 +90,7 @@ public class RegisteredSubjectService {
         Student student = studentRepository.findById(userDetails.getUser().getId())
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
 
-        Subject subject = subjectRepository.findByIdForUpdate(subjectId)
+        Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 존재하지 않습니다."));
 
         // 장바구니 목록에서 해당하는 데이터 찾기
@@ -121,6 +123,8 @@ public class RegisteredSubjectService {
         if (!updated) {
             throw new IllegalStateException("Unable to register due to limit count.");
         }
+        log.info("신청 가능한 남은 과목 수: {}", subject.getLimitCount());
+
         // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
         registeredSubject.changeRegisterStatus(); // 상태값 true로 변경
         student.plusCurrentCredit(subject.getCredit());

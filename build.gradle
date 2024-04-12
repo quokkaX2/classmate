@@ -46,6 +46,9 @@ dependencies {
 
     // Cache
     implementation 'org.springframework.boot:spring-boot-starter-cache'
+
+    // Redisson
+    implementation 'org.redisson:redisson-spring-boot-starter:3.28.0'
 }
 
 tasks.named('test') {

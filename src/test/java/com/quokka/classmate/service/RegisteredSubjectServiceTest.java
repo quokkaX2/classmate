@@ -7,7 +7,6 @@ import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.repository.RegisteredSubjectRepository;
 import com.quokka.classmate.repository.StudentRepository;
 import com.quokka.classmate.repository.SubjectRepository;
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +31,9 @@ class RegisteredSubjectServiceTest {
     private RegisteredSubjectService registeredSubjectService;
 
     @Autowired
+    private SubjectLockFacade subjectLockFacade;
+
+    @Autowired
     private SubjectRepository subjectRepository;
 
     @Autowired
@@ -43,10 +45,6 @@ class RegisteredSubjectServiceTest {
     private Long savedSubjectId; // 저장된 Subject의 ID를 저장할 변수
     @BeforeEach
     void setUp() {
-
-//        registeredSubjectRepository.deleteAllInBatch();
-//        subjectRepository.deleteAllInBatch();
-//        studentRepository.deleteAllInBatch();
 
         // 테스트 데이터 준비
         Subject subject =  subjectRepository.save(new Subject("test 1", 30, 31, 2));
@@ -80,7 +78,7 @@ class RegisteredSubjectServiceTest {
             executorService.submit(() -> {
                 try {
                     // 이제 실제 수강 신청 로직을 호출
-                    registeredSubjectService.registrationSubject(subject.getId(), userDetails);
+                    subjectLockFacade.registrationSubject(subject.getId(), userDetails);
                     successfulRegistrations.incrementAndGet();
                 } catch (Exception e) {
                 } finally {
