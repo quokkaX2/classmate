@@ -3,6 +3,7 @@ package com.quokka.classmate.controller.api;
 import com.quokka.classmate.global.exception.ApiResponseDto;
 import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.service.RegisteredSubjectService;
+import com.quokka.classmate.service.SubjectLockFacade;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RegisteredSubjectApiController {
 
     private final RegisteredSubjectService registeredSubjectService;
-
+    private final SubjectLockFacade subjectLockFacade;
     // 수강 과목 장바구니에 추가
     @PostMapping("/api/cart/{subjectId}")
     public ResponseEntity<?> saveRegisteredSubject(
@@ -48,8 +49,8 @@ public class RegisteredSubjectApiController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 //        registeredSubjectService.registrationSubject(subjectId, userDetails);
-        registeredSubjectService.registrationSubject(subjectId, userDetails);
-
+//        registeredSubjectService.registrationSubject(subjectId, userDetails);
+        subjectLockFacade.registrationSubject(subjectId, userDetails);
         return ResponseEntity.ok(new ApiResponseDto("수강 신청이 완료되었습니다."));
     }
 }
