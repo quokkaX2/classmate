@@ -87,10 +87,6 @@ public class RegisteredSubjectService {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
 
-        // 비관적 락 적용
-//        Subject subject = subjectRepository.findByIdForUpdate(subjectId)
-//                .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 존재하지 않습니다."));
-
         Subject subject = subjectRepository.findById(subjectId)
                 .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 존재하지 않습니다."));
 
@@ -170,81 +166,6 @@ public class RegisteredSubjectService {
         registeredSubject.changeRegisterStatus(); // 상태값
     }
 
-//    // 낙관적 락
-//    @Transactional
-//    public void registrationSubjectByOptimisticLock(Long subjectId, Long studentId) {
-//        Student student = studentRepository.findById(studentId)
-//                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
-//
-//        // 비관적 락 적용
-//        Subject subject = subjectRepository.findByIdForPessimistic(subjectId)
-//                .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 존재하지 않습니다."));
-//
-//        // 장바구니 목록에서 해당하는 데이터 찾기
-//        RegisteredSubject registeredSubject =
-//                registeredSubjectRepository.findByStudentIdAndSubjectId(studentId, subjectId)
-//                        .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 장바구니에 존재하지 않거나, 유효한 회원이 아닙니다."));
-//
-//        // 수강 신청이 이미 완료되었는지 확인
-//        if (registeredSubject.isRegistered()) {
-//            throw new IllegalArgumentException("이미 수강신청이 완료된 과목입니다.");
-//        }
-//
-//        // 수강 신청 가능한 학점을 초과하는지 확인한다.
-//        Integer subjectCredit = subject.getCredit();
-//        if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
-//            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
-//        }
-//
-//        // 과목의 수강 가능 여부 확인
-//        if (subject.getLimitCount() <= 0) {
-//            throw new IllegalArgumentException("수강 인원이 다 찼습니다.");
-//        }
-//
-//        boolean updated = subject.cutCount();
-//        if (!updated) {
-//            throw new IllegalStateException("Unable to register due to limit count.");
-//        }
-//        // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
-//        registeredSubject.changeRegisterStatus(); // 상태값
-//    }
-//
-//    // lettuce
-//    @Transactional
-//    public void registrationSubjectByLettuce(Long subjectId, Long studentId) throws InterruptedException {
-//        Student student = studentRepository.findById(studentId)
-//                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
-//
-//        // lettuce 적용
-//        Subject subject = lettuceLockFacade.registrationSubject(subjectId, studentId);
-//
-//        // 장바구니 목록에서 해당하는 데이터 찾기
-//        RegisteredSubject registeredSubject =
-//                registeredSubjectRepository.findByStudentIdAndSubjectId(studentId, subjectId)
-//                        .orElseThrow(() -> new IllegalArgumentException("신청하려는 강의가 장바구니에 존재하지 않거나, 유효한 회원이 아닙니다."));
-//
-//        // 수강 신청이 이미 완료되었는지 확인
-//        if (registeredSubject.isRegistered()) {
-//            throw new IllegalArgumentException("이미 수강신청이 완료된 과목입니다.");
-//        }
-//
-//        // 수강 신청 가능한 학점을 초과하는지 확인한다.
-//        Integer subjectCredit = subject.getCredit();
-//        if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
-//            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
-//        }
-//
-//        // 과목의 수강 가능 여부 확인
-//        if (subject.getLimitCount() <= 0) {
-//            throw new IllegalArgumentException("수강 인원이 다 찼습니다.");
-//        }
-//
-//        boolean updated = subject.cutCount();
-//        if (!updated) {
-//            throw new IllegalStateException("Unable to register due to limit count.");
-//        }
-//        // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
-//        registeredSubject.changeRegisterStatus(); // 상태값
-//    }
+
 }
 
