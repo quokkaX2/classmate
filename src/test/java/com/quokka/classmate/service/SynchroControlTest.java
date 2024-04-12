@@ -24,7 +24,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @Slf4j
 @SpringBootTest
 @TestPropertySource("classpath:application-test.yml")
-//@AutoConfigureTestDatabase(connection = EmbeddedDatabaseConnection.H2, replace = AutoConfigureTestDatabase.Replace.ANY)
 public class SynchroControlTest {
 
     @Autowired
