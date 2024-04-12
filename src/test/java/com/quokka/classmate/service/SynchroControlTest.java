@@ -7,15 +7,12 @@ import com.quokka.classmate.repository.RegisteredSubjectRepository;
 import com.quokka.classmate.repository.StudentRepository;
 import com.quokka.classmate.repository.SubjectRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Profile;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
@@ -26,7 +23,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @Slf4j
 @SpringBootTest
-//@TestPropertySource(properties = {"spring.config.location=classpath:application-test.yml"})
 @ActiveProfiles("test")
 public class SynchroControlTest {
 
@@ -40,6 +36,9 @@ public class SynchroControlTest {
     private RegisteredSubjectService registeredSubjectService;
 
     @Autowired
+    private RegisteredSubjectRepository registeredSubjectRepository;
+
+    @Autowired
     private RedissonLockFacade redissonLockFacade;
 
     private final Integer PEOPLE = 100;
@@ -50,6 +49,10 @@ public class SynchroControlTest {
     @DisplayName("가짜 학생 100명과 가짜 과목 1개(제한 인원 10명) 설정")
     void before() {
         // 특정 엔티티 타입에 대해 일괄적으로 모든 레코드를 데이터베이스에서 삭제하는 기능
+        // 세 개의 테스트를 동시에 돌리려면 테스트 각각 진행 전에 DB를 비워야 함
+        registeredSubjectRepository.deleteAllInBatch();
+        subjectRepository.deleteAllInBatch();
+        studentRepository.deleteAllInBatch();
 
         Subject subject =  subjectRepository.save(new Subject("과목12345", LIMIT, 1, 3));
         savedSubjectId = subject.getId();
