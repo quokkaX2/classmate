@@ -16,6 +16,8 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     // 검색 기반 강의 조회
     List<Subject> findByTitleContaining(String input);
 
+    Optional<Subject> findByTitle(String title);
+
     // 비관적 락 적용
     @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select s from Subject s where s.id = :subjectId")

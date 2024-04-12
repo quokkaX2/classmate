@@ -38,8 +38,8 @@ public class SynchroControlTest {
     @Autowired
     private RegisteredSubjectRepository registeredSubjectRepository;
 
-    private final Integer PEOPLE = 10;
-    private final Integer LIMIT = 2;
+    private final Integer PEOPLE = 100;
+    private final Integer LIMIT = 200;
     private Long savedSubjectId;
 
     @BeforeEach
@@ -50,7 +50,7 @@ public class SynchroControlTest {
         subjectRepository.deleteAllInBatch();
         studentRepository.deleteAllInBatch();
 
-        Subject subject =  subjectRepository.save(new Subject("과목", LIMIT, 1, 3));
+        Subject subject =  subjectRepository.save(new Subject("과목12345", LIMIT, 1, 3));
         savedSubjectId = subject.getId();
         log.info("준비된 과목: {}", subject.getTitle());
 
@@ -80,13 +80,11 @@ public class SynchroControlTest {
 
         ExecutorService executorService = Executors.newFixedThreadPool(numbers);
         CountDownLatch latch = new CountDownLatch(numbers);
-        AtomicInteger count = new AtomicInteger(0);
 
         for (Student student: students) {
             executorService.submit(() -> {
                 try {
                     registeredSubjectService.registrationSubject(subject.getId(), student.getId());
-                    count.incrementAndGet();
                     log.info("수강신청 성공한 학생: {}", student.getName());
                 } catch (Exception e) {
                     log.error(e.getMessage());
@@ -101,7 +99,9 @@ public class SynchroControlTest {
 
         // then
 
-        assertNotEquals(LIMIT, count.get());
+        log.info("과목 아이디: {}", savedSubjectId);
+        Subject findSubject = subjectRepository.findById(savedSubjectId).get();
+        assertNotEquals(LIMIT - PEOPLE, findSubject.getLimitCount());
     }
 
     @Test
@@ -117,13 +117,11 @@ public class SynchroControlTest {
 
         ExecutorService executorService = Executors.newFixedThreadPool(numbers);
         CountDownLatch latch = new CountDownLatch(numbers);
-        AtomicInteger count = new AtomicInteger(0);
 
         for (Student student: students) {
             executorService.submit(() -> {
                 try {
                     registeredSubjectService.registrationSubjectByPessimisticLock(subject.getId(), student.getId());
-                    count.incrementAndGet();
                     log.info("수강신청 성공한 학생: {}", student.getName());
                 } catch (Exception e) {
                     log.error(e.getMessage());
@@ -138,7 +136,9 @@ public class SynchroControlTest {
 
         // then
 
-        assertEquals(LIMIT, count.get());
+        log.info("과목 아이디: {}", savedSubjectId);
+        Subject findSubject = subjectRepository.findById(savedSubjectId).get();
+        assertEquals(LIMIT - PEOPLE, findSubject.getLimitCount());
     }
 
 //    @Test
