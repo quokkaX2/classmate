@@ -36,6 +36,7 @@ jobs:
 
       - name: Make application-test.yml
         run: |
+          mkdir ./src/main/resources
           cd ./src/test/resources
           echo "${{ secrets.APPLICATION_TEST }}" > ./application-test.yml
         shell: bash
