@@ -38,8 +38,8 @@ public class SynchroControlTest {
     @Autowired
     private RegisteredSubjectRepository registeredSubjectRepository;
 
-    @Autowired
-    private RedissonLockFacade redissonLockFacade;
+//    @Autowired
+//    private RedissonLockFacade redissonLockFacade;
 
     private final Integer PEOPLE = 100;
     private final Integer LIMIT = 200;
