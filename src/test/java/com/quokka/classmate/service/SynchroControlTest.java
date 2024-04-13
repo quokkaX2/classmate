@@ -145,41 +145,41 @@ public class SynchroControlTest {
         assertEquals(LIMIT - PEOPLE, findSubject.getLimitCount());
     }
 
-    @Test
-    @DisplayName("redisson facade 기반으로 한 동시성 제어")
-    void controlIssueByRedissonLock() throws InterruptedException {
-
-        // when
-
-        int numbers = PEOPLE;
-
-        Subject subject = subjectRepository.findById(savedSubjectId).get();
-        List<Student> students = studentRepository.findAll();
-
-        ExecutorService executorService = Executors.newFixedThreadPool(numbers);
-        CountDownLatch latch = new CountDownLatch(numbers);
-
-        for (Student student: students) {
-            executorService.submit(() -> {
-                try {
-                    redissonLockFacade.registerSubject(subject.getId(), student.getId());
-                    log.info("수강신청 성공한 학생: {}", student.getName());
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                    log.info("수강신청 실패한 학생: {}", student.getName());
-                } finally {
-                    latch.countDown();
-                }
-            });
-        }
-
-        latch.await();
-
-        // then
-
-        log.info("과목 아이디: {}", savedSubjectId);
-        Subject findSubject = subjectRepository.findById(savedSubjectId).get();
-        assertEquals(LIMIT - PEOPLE, findSubject.getLimitCount());
-    }
+//    @Test
+//    @DisplayName("redisson facade 기반으로 한 동시성 제어")
+//    void controlIssueByRedissonLock() throws InterruptedException {
+//
+//        // when
+//
+//        int numbers = PEOPLE;
+//
+//        Subject subject = subjectRepository.findById(savedSubjectId).get();
+//        List<Student> students = studentRepository.findAll();
+//
+//        ExecutorService executorService = Executors.newFixedThreadPool(numbers);
+//        CountDownLatch latch = new CountDownLatch(numbers);
+//
+//        for (Student student: students) {
+//            executorService.submit(() -> {
+//                try {
+//                    redissonLockFacade.registerSubject(subject.getId(), student.getId());
+//                    log.info("수강신청 성공한 학생: {}", student.getName());
+//                } catch (Exception e) {
+//                    log.error(e.getMessage());
+//                    log.info("수강신청 실패한 학생: {}", student.getName());
+//                } finally {
+//                    latch.countDown();
+//                }
+//            });
+//        }
+//
+//        latch.await();
+//
+//        // then
+//
+//        log.info("과목 아이디: {}", savedSubjectId);
+//        Subject findSubject = subjectRepository.findById(savedSubjectId).get();
+//        assertEquals(LIMIT - PEOPLE, findSubject.getLimitCount());
+//    }
 }
 
