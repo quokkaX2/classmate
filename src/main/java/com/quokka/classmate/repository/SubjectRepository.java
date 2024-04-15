@@ -22,4 +22,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     @Query("select s from Subject s where s.id = :id")
     Optional<Subject> findByIdForUpdate(Long id);
 
+    // 네이티브 SQL 쿼리를 사용하여 풀텍스트 검색 실행
+    @Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(?1 IN BOOLEAN MODE)", nativeQuery = true)
+    List<Subject> searchByTitleFullText(String searchTerm);
 }

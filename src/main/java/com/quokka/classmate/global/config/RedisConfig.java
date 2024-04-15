@@ -33,11 +33,11 @@ public class RedisConfig {
         }
     }
 
-    @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        return RedisCacheManager.builder(connectionFactory)
-                .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
-                        .entryTtl(Duration.ofMinutes(60))) // Set default expiration time
-                .build();
-    }
+//    @Bean
+//    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+//        return RedisCacheManager.builder(connectionFactory)
+//                .cacheDefaults(RedisCacheConfiguration.defaultCacheConfig()
+//                        .entryTtl(Duration.ofMinutes(60))) // Set default expiration time
+//                .build();
+//    }
 }

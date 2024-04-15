@@ -10,7 +10,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-public class UserDetailsImpl implements UserDetails, Serializable {
+//public class UserDetailsImpl implements UserDetails, Serializable {
+public class UserDetailsImpl implements UserDetails {
 
     private final Student student;
 
