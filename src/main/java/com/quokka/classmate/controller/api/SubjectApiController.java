@@ -23,11 +23,10 @@ public class SubjectApiController {
 //        model.addAttribute("subjects", subjects);
 //        model.addAttribute("currentPage", "courses");
 
-//        return subjectService.findByKeyword(input);
         long startTime = System.currentTimeMillis(); // 검색 시작 시간 측정
         try {
-            return subjectService.findByKeyword(input);
-//            return subjectService.searchTitle(input);
+//            return subjectService.findByKeyword(input);
+            return subjectService.searchTitle(input);
         } finally {
             long endTime = System.currentTimeMillis(); // 검색 종료 시간 측정
             logger.info("검색 처리 시간: {} ms", endTime - startTime); // 로깅

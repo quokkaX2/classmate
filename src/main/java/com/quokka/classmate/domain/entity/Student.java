@@ -11,11 +11,10 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "students", indexes = {
-        @Index(name = "idx_email", columnList = "email", unique = true)
-})
-//@Table(name = "students")
-//public class Student implements Serializable {
+//@Table(name = "students", indexes = {
+//        @Index(name = "idx_email", columnList = "email", unique = true)
+//})
+@Table(name = "students")
 public class Student {
 
     @Id
