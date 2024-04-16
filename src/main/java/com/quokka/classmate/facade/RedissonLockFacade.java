@@ -29,13 +29,13 @@ public class RedissonLockFacade {
                 return;
             }
 
-            log.info("학생 {}의 해당 {} 과목에 대한 잠금 획득 성공", studentId, subjectId);
+            // log.info("학생 {}의 해당 {} 과목에 대한 잠금 획득 성공", studentId, subjectId);
             registeredSubjectService.registrationSubject(subjectId, studentId);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         } finally {
             lock.unlock();
-            log.info("학생 {}의 해당 {} 과목에 대한 잠금 해제", studentId, subjectId);
+            // log.info("학생 {}의 해당 {} 과목에 대한 잠금 해제", studentId, subjectId);
         }
     }
 
