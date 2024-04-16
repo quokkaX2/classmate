@@ -47,7 +47,8 @@ dependencies {
     // Cache
     implementation 'org.springframework.boot:spring-boot-starter-cache'
 
-    // Redisson
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.redisson:redisson-spring-boot-starter:3.28.0'
 }
 
