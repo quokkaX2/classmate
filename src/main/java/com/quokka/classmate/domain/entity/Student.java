@@ -1,5 +1,6 @@
 package com.quokka.classmate.domain.entity;
 
+import com.quokka.classmate.global.constant.GlobalVariables;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -47,5 +48,12 @@ public class Student {
     // 수강 신청 시, 학생 학점을 더해준다.
     public void plusCurrentCredit(Integer subjectCredit) {
         this.currentCredit += subjectCredit;
+    }
+
+    // 수강 신청 시, 학점을 초과하는지 체크
+    public void checkCurrentCredit(Integer subjectCredit) {
+        if (this.currentCredit + subjectCredit > GlobalVariables.MAX_CREDIT) {
+            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
+        }
     }
 }
