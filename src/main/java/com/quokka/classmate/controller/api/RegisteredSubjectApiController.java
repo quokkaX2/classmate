@@ -50,8 +50,8 @@ public class RegisteredSubjectApiController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 //        registeredSubjectService.registrationSubject(subjectId, userDetails.getUser().getId());
-//        registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, userDetails.getUser().getId());
-        redissonLockFacade.registerSubject(subjectId, userDetails.getUser().getId());
+        registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, userDetails.getUser().getId());
+//        redissonLockFacade.registerSubject(subjectId, userDetails.getUser().getId());
 
         return ResponseEntity.ok(new ApiResponseDto("수강 신청이 완료되었습니다."));
     }
