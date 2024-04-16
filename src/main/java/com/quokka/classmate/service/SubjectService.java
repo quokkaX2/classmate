@@ -28,8 +28,6 @@ public class SubjectService {
     public ResponseEntity<?> findByKeyword(String input) {
         if (input.isEmpty()) {
             throw new NullPointerException("과목은 한 글자 이상 입력해주세요");
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(
-//                    new ApiResponseDto("과목은 한 글자 이상 입력해주세요"));
         }
 
         List<SubjectResponseDto> subjects =  subjectRepository.findByTitleContaining(input)
@@ -39,8 +37,6 @@ public class SubjectService {
 
         if (subjects.isEmpty()) {
             throw new IllegalArgumentException("과목이 존재하지 않습니다.");
-//            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(
-//                    new ApiResponseDto("과목이 존재하지 않습니다."));
         }
 
         return ResponseEntity.ok().body(subjects);

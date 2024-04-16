@@ -37,7 +37,5 @@ public class RegisteredSubjectController {
         model.addAttribute("student", userDetails.getUser());
         model.addAttribute("currentPage", "profile");
         return "profile";
-
-
     }
 }

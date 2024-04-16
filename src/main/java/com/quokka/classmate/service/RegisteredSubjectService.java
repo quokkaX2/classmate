@@ -4,7 +4,6 @@ import com.quokka.classmate.domain.dto.CartResponseDto;
 import com.quokka.classmate.domain.entity.RegisteredSubject;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.domain.entity.Subject;
-import com.quokka.classmate.global.constant.GlobalVariables;
 import com.quokka.classmate.repository.RegisteredSubjectRepository;
 import com.quokka.classmate.repository.StudentRepository;
 import com.quokka.classmate.repository.SubjectRepository;
@@ -23,9 +22,6 @@ public class RegisteredSubjectService {
     private final RegisteredSubjectRepository registeredSubjectRepository;
     private final SubjectRepository subjectRepository;
     private final StudentRepository studentRepository;
-
-    // lettuce
-//    private final LettuceLockFacade lettuceLockFacade;
 
     // 장바구니에 담은 과목 전체 조회
     public List<CartResponseDto> findAll(Student student) {
@@ -102,20 +98,13 @@ public class RegisteredSubjectService {
 
         // 수강 신청 가능한 학점을 초과하는지 확인한다.
         Integer subjectCredit = subject.getCredit();
-        if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
-            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
-        }
+        student.checkCurrentCredit(subjectCredit);
 
-        // 과목의 수강 가능 여부 확인
-        if (subject.getLimitCount() <= 0) {
-            throw new IllegalArgumentException("수강 인원이 다 찼습니다.");
-        }
+        // 과목의 잔여 자리 수 감소
+        subject.cutCount();
 
-        boolean updated = subject.cutCount();
-        if (!updated) {
-            throw new IllegalStateException("Unable to register due to limit count.");
-        }
         // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
+        student.plusCurrentCredit(subjectCredit);
         registeredSubject.changeRegisterStatus(); // 상태값
     }
 
@@ -149,20 +138,13 @@ public class RegisteredSubjectService {
 
         // 수강 신청 가능한 학점을 초과하는지 확인한다.
         Integer subjectCredit = subject.getCredit();
-        if (student.getCurrentCredit() + subjectCredit > GlobalVariables.MAX_CREDIT) {
-            throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
-        }
+        student.checkCurrentCredit(subjectCredit);
 
-        // 과목의 수강 가능 여부 확인
-        if (subject.getLimitCount() <= 0) {
-            throw new IllegalArgumentException("수강 인원이 다 찼습니다.");
-        }
+        // 과목의 잔여 자리 수 감소
+        subject.cutCount();
 
-        boolean updated = subject.cutCount();
-        if (!updated) {
-            throw new IllegalStateException("Unable to register due to limit count.");
-        }
         // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
+        student.plusCurrentCredit(subjectCredit);
         registeredSubject.changeRegisterStatus(); // 상태값
     }
 
