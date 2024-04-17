@@ -3,6 +3,10 @@ package com.quokka.classmate.service;
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.repository.SubjectRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,21 +43,23 @@ public class SubjectService {
         return ResponseEntity.ok().body(subjects);
     }
 
-    public ResponseEntity<?> searchTitleByIndexing(String input) {
-//        if (input.isEmpty()) {
-//            throw new NullPointerException("과목은 한 글자 이상 입력해주세요");
-//        }
-//
-//        List<SubjectResponseDto> subjects = subjectRepository.searchByTitleFullText(input) // 풀텍스트 검색 메소드 호출
-//                .stream()
-//                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()))
-//                .toList();
-//
-//        if (subjects.isEmpty()) {
-//            throw new IllegalArgumentException("과목이 존재하지 않습니다.");
-//        }
-//
-//        return ResponseEntity.ok().body(subjects);
-        return null;
+    public ResponseEntity<?> searchTitleByIndexing(String input, int page, int size, String sortBy, boolean isAsc) {
+        // 페이징 처리
+        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortBy);
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        if (input.isEmpty()) {
+            throw new NullPointerException("과목은 한 글자 이상 입력해주세요");
+        }
+
+        Page<SubjectResponseDto> subjects = subjectRepository.searchByTitleFullText(input, pageable) // 풀텍스트 검색 메소드 호출
+                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()));
+
+        if (subjects.isEmpty()) {
+            throw new IllegalArgumentException("과목이 존재하지 않습니다.");
+        }
+
+        return ResponseEntity.ok().body(subjects);
     }
 }
