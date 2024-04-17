@@ -27,4 +27,6 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     // 네이티브 SQL 쿼리를 사용하여 풀텍스트 검색 실행
     @Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(?1 IN BOOLEAN MODE)", nativeQuery = true)
     Page<Subject> searchByTitleFullText(String input, Pageable pageable);
+
+    Page<Subject> findByTitleContaining(String input, Pageable pageable);
 }
