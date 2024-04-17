@@ -30,8 +30,11 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     @Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(?1 IN BOOLEAN MODE)", nativeQuery = true)
     List<Subject> searchByTitleFullText(String searchTerm);
 
+    // FULLTEXT 사용 X
     @Query(value = "SELECT * FROM subjects WHERE title LIKE %:input% AND (:cursor IS NULL OR subject_id > :cursor) ORDER BY subject_id ASC LIMIT :size", nativeQuery = true)
     List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
+
+    // FULLTEXT 사용
 //@Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(:input IN BOOLEAN MODE) AND (:cursor IS NULL OR subject_id > :cursor) ORDER BY subject_id ASC LIMIT :size", nativeQuery = true)
 //List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
 @Query("SELECT s FROM Subject s WHERE s.title LIKE CONCAT('%', :input, '%') AND (:cursor IS NULL OR s.id > :cursor)")
