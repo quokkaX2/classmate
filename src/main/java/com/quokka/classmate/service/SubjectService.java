@@ -1,6 +1,7 @@
 package com.quokka.classmate.service;
 
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
+import com.quokka.classmate.domain.entity.Subject;
 import com.quokka.classmate.repository.SubjectRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -54,5 +55,14 @@ public class SubjectService {
         }
 
         return ResponseEntity.ok().body(subjects);
+    }
+
+    public List<SubjectResponseDto> searchByCursor(String input, Long cursor, int size) {
+        List<Subject> subjects = subjectRepository.findByTitleWithCursor(input, cursor, size);
+        return subjects
+                .stream()
+                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()))
+                .toList();
+
     }
 }

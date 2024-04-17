@@ -5,6 +5,7 @@ import jakarta.persistence.LockModeType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -25,4 +26,7 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     // 네이티브 SQL 쿼리를 사용하여 풀텍스트 검색 실행
     @Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(?1 IN BOOLEAN MODE)", nativeQuery = true)
     List<Subject> searchByTitleFullText(String searchTerm);
+
+    @Query(value = "SELECT * FROM subjects WHERE title LIKE %:input% AND (:cursor IS NULL OR id > :cursor) ORDER BY id ASC LIMIT :size", nativeQuery = true)
+    List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
 }
