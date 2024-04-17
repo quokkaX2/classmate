@@ -21,6 +21,7 @@ public class SubjectApiController {
 //        model.addAttribute("currentPage", "courses");
 
 //            return subjectService.findByKeyword(input);
-            return subjectService.searchTitleByIndexing(input);
+//            return subjectService.searchTitleByIndexing(input);
+        return null;
     }
 }

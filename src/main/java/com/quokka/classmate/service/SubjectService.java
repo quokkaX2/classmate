@@ -40,19 +40,20 @@ public class SubjectService {
     }
 
     public ResponseEntity<?> searchTitleByIndexing(String input) {
-        if (input.isEmpty()) {
-            throw new NullPointerException("과목은 한 글자 이상 입력해주세요");
-        }
-
-        List<SubjectResponseDto> subjects = subjectRepository.searchByTitleFullText(input) // 풀텍스트 검색 메소드 호출
-                .stream()
-                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()))
-                .toList();
-
-        if (subjects.isEmpty()) {
-            throw new IllegalArgumentException("과목이 존재하지 않습니다.");
-        }
-
-        return ResponseEntity.ok().body(subjects);
+//        if (input.isEmpty()) {
+//            throw new NullPointerException("과목은 한 글자 이상 입력해주세요");
+//        }
+//
+//        List<SubjectResponseDto> subjects = subjectRepository.searchByTitleFullText(input) // 풀텍스트 검색 메소드 호출
+//                .stream()
+//                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()))
+//                .toList();
+//
+//        if (subjects.isEmpty()) {
+//            throw new IllegalArgumentException("과목이 존재하지 않습니다.");
+//        }
+//
+//        return ResponseEntity.ok().body(subjects);
+        return null;
     }
 }
