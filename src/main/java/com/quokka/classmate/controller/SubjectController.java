@@ -13,11 +13,11 @@ import java.util.List;
 @AllArgsConstructor
 public class SubjectController {
 
-    private final SubjectService subjectService;
+//    private final SubjectService subjectService;
 
     @GetMapping("/")
     public String getAllSubjects(Model model) {
-        List<SubjectResponseDto> subjects = subjectService.findAll();
+//        List<SubjectResponseDto> subjects = subjectService.findAll();
 //        model.addAttribute("subjects", subjects);
 //        model.addAttribute("currentPage", "courses");
 

@@ -17,10 +17,10 @@ public class SubjectService {
     private final SubjectRepository subjectRepository;
 
     // 모든 과목 정보들 조회(과목 리스트 메인 페이지 접속)
-    public List<SubjectResponseDto> findAll() {
-        return subjectRepository.findAll().stream().map(
-                subject -> new SubjectResponseDto(subject, subject.getClassTime())).toList();
-    }
+//    public List<SubjectResponseDto> findAll() {
+//        return subjectRepository.findAll().stream().map(
+//                subject -> new SubjectResponseDto(subject, subject.getClassTime())).toList();
+//    }
 
     // 과목 키워드 검색
     public ResponseEntity<?> findByKeyword(String input) {
