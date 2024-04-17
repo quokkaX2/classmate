@@ -43,11 +43,9 @@ public class SubjectService {
         return ResponseEntity.ok().body(subjects);
     }
 
-    public ResponseEntity<?> searchTitleByIndexing(String input, int page, int size, String sortBy, boolean isAsc) {
+    public ResponseEntity<?> searchTitleByIndexing(String input, int page, int size) {
         // 페이징 처리
-        Sort.Direction direction = isAsc ? Sort.Direction.ASC : Sort.Direction.DESC;
-        Sort sort = Sort.by(direction, sortBy);
-        Pageable pageable = PageRequest.of(page, size, sort);
+        Pageable pageable = PageRequest.of(page, size);
 
         if (input.isEmpty()) {
             throw new NullPointerException("과목은 한 글자 이상 입력해주세요");

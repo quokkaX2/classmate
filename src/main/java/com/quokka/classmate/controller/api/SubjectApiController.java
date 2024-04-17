@@ -13,15 +13,18 @@ public class SubjectApiController {
 
     private final SubjectService subjectService;
 
-
     @GetMapping("/api/search")
-    public ResponseEntity<?> getSubjectByInput(@RequestParam String input) {
+    public ResponseEntity<?> getSubjectByInput(
+            @RequestParam String input,
+            @RequestParam("page") int page,
+            @RequestParam("size") int size
+    ) {
 //        List<SubjectResponseDto> subjects = subjectService.findByKeyword(input);
 //        model.addAttribute("subjects", subjects);
 //        model.addAttribute("currentPage", "courses");
 
 //            return subjectService.findByKeyword(input);
-//            return subjectService.searchTitleByIndexing(input);
-        return null;
+            return subjectService.searchTitleByIndexing(
+                    input, page-1, size);
     }
 }
