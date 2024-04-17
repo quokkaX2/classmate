@@ -1,6 +1,7 @@
 package com.quokka.classmate.service;
 
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
+import com.quokka.classmate.domain.entity.Subject;
 import com.quokka.classmate.repository.SubjectRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,24 +46,21 @@ public class SubjectService {
         return ResponseEntity.ok().body(subjects);
     }
 
-    public ResponseEntity<?> searchTitleByIndexing(String input, int page, int size) {
-        // 페이징 처리
-        Pageable pageable = PageRequest.of(page, size);
+//
+    public List<SubjectResponseDto> searchByCursor(String input, Long cursor, int size) {
+        long startTime = System.currentTimeMillis(); // 시작 시간 기록
+        List<Subject> subjects = subjectRepository.findByTitleWithCursor(input, cursor, size);
+        List<SubjectResponseDto> response = subjects
+                .stream()
+                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()))
+                .toList();
 
-        if (input.isEmpty()) {
-            throw new NullPointerException("과목은 한 글자 이상 입력해주세요");
+        if (response.isEmpty()) {
+            throw new IllegalArgumentException("과목이 존재하지 않습니다");
         }
 
-//        Page<SubjectResponseDto> subjects = subjectRepository.searchByTitleFullText(input, pageable) // 풀텍스트 검색 메소드 호출
-//                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()));
+        long endTime = System.currentTimeMillis(); // 종료 시간 기록
 
-        Page<SubjectResponseDto> subjects = subjectRepository.findByTitleContaining(input, pageable)
-                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()));
-
-        if (subjects.isEmpty()) {
-            throw new IllegalArgumentException("과목이 존재하지 않습니다.");
-        }
-
-        return ResponseEntity.ok().body(subjects.getContent());
+        return response;
     }
 }
