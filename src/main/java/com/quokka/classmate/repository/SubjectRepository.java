@@ -7,6 +7,9 @@ import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Page;
+
 
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +30,10 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     @Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(?1 IN BOOLEAN MODE)", nativeQuery = true)
     List<Subject> searchByTitleFullText(String searchTerm);
 
-    @Query(value = "SELECT * FROM subjects WHERE title LIKE %:input% AND (:cursor IS NULL OR id > :cursor) ORDER BY id ASC LIMIT :size", nativeQuery = true)
+    @Query(value = "SELECT * FROM subjects WHERE title LIKE %:input% AND (:cursor IS NULL OR subject_id > :cursor) ORDER BY subject_id ASC LIMIT :size", nativeQuery = true)
     List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
+//@Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(:input IN BOOLEAN MODE) AND (:cursor IS NULL OR subject_id > :cursor) ORDER BY subject_id ASC LIMIT :size", nativeQuery = true)
+//List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
+@Query("SELECT s FROM Subject s WHERE s.title LIKE CONCAT('%', :input, '%') AND (:cursor IS NULL OR s.id > :cursor)")
+Page<Subject> findByTitleContainingWithCursor(@Param("input") String input, @Param("cursor") Long cursor, Pageable pageable);
 }
