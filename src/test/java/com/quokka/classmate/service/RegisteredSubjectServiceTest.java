@@ -15,4 +15,3 @@ class RegisteredSubjectServiceTest {
     void createRegisteredSubject() {
     }
 }
-
