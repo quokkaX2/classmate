@@ -8,8 +8,11 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "subjects")
-// 나중에 인덱싱 추가하기
+@Table(name = "subjects", indexes = {
+        @Index(name = "idx_title", columnList = "title"),
+//        @Index(name = "idx_subject_id", columnList = "subject_id")  // 추가된 인덱스
+})
+//@Table(name = "subjects")
 public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
