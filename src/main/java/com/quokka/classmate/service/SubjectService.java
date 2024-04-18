@@ -4,6 +4,9 @@ import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.global.exception.ApiResponseDto;
 import com.quokka.classmate.repository.SubjectRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -40,5 +43,27 @@ public class SubjectService {
         }
 
         return ResponseEntity.ok().body(subjects);
+    }
+
+    // 기본 페이징
+    public ResponseEntity<?> searchTitleByIndexing(String input, int page, int size) {
+        // 페이징 처리
+        Pageable pageable = PageRequest.of(page, size);
+
+        if (input.isEmpty()) {
+            throw new NullPointerException("과목은 한 글자 이상 입력해주세요");
+        }
+
+//        Page<SubjectResponseDto> subjects = subjectRepository.searchByTitleFullText(input, pageable) // 풀텍스트 검색 메소드 호출
+//                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()));
+
+        Page<SubjectResponseDto> subjects = subjectRepository.findByTitleContaining(input, pageable)
+                .map(subject -> new SubjectResponseDto(subject, subject.getClassTime()));
+
+        if (subjects.isEmpty()) {
+            throw new IllegalArgumentException("과목이 존재하지 않습니다.");
+        }
+
+        return ResponseEntity.ok().body(subjects.getContent());
     }
 }
