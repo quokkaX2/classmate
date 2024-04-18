@@ -27,6 +27,7 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
 
             return selectedReplica;
         }
+        log.info("Selected Replica: master");
         return "master";
     }
 }
