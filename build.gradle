@@ -53,6 +53,9 @@ dependencies {
 
     //AWS SDK for CloudWatch
     implementation 'com.amazonaws:aws-java-sdk-cloudwatch:1.12.118'
+
+    //javax.annotation.meta.When
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
 }
 
 tasks.named('test') {
