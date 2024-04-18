@@ -50,9 +50,6 @@ dependencies {
     // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.redisson:redisson-spring-boot-starter:3.28.0'
-
-    //AWS SDK for CloudWatch
-    implementation 'com.amazonaws:aws-java-sdk-cloudwatch:1.12.118'
 }
 
 tasks.named('test') {
