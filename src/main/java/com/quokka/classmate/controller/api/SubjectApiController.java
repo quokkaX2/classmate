@@ -20,7 +20,7 @@ public class SubjectApiController {
 //        model.addAttribute("subjects", subjects);
 //        model.addAttribute("currentPage", "courses");
 
-//            return subjectService.findByKeyword(input);
-            return subjectService.searchTitleByIndexing(input);
+            return subjectService.findByKeyword(input);
+//            return subjectService.searchTitleByIndexing(input);
     }
 }
