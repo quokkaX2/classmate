@@ -17,7 +17,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     private final StudentRepository studentRepository;
 
     @Override
-    //@Transactional(readOnly = true)
+    @Transactional(readOnly = true)
 //    @Cacheable(value = "student")
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         Student student = studentRepository.findByEmail(email)
