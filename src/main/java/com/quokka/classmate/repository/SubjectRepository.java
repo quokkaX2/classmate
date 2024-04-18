@@ -2,6 +2,8 @@ package com.quokka.classmate.repository;
 
 import com.quokka.classmate.domain.entity.Subject;
 import jakarta.persistence.LockModeType;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
@@ -11,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Page;
 
 
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +29,9 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     @Query("select s from Subject s where s.id = :subjectId")
     Optional<Subject> findByIdForPessimistic(Long subjectId);
 
+    Page<Subject> findByTitleContaining(String input, Pageable pageable);
+
+
     // 네이티브 SQL 쿼리를 사용하여 풀텍스트 검색 실행
     @Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(?1 IN BOOLEAN MODE)", nativeQuery = true)
     List<Subject> searchByTitleFullText(String searchTerm);
@@ -35,8 +41,8 @@ public interface SubjectRepository extends JpaRepository<Subject, Long> {
     List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
 
     // FULLTEXT 사용
-//@Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(:input IN BOOLEAN MODE) AND (:cursor IS NULL OR subject_id > :cursor) ORDER BY subject_id ASC LIMIT :size", nativeQuery = true)
-//List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
-@Query("SELECT s FROM Subject s WHERE s.title LIKE CONCAT('%', :input, '%') AND (:cursor IS NULL OR s.id > :cursor)")
-Page<Subject> findByTitleContainingWithCursor(@Param("input") String input, @Param("cursor") Long cursor, Pageable pageable);
+    //@Query(value = "SELECT * FROM subjects WHERE MATCH(title) AGAINST(:input IN BOOLEAN MODE) AND (:cursor IS NULL OR subject_id > :cursor) ORDER BY subject_id ASC LIMIT :size", nativeQuery = true)
+    //List<Subject> findByTitleWithCursor(@Param("input") String input, @Param("cursor") Long cursor, @Param("size") int size);
+    @Query("SELECT s FROM Subject s WHERE s.title LIKE CONCAT('%', :input, '%') AND (:cursor IS NULL OR s.id > :cursor)")
+    Page<Subject> findByTitleContainingWithCursor(@Param("input") String input, @Param("cursor") Long cursor, Pageable pageable);
 }

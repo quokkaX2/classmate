@@ -11,12 +11,9 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor
-@Table(name = "students", indexes = {
-        @Index(name = "idx_email", columnList = "email", unique = true)
-})
-//@Table(name = "students")
+@Table(name = "students")
+// 나중에 인덱싱 추가하기
 public class Student {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "student_id")
