@@ -18,6 +18,7 @@ public class DataSourceConfiguration {
 
     private static final String MASTER_SERVER = "MASTER";
     private static final String REPLICA_SERVER = "REPLICA";
+    private static final String REPLICA2_SERVER = "REPLICA2";
 
     @Bean
     @Qualifier(MASTER_SERVER)
@@ -36,15 +37,26 @@ public class DataSourceConfiguration {
     }
 
     @Bean
+    @Qualifier(REPLICA2_SERVER)
+    @ConfigurationProperties(prefix = "spring.datasource.replica2")
+    public DataSource replica2DataSource() {
+        return DataSourceBuilder.create()
+                .build();
+    }
+
+    @Bean
     public DataSource routingDataSource(
             @Qualifier(MASTER_SERVER) DataSource masterDataSource,
-            @Qualifier(REPLICA_SERVER) DataSource replicaDataSource
+            @Qualifier(REPLICA_SERVER) DataSource replicaDataSource,
+            @Qualifier(REPLICA2_SERVER) DataSource replica2DataSource
     ) {
-        RoutingDataSource routingDataSource = new RoutingDataSource();
+        CloudWatchMetricsFetcher metricsFetcher = new CloudWatchMetricsFetcher();
+        RoutingDataSource routingDataSource = new RoutingDataSource(metricsFetcher);
 
         HashMap<Object, Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put("master", masterDataSource);
         dataSourceMap.put("replica", replicaDataSource);
+        dataSourceMap.put("replica2", replica2DataSource);
 
         routingDataSource.setTargetDataSources(dataSourceMap);
         routingDataSource.setDefaultTargetDataSource(masterDataSource);
@@ -55,8 +67,7 @@ public class DataSourceConfiguration {
     @Bean
     @Primary
     public DataSource dataSource() {
-        DataSource determinedDataSource = routingDataSource(masterDataSource(), replicaDataSource());
-        return new LazyConnectionDataSourceProxy(determinedDataSource);
+        return new LazyConnectionDataSourceProxy(routingDataSource(masterDataSource(), replicaDataSource(), replica2DataSource()));
     }
 
 }
