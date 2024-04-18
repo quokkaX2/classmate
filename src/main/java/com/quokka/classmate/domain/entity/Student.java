@@ -12,6 +12,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 @Table(name = "students")
+// 나중에 인덱싱 추가하기
 public class Student {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
