@@ -21,9 +21,11 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
             double replica1Cpu = metricsFetcher.getAverageCPUUtilization("replica-1", 300);
             double replica2Cpu = metricsFetcher.getAverageCPUUtilization("replica-2", 300);
 
+            String selectedReplica = replica1Cpu <= replica2Cpu ? "replica" : "replica2";
             log.info("CPU Utilization - Replica1: {}, Replica2: {}", replica1Cpu, replica2Cpu);
+            log.info("Selected Replica: {}", selectedReplica);  // 로그 추가
 
-            return replica1Cpu <= replica2Cpu ? "replica" : "replica2";
+            return selectedReplica;
         }
         return "master";
     }
