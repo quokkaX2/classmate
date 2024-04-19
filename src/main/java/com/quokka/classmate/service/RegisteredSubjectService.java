@@ -115,7 +115,7 @@ public class RegisteredSubjectService {
 
     // 비관적 락
     @Transactional
-    public void registrationSubjectByPessimisticLock(Long subjectId, Long studentId) {
+    public Subject registrationSubjectByPessimisticLock(Long subjectId, Long studentId) {
         Student student = studentRepository.findById(studentId)
                 .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 회원 정보입니다."));
 
@@ -146,6 +146,8 @@ public class RegisteredSubjectService {
         // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
         student.plusCurrentCredit(subjectCredit);
         registeredSubject.changeRegisterStatus(); // 상태값
+
+        return subject;
     }
 
 
