@@ -1,6 +1,7 @@
 package com.quokka.classmate.controller.api;
 
 import com.quokka.classmate.facade.RedissonLockFacade;
+import com.quokka.classmate.facade.RegistrationCacheFacade;
 import com.quokka.classmate.global.exception.ApiResponseDto;
 import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.service.RegisteredSubjectService;
@@ -18,6 +19,7 @@ public class RegisteredSubjectApiController {
 
     private final RegisteredSubjectService registeredSubjectService;
     private final RedissonLockFacade redissonLockFacade;
+    private final RegistrationCacheFacade registrationCacheFacade; // 수강 신청 가능 잔여 수 redis 적용
 
     // 수강 과목 장바구니에 추가
     @PostMapping("/api/cart/{subjectId}")
@@ -50,8 +52,9 @@ public class RegisteredSubjectApiController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 //        registeredSubjectService.registrationSubject(subjectId, userDetails.getUser().getId());
-        registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, userDetails.getUser().getId());
+//        registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, userDetails.getUser().getId());
 //        redissonLockFacade.registerSubject(subjectId, userDetails.getUser().getId());
+        registrationCacheFacade.registerByCache(subjectId, userDetails.getUser().getId()); // 수강신청 인원 redis 적용
 
         return ResponseEntity.ok(new ApiResponseDto("수강 신청이 완료되었습니다."));
     }
