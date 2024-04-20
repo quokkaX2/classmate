@@ -69,7 +69,7 @@ public class RegisteredSubjectApiController {
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
         RedisQueueRequestDto requestDto = new RedisQueueRequestDto(userDetails.getUser().getId(), subjectId);
-        queueService.addQueue(requestDto);
+        queueService.addQueue(subjectId, requestDto);
         return ResponseEntity.ok(new ApiResponseDto("대기열 추가에 성공 했습니다."));
     }
 }
