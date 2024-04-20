@@ -24,7 +24,10 @@ public class QueueService {
         String value = objectMapper.writeValueAsString(requestDto);
         Long score = System.currentTimeMillis();
         redisTemplate.opsForZSet().add(ADD_QUEUE, value, score);
-        log.info(requestDto.getStudentId() + "번 학생이 " + requestDto.getSubjectId() + "번 과목" + score + "에 신청함");
+        log.info(requestDto.getStudentId() + "번 학생이 " + requestDto.getSubjectId() + "번 과목" + score + "에 대기열 추가함");
     }
 
+    public void process() {
+
+    }
 }
