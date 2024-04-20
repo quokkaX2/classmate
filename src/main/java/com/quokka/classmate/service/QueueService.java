@@ -21,7 +21,7 @@ public class QueueService {
     private final ObjectMapper objectMapper;
     private final int FIRST_INDEX = 0;
     private final int LAST_INDEX = -1;
-    private final int SIZE = 100;
+    private final int SIZE = 10;
     private final RedisTemplate<String, String> redisTemplate;
     private final RegisteredSubjectService registeredSubjectService;
     private final RegistrationCacheFacade registrationCacheFacade;
@@ -42,6 +42,7 @@ public class QueueService {
         redisQueue.parallelStream().forEach(info -> {
             redisTemplate.opsForZSet().remove(ADD_QUEUE, info);
             try {
+                log.info("process 작업 처리 시작");
                 handleItem(info);
             } catch (Exception e) {
                 throw new IllegalArgumentException(e);
