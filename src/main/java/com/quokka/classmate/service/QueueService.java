@@ -44,9 +44,8 @@ public class QueueService {
             try {
                 log.info("process 작업 처리 시작");
                 handleItem(info);
-            } catch (JsonProcessingException e) {
-                log.info("실패");
-                throw new RuntimeException(e);
+            } catch (Exception e) {
+                throw new IllegalArgumentException(e);
             }
         });
     }
@@ -54,16 +53,7 @@ public class QueueService {
         RedisQueueRequestDto requestDto = objectMapper.readValue(info, RedisQueueRequestDto.class);
         Long studentId = requestDto.getStudentId();
         Long subjectId = requestDto.getSubjectId();
-//      registrationCacheFacade.registerByCache(subjectId, studentId); //레디스 캐싱 적용 버전
-        //registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, studentId);
-        try {
-            registrationCacheFacade.registerByCache(subjectId, studentId);
-//            registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, studentId);
-            log.info("수강 신청 완료");
-        } catch (Exception e) {
-            log.info("데이터베이스 락 대기 문제 발생", e);
-            throw e; // 다시 예외를 던져 처리하도록 함
-        }
+        registrationCacheFacade.registerByCache(subjectId, studentId);
     }
     private void checkCache(Long subjectId) {
         if(repository.hasLeftSeatsInRedis(subjectId)) {
