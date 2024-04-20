@@ -18,9 +18,8 @@ public class EventScheduler {
 //        periodicQueue(); // 초기화 시 스케줄러 메서드를 한 번 실행하도록 호출
 //    }
 //
-    @Scheduled(fixedDelay = 10000)
+    @Scheduled(fixedDelay = 100)
     public void periodicQueue() {
-        log.info("periodicQueue 실행");
         queueService.process();
     }
 }
