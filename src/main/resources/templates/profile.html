@@ -162,12 +162,12 @@
             cursor: pointer;
         }
 
-        #register-button:hover {
+        .register-button:hover {
             opacity: 0.6;
             cursor: pointer;
         }
 
-        #register-button:active {
+        .register-button:active {
             opacity: 1.4;
             cursor: grab;
         }
@@ -223,11 +223,13 @@
                                 <span class="subject-time-title">시간</span>
                                 <span class="subject-name">과목</span>
                                 <span class="subject-info">학점</span>
+                                <span class="subject-info">취소</span>
                             </div>
                             <li class="subject" th:each="subject : ${registered}">
                                 <span class="subject-time" th:text="${subject.time}"></span>
                                 <span class="subject-name" th:text="${subject.title}"></span>
                                 <span class="subject-info" th:text="${subject.credit}"></span>
+                                <span class="subject-info"><button th:data-subject-id="${subject.subjectId}" name="cancelBtn">신청취소</button></span>
                             </li>
                     </ul>
 
@@ -241,6 +243,46 @@
 
 </main>
 <script th:src="@{/js/navbar.js}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // ======= 수강 신청 취소 ========
+        // 취소 버튼들을 모두 가져옴
+        var cancelBtns = document.getElementsByName('cancelBtn');
+
+        // 각 버튼에 대해 이벤트 리스너 추가
+        cancelBtns.forEach(function(btn) {
+            btn.addEventListener('click', function() {
+                // 버튼 클릭 시 실행될 함수
+                var subjectId = this.getAttribute('data-subject-id'); // data-subject-id 값을 가져옴
+
+                // DELETE 요청 보내기
+                fetch('/api/register/' + subjectId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json'
+                        // 여기에 필요한 경우 다른 헤더들을 추가할 수 있습니다.
+                    },
+                    // 요청 바디에 필요한 경우 데이터를 추가할 수 있습니다.
+                    // body: JSON.stringify({ key: value })
+                })
+                    .then(function(response) {
+                        return response.json(); // JSON 형식으로 응답을 파싱
+                    })
+                    .then(function(data) {
+                        alert(data.message); // 응답 alert
+                        location.reload(true);
+                    })
+                    .catch(function(error) {
+                        // 요청 실패 시 처리
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            });
+        });
+
+
+    });
+</script>
 
 </body>
 

@@ -46,6 +46,13 @@ public class RedisRepository {
         }
     }
 
+    // 수강 신청 취소 시 남은 인원 +1
+    public void incrementLeftSeatInRedis(Long subjectId){
+        String key = SUBJECT_KEY_PREFIX + subjectId;
+        if (hasLeftSeatsInRedis(subjectId)) {
+            redisTemplate.opsForValue().increment(key);
+        }
+    }
 
     // Redis랑 DB 정합성 검사
     public void refreshLeftSeats(){
