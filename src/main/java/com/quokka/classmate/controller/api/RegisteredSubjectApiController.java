@@ -52,10 +52,21 @@ public class RegisteredSubjectApiController {
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
 //        registeredSubjectService.registrationSubject(subjectId, userDetails.getUser().getId());
-        registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, userDetails.getUser().getId());
+//        registeredSubjectService.registrationSubjectByPessimisticLock(subjectId, userDetails.getUser().getId());
 //        redissonLockFacade.registerSubject(subjectId, userDetails.getUser().getId());
-//        registrationCacheFacade.registerByCache(subjectId, userDetails.getUser().getId()); // 수강신청 인원 redis 적용
+        registrationCacheFacade.registerByCache(subjectId, userDetails.getUser().getId()); // 수강신청 인원 redis 적용
 
         return ResponseEntity.ok(new ApiResponseDto("수강 신청이 완료되었습니다."));
+    }
+
+    // 수강 신청 취소
+    @DeleteMapping("/api/register/{subjectId}")
+    public ResponseEntity<?> cancelRegistrationSubject(
+            @PathVariable Long subjectId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        registeredSubjectService.cancel(subjectId, userDetails.getUser().getId());
+
+        return ResponseEntity.ok(new ApiResponseDto("수강 신청이 취소되었습니다."));
     }
 }
