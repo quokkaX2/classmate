@@ -214,6 +214,7 @@
             })
             .then(function(data) {
                 alert(data.message); // 응답 alert
+                location.reload(true);
             })
             .catch(function(error) {
                 // 요청 실패 시 처리
@@ -241,6 +242,7 @@
                 })
                 .then(function(data) {
                     alert(data.message); // 응답 alert
+                    location.reload(true);
                 })
                 .catch(function(error) {
                     // 요청 실패 시 처리

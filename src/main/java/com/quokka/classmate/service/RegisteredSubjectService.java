@@ -153,8 +153,9 @@ public class RegisteredSubjectService {
     }
 
     // 수강 신청 취소
+    @Transactional
     public void cancel(Long subjectId, Long studentId) {
-        RegisteredSubject registeredSubject = registeredSubjectRepository.findByStudentIdAndSubjectId(subjectId, studentId)
+        RegisteredSubject registeredSubject = registeredSubjectRepository.findByStudentIdAndSubjectId(studentId, subjectId)
                 .orElseThrow(() -> new IllegalArgumentException("유효한 회원이 아니거나, 신청된 강의가 존재하지 않습니다."));
 
         Student student = registeredSubject.getStudent();
