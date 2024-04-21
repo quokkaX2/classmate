@@ -49,6 +49,8 @@
             .then(response => {
                 if (response.ok) {
                     window.location.href = '/';
+                    let userId = response.headers.get("userId");
+                    localStorage.setItem("userId", userId);
                 } else {
                     console.log('statusCode: ' + response.status);
                     window.location.href = '/login?error';
