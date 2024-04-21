@@ -4,6 +4,7 @@ import com.quokka.classmate.domain.dto.CartResponseDto;
 import com.quokka.classmate.domain.entity.RegisteredSubject;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.domain.entity.Subject;
+import com.quokka.classmate.repository.RedisRepository;
 import com.quokka.classmate.repository.RegisteredSubjectRepository;
 import com.quokka.classmate.repository.StudentRepository;
 import com.quokka.classmate.repository.SubjectRepository;
@@ -22,6 +23,7 @@ public class RegisteredSubjectService {
     private final RegisteredSubjectRepository registeredSubjectRepository;
     private final SubjectRepository subjectRepository;
     private final StudentRepository studentRepository;
+    private final RedisRepository redisRepository;
 
     // 장바구니에 담은 과목 전체 조회
     public List<CartResponseDto> findAll(Student student) {
@@ -150,6 +152,25 @@ public class RegisteredSubjectService {
         return subject;
     }
 
+    // 수강 신청 취소
+    public void cancel(Long subjectId, Long studentId) {
+        RegisteredSubject registeredSubject = registeredSubjectRepository.findByStudentIdAndSubjectId(subjectId, studentId)
+                .orElseThrow(() -> new IllegalArgumentException("유효한 회원이 아니거나, 신청된 강의가 존재하지 않습니다."));
 
+        Student student = registeredSubject.getStudent();
+        Subject subject = registeredSubject.getSubject();
+
+        // 수강 신청 정보 삭제
+        registeredSubjectRepository.delete(registeredSubject);
+
+        // 과목 잔여석 1개 증가
+        subject.increaseLimitCount();
+
+        // 학생 학점 감소
+        student.decreaseCurrentCredit(subject.getCredit());
+
+        // redis 잔여석 1개 증가
+        redisRepository.incrementLeftSeatInRedis(subject.getId());
+    }
 }
 
