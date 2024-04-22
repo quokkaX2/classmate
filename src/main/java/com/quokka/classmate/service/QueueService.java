@@ -22,7 +22,7 @@ public class QueueService {
     private final ObjectMapper objectMapper;
     private final int FIRST_INDEX = 0;
     private final int LAST_INDEX = -1;
-    private final int SIZE = 100;
+    private final int SIZE = 1;
     private final RedisTemplate<String, String> redisTemplate;
     private final RegisteredSubjectService registeredSubjectService;
     private final RegistrationCacheFacade registrationCacheFacade;
@@ -60,14 +60,14 @@ public class QueueService {
             throw new RuntimeException(e);
         }
     }
-    
+
     private void handleItem(RedisQueueRequestDto requestDto) throws JsonProcessingException {
         Long studentId = requestDto.getStudentId();
         Long subjectId = requestDto.getSubjectId();
         registrationCacheFacade.registerByCache(subjectId, studentId);
     }
     private void checkCache(Long subjectId) {
-        if(repository.hasLeftSeatsInRedis(subjectId)) {
+        if(!repository.checkLeftSeatInRedis(subjectId)) {
             throw new IllegalArgumentException("-- 신청 인원이 마감되었습니다. --");
         }
     }
