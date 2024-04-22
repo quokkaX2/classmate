@@ -16,8 +16,9 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class QueueService {
-    private final String ADD_QUEUE = "대기열 추가";
-    private final String PROCESS = "수강신청 처리";
+    private final String ADD_QUEUE = "queue";
+    private final String SUCCESS = "success";
+    private final String FAIL = "fail";
     private final ObjectMapper objectMapper;
     private final int FIRST_INDEX = 0;
     private final int LAST_INDEX = -1;
@@ -42,14 +43,16 @@ public class QueueService {
         redisQueue.parallelStream().forEach(info -> {
             redisTemplate.opsForZSet().remove(ADD_QUEUE, info);
             try {
-                handleItem(info);
+                RedisQueueRequestDto requestDto = objectMapper.readValue(info, RedisQueueRequestDto.class);
+                handleItem(requestDto);
+                redisTemplate.opsForZSet().add(SUCCESS, info, System.currentTimeMillis());
             } catch (Exception e) {
+                redisTemplate.opsForZSet().add(FAIL, info, System.currentTimeMillis());
                 throw new IllegalArgumentException(e);
             }
         });
     }
-    private void handleItem(String info) throws JsonProcessingException {
-        RedisQueueRequestDto requestDto = objectMapper.readValue(info, RedisQueueRequestDto.class);
+    private void handleItem(RedisQueueRequestDto requestDto) throws JsonProcessingException {
         Long studentId = requestDto.getStudentId();
         Long subjectId = requestDto.getSubjectId();
         registrationCacheFacade.registerByCache(subjectId, studentId);
