@@ -50,4 +50,9 @@ public class Subject {
     public String getClassTime() {
         return WeekTime.calculateWeekTime(this.time);
     }
+
+    // 강의 잔여석 +1
+    public void increaseLimitCount() {
+        this.limitCount++;
+    }
 }

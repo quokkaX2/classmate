@@ -4,7 +4,6 @@ import com.quokka.classmate.domain.dto.RedisQueueRequestDto;
 import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.service.QueueService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;

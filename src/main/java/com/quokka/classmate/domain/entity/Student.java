@@ -57,4 +57,9 @@ public class Student {
             throw new IllegalArgumentException("신청 가능한 학점을 초과 하였습니다.");
         }
     }
+
+    // 수강 신청 취소 시, 학생 학점 감소
+    public void decreaseCurrentCredit(Integer subjectCredit) {
+        this.currentCredit -= subjectCredit;
+    }
 }
