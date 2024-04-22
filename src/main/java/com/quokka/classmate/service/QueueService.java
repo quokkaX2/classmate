@@ -52,6 +52,15 @@ public class QueueService {
             }
         });
     }
+    public void removeQueue(RedisQueueRequestDto requestDto){ //학생id 과목 id
+        try {
+            String value = objectMapper.writeValueAsString(requestDto);
+            redisTemplate.opsForZSet().remove(ADD_QUEUE, value);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    
     private void handleItem(RedisQueueRequestDto requestDto) throws JsonProcessingException {
         Long studentId = requestDto.getStudentId();
         Long subjectId = requestDto.getSubjectId();
