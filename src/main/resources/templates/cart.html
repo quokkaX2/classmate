@@ -283,12 +283,12 @@
         }
     }
     const connect = () => {
-        const socket = new SockJS("http://52.79.78.210/ws");
+        const socket = new SockJS("https://quokkaws.shop/ws");
         client = Stomp.over(socket);
         client.connect({}, () => {
             const userId = localStorage.getItem("userId");
             console.log('WebSocket 연결 시도');
-            client.subscribe('/sub/' + userId, (message) => {
+            client.subscribe('https://quokkaws.shop/sub/' + userId, (message) => {
                 connectCallback(message, userId);
             });
         });
