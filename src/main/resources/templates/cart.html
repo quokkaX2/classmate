@@ -283,7 +283,7 @@
         }
     }
     const connect = () => {
-        const socket = new SockJS("http://localhost:8080/ws");
+        const socket = new SockJS("/ws");
         client = Stomp.over(socket);
         client.connect({}, () => {
             const userId = localStorage.getItem("userId");
