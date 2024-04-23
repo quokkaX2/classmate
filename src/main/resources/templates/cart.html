@@ -288,7 +288,7 @@
         client.connect({}, () => {
             const userId = localStorage.getItem("userId");
             console.log('WebSocket 연결 시도');
-            client.subscribe('https://quokkaws.shop/sub/' + userId, (message) => {
+            client.subscribe('/sub/' + userId, (message) => {
                 connectCallback(message, userId);
             });
         });
