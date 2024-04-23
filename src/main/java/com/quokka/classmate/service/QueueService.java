@@ -52,6 +52,7 @@ public class QueueService {
             }
         });
     }
+    //대기열 안에서 취소
     public void removeQueue(RedisQueueRequestDto requestDto){ //학생id 과목 id
         try {
             String value = objectMapper.writeValueAsString(requestDto);
@@ -60,12 +61,13 @@ public class QueueService {
             throw new RuntimeException(e);
         }
     }
-
+    //대기열 내용 실제 처리
     private void handleItem(RedisQueueRequestDto requestDto) throws JsonProcessingException {
         Long studentId = requestDto.getStudentId();
         Long subjectId = requestDto.getSubjectId();
         registrationCacheFacade.registerByCache(subjectId, studentId);
     }
+    //레디스 내부에서 캐쉬 체크 후 미리 정리
     private void checkCache(Long subjectId) {
         try {
             if(!repository.checkLeftSeatInRedis(subjectId)) {
