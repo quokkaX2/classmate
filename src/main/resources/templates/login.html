@@ -25,7 +25,7 @@
     document.addEventListener("DOMContentLoaded", function () {
         // 토큰 삭제 - 이전 시간으로 돌려서 삭제함
         document.cookie = "Authorization=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-
+        localStorage.removeItem("userId");
         const href = location.href;
         const queryString = href.substring(href.indexOf("?") + 1)
         if (queryString === 'error') {
@@ -49,6 +49,8 @@
             .then(response => {
                 if (response.ok) {
                     window.location.href = '/';
+                    let userId = response.headers.get("userId");
+                    localStorage.setItem("userId", userId);
                 } else {
                     console.log('statusCode: ' + response.status);
                     window.location.href = '/login?error';
