@@ -17,7 +17,7 @@ import java.util.Set;
 @Service
 @RequiredArgsConstructor
 public class QueueService {
-    private final int SIZE = 100;
+    private final int SIZE = 10;
 
     private final ObjectMapper objectMapper;
     private final RedisTemplate<String, String> redisTemplate;
