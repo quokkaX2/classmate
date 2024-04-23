@@ -112,6 +112,11 @@
         }
 
         .modal {
+            display: none; /* 초기 상태는 숨김 */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
             position: fixed;
             top: 50%;
             left: 50%;
@@ -121,7 +126,7 @@
             padding: 10px;
             z-index: 1000;
             width: 50%;
-            display: none; /* 초기 상태는 숨김 */
+
         }
 
         .overlay {
@@ -150,6 +155,11 @@
             color: white;
             text-align: center;
             line-height: 30px;
+        }
+
+        .message {
+            font-size: 2rem;
+            font-weight: bold;
         }
 
     </style>
@@ -256,12 +266,10 @@
         console.log(userId);
         if(result === "true") {
             queue.innerHTML = "수강 신청 성공";
-            queueEnteringNum = -1;
-            disconnect();
+            closeSetting();
         } else if (result === "false") {
             queue.innerHTML = "수강 신청 실패";
-            queueEnteringNum = -1;
-            disconnect();
+            closeSetting();
         } else {
             if (queueEnteringNum === -1){
                 queueEnteringNum = parseInt(message.body, 10);
@@ -364,7 +372,7 @@
         });
     });
     function showModal() {
-        document.getElementsByClassName('modal')[0].style.display = "block";
+        document.getElementsByClassName('modal')[0].style.display = "flex";
     }
     function removeModal() {
         let result = confirm("재 접속 시 대기시간이 더 길어집니다.");
@@ -378,6 +386,12 @@
         const progressBar = document.getElementById("progressBar");
         progressBar.style.width = percent + '%';
         progressBar.innerHTML = Math.round(percent) + '%';
+    }
+
+    function closeSetting() {
+        updateProgressBar(100);
+        queueEnteringNum = -1;
+        disconnect();
     }
 </script>
 
