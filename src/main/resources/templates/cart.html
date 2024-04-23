@@ -135,6 +135,23 @@
             display: none; /* 초기 상태는 숨김 */
         }
 
+        #progressBarContainer {
+            width: 80%;
+            height: 30px;
+            background-color: #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        #progressBar {
+            height: 100%;
+            width: 0%;
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            line-height: 30px;
+        }
+
     </style>
     <title>장바구니</title>
     <link rel="stylesheet" th:href="@{/css/navbar.css}" />
@@ -168,6 +185,9 @@
 <div class="modal" id="modalQueue">
     <p>대기열 정보가 여기에 표시됩니다.</p>
     <p class="message"></p>
+    <div id="progressBarContainer">
+        <div id="progressBar"></div>
+    </div>
     <button onclick="removeModal()">닫기</button>
 </div>
 <div class="overlay" id="overlay"></div>
@@ -230,6 +250,30 @@
     let queueEnteringNum = -1;
 
     let client = null;
+
+    const connectCallback = (message, userId) => {
+        const result = message.body;
+        console.log(userId);
+        if(result === "true") {
+            queue.innerHTML = "수강 신청 성공";
+            queueEnteringNum = -1;
+            disconnect();
+        } else if (result === "false") {
+            queue.innerHTML = "수강 신청 실패";
+            queueEnteringNum = -1;
+            disconnect();
+        } else {
+            if (queueEnteringNum === -1){
+                queueEnteringNum = parseInt(message.body, 10);
+            }
+
+            const currentOrder = parseInt(message.body, 10);
+            const percentage = (queueEnteringNum - currentOrder)/queueEnteringNum * 100;
+            updateProgressBar(percentage);
+
+            queue.innerHTML = "앞으로 " + message.body + "명 대기중";
+        }
+    }
     const connect = () => {
         const socket = new SockJS("http://localhost:8080/ws");
         client = Stomp.over(socket);
@@ -237,17 +281,7 @@
             const userId = localStorage.getItem("userId");
             console.log('WebSocket 연결 시도');
             client.subscribe('/sub/' + userId, (message) => {
-                const result = message.body;
-                console.log(userId);
-                if(result === "수강 신청 성공") {
-                    queue.innerHTML = result;
-                    disconnect();
-                } else if (result === "수강 신청 실패") {
-                    queue.innerHTML = result;
-                    disconnect();
-                } else {
-                    queue.innerHTML = "앞으로 " + message.body + "명 대기중";
-                }
+                connectCallback(message, userId);
             });
         });
     }
@@ -290,6 +324,7 @@
                 .catch(function(error) {
                     // 요청 실패 시 처리
                     console.error('There was a problem with the fetch operation:', error);
+                    removeModal()
                 });
             });
         });
@@ -337,6 +372,12 @@
             document.getElementsByClassName('modal')[0].style.display = "none";
             disconnect();
         }
+    }
+
+    function updateProgressBar(percent) {
+        const progressBar = document.getElementById("progressBar");
+        progressBar.style.width = percent + '%';
+        progressBar.innerHTML = Math.round(percent) + '%';
     }
 </script>
 
