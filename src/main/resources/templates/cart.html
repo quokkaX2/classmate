@@ -283,7 +283,7 @@
         }
     }
     const connect = () => {
-        const socket = new SockJS("http://52.79.78.210/ws");
+        const socket = new SockJS("https://quokkaws/ws");
         client = Stomp.over(socket);
         client.connect({}, () => {
             const userId = localStorage.getItem("userId");
