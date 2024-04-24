@@ -64,10 +64,13 @@ public class QueueService {
     }
     //레디스 내부에서 캐쉬 체크 후 미리 정리
     private void checkCache(Long subjectId) {
-        try {
-            if(!repository.checkLeftSeatInRedis(subjectId)) {
-                throw new IllegalArgumentException(Redis.CLOSED.getCategory());
-            }
-        } catch (NullPointerException ignored) {}
+//        try {
+//            if(!repository.checkLeftSeatInRedis(subjectId)) {
+//                throw new IllegalArgumentException(Redis.CLOSED.getCategory());
+//            }
+//        } catch (NullPointerException ignored) {}
+        if(!repository.checkLeftSeatInRedis(subjectId)) {
+            throw new IllegalArgumentException(Redis.CLOSED.getCategory());
+        }
     }
 }
