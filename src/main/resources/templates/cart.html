@@ -321,12 +321,12 @@
                     // body: JSON.stringify({ key: value })
                 })
                 .then(function(response) {
+                    if(!response.ok) {
+                        throw new Error();
+                    }
                     return response.json();
                 })
                 .then(function(data) {
-                    if (!data.ok) {
-                        throw new Error(data.message); // 에러 메시지를 전달합니다.
-                    }
                     alert(data.message); // 응답 alert
                     queueEnteringNum = -1
                     connect();
