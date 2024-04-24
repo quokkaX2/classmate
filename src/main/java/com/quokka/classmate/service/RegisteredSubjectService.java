@@ -1,13 +1,11 @@
 package com.quokka.classmate.service;
 
+import com.quokka.classmate.domain.document.SearchSubject;
 import com.quokka.classmate.domain.dto.CartResponseDto;
 import com.quokka.classmate.domain.entity.RegisteredSubject;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.domain.entity.Subject;
-import com.quokka.classmate.repository.RedisRepository;
-import com.quokka.classmate.repository.RegisteredSubjectRepository;
-import com.quokka.classmate.repository.StudentRepository;
-import com.quokka.classmate.repository.SubjectRepository;
+import com.quokka.classmate.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +22,7 @@ public class RegisteredSubjectService {
     private final SubjectRepository subjectRepository;
     private final StudentRepository studentRepository;
     private final RedisRepository redisRepository;
+    private final SearchSubjectRepositoryImpl searchSubjectRepositoryImpl;
 
     // 장바구니에 담은 과목 전체 조회
     public List<CartResponseDto> findAll(Student student) {
@@ -144,6 +143,14 @@ public class RegisteredSubjectService {
 
         // 과목의 잔여 자리 수 감소
         subject.cutCount();
+        subjectRepository.save(subject);
+
+        // Also update the Elasticsearch document
+        SearchSubject searchSubject = searchSubjectRepositoryImpl.findById(subject.getId()).orElseThrow(
+                () -> new IllegalArgumentException("No subject found in Elasticsearch.")
+        );
+        searchSubject.cutCount(); // decrement limitCount in Elasticsearch document
+        searchSubjectRepositoryImpl.save(searchSubject); // Save the updated document back to Elasticsearch
 
         // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
         student.plusCurrentCredit(subjectCredit);

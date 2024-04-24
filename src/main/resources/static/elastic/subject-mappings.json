@@ -1,0 +1,20 @@
+{
+  "properties": {
+    "id": {
+      "type": "keyword"
+    },
+    "title": {
+      "type": "text",
+      "analyzer": "korean"
+    },
+    "limitCount": {
+      "type": "integer"
+    },
+    "time": {
+      "type": "integer"
+    },
+    "credit": {
+      "type": "integer"
+    }
+  }
+}
