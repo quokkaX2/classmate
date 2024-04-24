@@ -310,7 +310,6 @@
             btn.addEventListener('click', function() {
                 // 버튼 클릭 시 실행될 함수
                 var subjectId = this.getAttribute('data-subject-id'); // data-subject-id 값을 가져옴
-                showModal();
                 //POST 요청 보내기
                 fetch('/api/register/' + subjectId, {
                     method: 'POST',
@@ -322,15 +321,20 @@
                     // body: JSON.stringify({ key: value })
                 })
                 .then(function(response) {
-                    return response.json(); // JSON 형식으로 응답을 파싱
+                    return response.json();
                 })
                 .then(function(data) {
+                    if (!data.ok) {
+                        throw new Error(data.message); // 에러 메시지를 전달합니다.
+                    }
                     alert(data.message); // 응답 alert
                     queueEnteringNum = -1
                     connect();
+                    showModal();
                 })
                 .catch(function(error) {
                     // 요청 실패 시 처리
+                    alert(error.message); // 응답 alert
                     console.error('There was a problem with the fetch operation:', error);
                     removeModal()
                 });
@@ -372,13 +376,15 @@
         });
     });
     function showModal() {
-        document.getElementsByClassName('modal')[0].style.display = "flex";
+        modal.style.display = "flex";
     }
     function removeModal() {
-        let result = confirm("재 접속 시 대기시간이 더 길어집니다.");
-        if(result) {
-            document.getElementsByClassName('modal')[0].style.display = "none";
-            disconnect();
+        if(modal.style.display === "flex") {
+            let result = confirm("재 접속 시 대기시간이 더 길어집니다.");
+            if(result) {
+                modal.style.display = "none";
+                disconnect();
+            }
         }
     }
 
