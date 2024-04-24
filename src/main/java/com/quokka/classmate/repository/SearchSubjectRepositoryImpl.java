@@ -36,12 +36,12 @@ public class SearchSubjectRepositoryImpl implements SearchSubjectRepository{
         elasticsearchOperations.save(elasticSubjects);
     }
     private SearchSubject convertToElasticSubject(Subject subject) {
-        return SearchSubject.builder()
-                .id(subject.getId())
-                .title(subject.getTitle())
-                .time(subject.getTime())
-                .credit(subject.getCredit())
-                .build();
+        return new SearchSubject(
+                subject.getId(),
+                subject.getTitle(),
+                subject.getLimitCount(),
+                subject.getTime(),
+                subject.getCredit());
     }
     @Override
     public Page<SearchSubject> searchSubjectsByTitle(String title, Pageable pageable) {

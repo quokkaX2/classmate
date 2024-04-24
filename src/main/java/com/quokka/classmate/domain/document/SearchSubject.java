@@ -1,7 +1,7 @@
 package com.quokka.classmate.domain.document;
 
 import com.quokka.classmate.utility.WeekTime;
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
@@ -9,7 +9,8 @@ import org.springframework.data.elasticsearch.annotations.*;
 
 
 @Getter
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Setting(settingPath = "/static/elastic/elastic-settings.json")
 @Mapping(mappingPath = "/static/elastic/subject-mappings.json")
 @Document(indexName = "subjects")
