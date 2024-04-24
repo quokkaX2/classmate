@@ -1,6 +1,8 @@
 package com.quokka.classmate.repository;
 
 import com.quokka.classmate.domain.document.SearchSubject;
+import com.quokka.classmate.domain.entity.Subject;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -24,7 +26,23 @@ public class SearchSubjectRepositoryImpl implements SearchSubjectRepository{
 
     // query를 받아서 elasticsearch에 요청을 보내는 역할을 한다.
     private final ElasticsearchOperations elasticsearchOperations;
+    private final SubjectRepository subjectRepository;
+    @PostConstruct
+    public void syncSubjectToElasticsearch() {
+        List<Subject> subjects = subjectRepository.findAll(); // 애시당초 이걸 쓰는 게 맞으려나?
+        List<SearchSubject> elasticSubjects =
+                subjects.stream().map(this::convertToElasticSubject).toList();
 
+        elasticsearchOperations.save(elasticSubjects);
+    }
+    private SearchSubject convertToElasticSubject(Subject subject) {
+        return SearchSubject.builder()
+                .id(subject.getId())
+                .title(subject.getTitle())
+                .time(subject.getTime())
+                .credit(subject.getCredit())
+                .build();
+    }
     @Override
     public Page<SearchSubject> searchSubjectsByTitle(String title, Pageable pageable) {
         Criteria criteria = Criteria.where("title").contains(title);
