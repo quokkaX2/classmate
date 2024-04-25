@@ -16,7 +16,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 @Document(indexName = "subjects")
 public class SearchSubject {
     @Id
-    @Field(name = "subject_id", type = FieldType.Long)
+    @Field(name = "id", type = FieldType.Long)
     private Long id;
 
     @Field(name = "title", type = FieldType.Text)

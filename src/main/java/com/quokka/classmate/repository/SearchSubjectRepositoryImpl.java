@@ -27,23 +27,6 @@ public class SearchSubjectRepositoryImpl implements SearchSubjectRepository{
     // query를 받아서 elasticsearch에 요청을 보내는 역할을 한다.
     private final ElasticsearchOperations elasticsearchOperations;
     private final SubjectRepository subjectRepository;
-    @PostConstruct
-    public void syncSubjectToElasticsearch() {
-        List<Subject> subjects = subjectRepository.findAll(); // 애시당초 이걸 쓰는 게 맞으려나?
-        List<SearchSubject> elasticSubjects =
-                subjects.stream().map(this::convertToElasticSubject).toList();
-
-        elasticsearchOperations.save(elasticSubjects);
-    }
-    private SearchSubject convertToElasticSubject(Subject subject) {
-        return new SearchSubject(
-                subject.getId(),
-                subject.getTitle(),
-                subject.getLimitCount(),
-                subject.getTime(),
-                subject.getCredit());
-    }
-    @Override
     public Page<SearchSubject> searchSubjectsByTitle(String title, Pageable pageable) {
         Criteria criteria = Criteria.where("title").contains(title);
 
@@ -54,15 +37,5 @@ public class SearchSubjectRepositoryImpl implements SearchSubjectRepository{
         List<SearchSubject> list = search.stream().map(SearchHit::getContent).collect(Collectors.toList());
 
         return new PageImpl<>(list, pageable, search.getTotalHits());
-    }
-
-    public Optional<SearchSubject> findById(Long id) {
-        SearchSubject searchSubject = elasticsearchOperations
-                .get(String.valueOf(id), SearchSubject.class);
-        return Optional.ofNullable(searchSubject);
-    }
-
-    public SearchSubject save(SearchSubject searchSubject) {
-        return elasticsearchOperations.save(searchSubject);
     }
 }
