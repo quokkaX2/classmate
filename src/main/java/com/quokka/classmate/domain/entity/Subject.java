@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Getter
 @NoArgsConstructor
 @Entity
@@ -31,13 +33,23 @@ public class Subject {
     @Column(nullable = false, name = "credit")
     private Integer credit;
 
+    @Column(name = "modification_time")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date modificationTime;
+
     public Subject(String title, Integer limitCount, Integer time, Integer credit) {
         this.title = title;
         this.limitCount = limitCount;
         this.time = time;
         this.credit = credit;
+        this.updateTime();
     }
 
+    @PreUpdate
+    @PrePersist
+    public void updateTime() {
+        this.modificationTime = new Date();
+    }
     // 제한인원 카운팅 엔티티 로직 - 성공시 true 반환
     public void cutCount() throws IllegalArgumentException {
         if (this.limitCount == 0) {
