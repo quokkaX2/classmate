@@ -24,10 +24,10 @@ public class RedisRepository {
         }
     }
 
-    // 강의 잔여 자리 수를 Redis에 저장
+    // 0명일 경우 과목을 Redis에 저장
     public void saveCourseToRedis(Subject subject){
         String key = SUBJECT_KEY_PREFIX + subject.getId();
-        redisTemplate.opsForValue().set(key, subject.getLimitCount());
+        redisTemplate.opsForValue().set(key, 1);
     }
 
     // key로 redis에 캐시가 있는지 조회하고 Boolean 반환
@@ -36,21 +36,17 @@ public class RedisRepository {
         return redisTemplate.hasKey(key);
     }
 
-    // 수강 신청 가능한지 확인
+/*    // 수강 신청 가능한지 확인
     public Boolean checkLeftSeatInRedis(Long subjectId){
         String key = SUBJECT_KEY_PREFIX + subjectId;
-        if (redisTemplate.opsForValue().get(key) <= 0) {
-            return false;
-        } else {
-            return true;
-        }
-    }
+        return redisTemplate.hasKey(key);
+    }*/
 
-    // 수강 신청 취소 시 남은 인원 +1
+    // 수강 신청 취소 시 redis에서 해당 키 값 지우기
     public void incrementLeftSeatInRedis(Long subjectId){
         String key = SUBJECT_KEY_PREFIX + subjectId;
         if (hasLeftSeatsInRedis(subjectId)) {
-            redisTemplate.opsForValue().increment(key);
+            redisTemplate.delete(key);
         }
     }
 

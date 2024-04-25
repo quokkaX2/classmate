@@ -69,4 +69,14 @@ public class RegisteredSubjectApiController {
         queueService.addQueue(subjectId, requestDto);
         return ResponseEntity.ok(new ApiResponseDto("대기열 추가에 성공 했습니다."));
     }
+
+    @DeleteMapping("/api/register/{subjectId}")
+    public ResponseEntity<?> cancelRegistrationSubject(
+            @PathVariable Long subjectId,
+            @AuthenticationPrincipal UserDetailsImpl userDetails) {
+
+        registeredSubjectService.cancel(subjectId, userDetails.getUser().getId());
+
+        return ResponseEntity.ok(new ApiResponseDto("수강 신청이 취소되었습니다."));
+    }
 }
