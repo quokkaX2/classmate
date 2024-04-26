@@ -36,22 +36,22 @@ public class SearchSubjectRepositoryImpl implements SearchSubjectRepository{
 //        Criteria criteria = Criteria.where("title").contains(title);
 
         // 1번 개선책
-        Criteria criteria = new Criteria("title").matches(title);
+//        Criteria criteria = new Criteria("title").matches(title);
 
         // 2번 개선책
-//        Query query = NativeQuery.builder()
-//                .withQuery(q -> q
-//                        .match(m -> m
-//                                .field("title")
-//                                .query(title)
-//                        )
-//                )
-//                .withPageable(pageable)
-//                .build();
+        Query query = NativeQuery.builder()
+                .withQuery(q -> q
+                        .match(m -> m
+                                .field("title")
+                                .query(title)
+                        )
+                )
+                .withPageable(pageable)
+                .build();
 
         // 3번 개선책 : Json 쿼리 직접 박아넣기
 
-        Query query = new CriteriaQuery(criteria).setPageable(pageable);
+//        Query query = new CriteriaQuery(criteria).setPageable(pageable);
 
         SearchHits<SearchSubject> search = elasticsearchOperations.search(query, SearchSubject.class);
 
