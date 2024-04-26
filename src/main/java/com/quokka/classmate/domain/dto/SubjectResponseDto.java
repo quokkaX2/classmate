@@ -1,14 +1,11 @@
 package com.quokka.classmate.domain.dto;
 
 import com.quokka.classmate.domain.entity.Subject;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 public class SubjectResponseDto {
     private Long id;
     private String title;
