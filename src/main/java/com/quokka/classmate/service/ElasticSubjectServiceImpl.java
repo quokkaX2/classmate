@@ -3,6 +3,7 @@ package com.quokka.classmate.service;
 import com.quokka.classmate.domain.document.SearchSubject;
 import com.quokka.classmate.domain.dto.SearchSubjectTransfer;
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
+import com.quokka.classmate.repository.ElasticCommonSubjectRepository;
 import com.quokka.classmate.repository.SearchSubjectRepositoryImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,15 +22,15 @@ import java.util.stream.Collectors;
 public class ElasticSubjectServiceImpl implements ElasticSubjectService {
 
     private final SearchSubjectRepositoryImpl searchSubjectRepositoryImpl;
-
+    private final ElasticCommonSubjectRepository elasticCommonSubjectRepository;
 
     /**
      * {@inheritDoc}
      * */
     @Override
     public Page<SubjectResponseDto> searchSubjectByTitle(Pageable pageable, String title) {
-        Page<SearchSubject> searchSubjects = searchSubjectRepositoryImpl.searchSubjectsByTitle(title, pageable);
-
+//        Page<SearchSubject> searchSubjects = searchSubjectRepositoryImpl.searchSubjectsByTitle(title, pageable);
+        Page<SearchSubject> searchSubjects = elasticCommonSubjectRepository.findAllByTitleContaining(title, pageable);
 
         List<SubjectResponseDto> response = searchSubjects.stream()
                 .map(SearchSubjectTransfer::fromDocument).collect(Collectors.toList());
