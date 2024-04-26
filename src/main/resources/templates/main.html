@@ -268,12 +268,13 @@
     </main>
 <script th:src="@{/js/navbar.js}"></script>
 <script>
-    let lastCursor = null; // 마지막 데이터의 ID 저장
+    let currentPage = 0;
+    let totalPages = 0;
 
-    function searchSubjects(inputValue, cursor) {
-        let url = `/api/search?input=${encodeURIComponent(inputValue)}`;
-        if (cursor) {
-            url += `&cursor=${cursor}`;
+    function searchSubjects(title, page) {
+        let url = `/api/search?title=${encodeURIComponent(title)}`;
+        if (page !== null) {
+            url += `&page=${page}`;
         }
 
         fetch(url)
@@ -284,13 +285,14 @@
                 return response.json();
             })
             .then(data => {
-                if (data.length === 0) {
-                    document.getElementById('load-more').style.display = 'none'; // 더 이상 데이터가 없으면 버튼 숨기기
+                if (data.data.dataList.length === 0) {
+                    document.getElementById('load-more').style.display = 'none'; // Hide load more button if no data
                     return;
                 }
-                displaySubjects(data);
-                lastCursor = data[data.length - 1].id; // 마지막 항목의 ID를 커서로 저장
-                document.getElementById('load-more').style.display = 'block'; // 데이터가 있으면 버튼 보이기
+                displaySubjects(data.data.dataList);
+                currentPage = data.data.currentPage;
+                totalPages = data.data.totalPage;
+                document.getElementById('load-more').style.display = 'block'; // Show load more button if data exists
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -298,22 +300,24 @@
             });
     }
 
-    // "더 보기" 버튼에 이벤트 리스너 추가
+    // Load more button event listener
     document.getElementById('load-more').addEventListener('click', function() {
-        const inputValue = document.getElementById('search-input').value;
-        searchSubjects(inputValue, lastCursor); // 마지막 커서와 함께 검색 실행
+        const title = document.getElementById('search-input').value;
+        if (currentPage < totalPages - 1) {
+            searchSubjects(title, currentPage + 1); // Load next page
+        }
     });
 
-    // 기존 검색 결과를 지우는 함수
+    // Clear existing search results
     function clearSubjects() {
         const subjectsList = document.querySelector('.subjects');
-        subjectsList.innerHTML = ''; // 내용을 모두 지움
+        subjectsList.innerHTML = ''; // Clear the content
     }
 
-    // 입력 데이터 화면에 표시
+    // Display search results on the page
     function displaySubjects(subjects) {
         const subjectsList = document.querySelector('.subjects');
-        console.log(subjects)
+        console.log(subjects);
 
         subjects.forEach(subject => {
             const subjectItem = document.createElement('div');
@@ -341,7 +345,6 @@
 
             const registerButton = document.createElement('button');
             registerButton.setAttribute('type', 'submit');
-            registerButton.setAttribute('id', 'register-button');
             registerButton.textContent = '담기';
 
             registerForm.appendChild(registerButton);
@@ -356,13 +359,108 @@
         });
     }
 
-    // 검색해서 백엔드에 입력값 전송
+    // Search button event listener
     document.getElementById('search-button').addEventListener('click', function(event) {
         event.preventDefault();
-        const inputValue = document.getElementById('search-input').value;
-        clearSubjects();  // 검색 결과를 초기화
-        searchSubjects(inputValue, null);  // 새로운 검색을 시작, 커서는 null로 설정
+        const title = document.getElementById('search-input').value;
+        clearSubjects(); // Clear previous search results
+        searchSubjects(title, 0); // Start a new search, initialize at page 0
     });
+    // let lastCursor = null; // 마지막 데이터의 ID 저장
+    //
+    // function searchSubjects(inputValue, cursor) {
+    //     let url = `/api/search?input=${encodeURIComponent(inputValue)}`;
+    //     if (cursor) {
+    //         url += `&cursor=${cursor}`;
+    //     }
+    //
+    //     fetch(url)
+    //         .then(response => {
+    //             if (!response.ok) {
+    //                 throw new Error('Network response was not ok');
+    //             }
+    //             return response.json();
+    //         })
+    //         .then(data => {
+    //             if (data.length === 0) {
+    //                 document.getElementById('load-more').style.display = 'none'; // 더 이상 데이터가 없으면 버튼 숨기기
+    //                 return;
+    //             }
+    //             displaySubjects(data);
+    //             lastCursor = data[data.length - 1].id; // 마지막 항목의 ID를 커서로 저장
+    //             document.getElementById('load-more').style.display = 'block'; // 데이터가 있으면 버튼 보이기
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //             alert('An error occurred while fetching the data.');
+    //         });
+    // }
+    //
+    // // "더 보기" 버튼에 이벤트 리스너 추가
+    // document.getElementById('load-more').addEventListener('click', function() {
+    //     const inputValue = document.getElementById('search-input').value;
+    //     searchSubjects(inputValue, lastCursor); // 마지막 커서와 함께 검색 실행
+    // });
+    //
+    // // 기존 검색 결과를 지우는 함수
+    // function clearSubjects() {
+    //     const subjectsList = document.querySelector('.subjects');
+    //     subjectsList.innerHTML = ''; // 내용을 모두 지움
+    // }
+    //
+    // // 입력 데이터 화면에 표시
+    // function displaySubjects(subjects) {
+    //     const subjectsList = document.querySelector('.subjects');
+    //     console.log(subjects)
+    //
+    //     subjects.forEach(subject => {
+    //         const subjectItem = document.createElement('div');
+    //         subjectItem.classList.add('subject');
+    //
+    //         const subjectTime = document.createElement('span');
+    //         subjectTime.classList.add('subject-time');
+    //         subjectTime.textContent = subject.time;
+    //
+    //         const subjectName = document.createElement('span');
+    //         subjectName.classList.add('subject-name');
+    //         subjectName.textContent = subject.title;
+    //
+    //         const subjectCredit = document.createElement('span');
+    //         subjectCredit.classList.add('subject-info');
+    //         subjectCredit.textContent = subject.credit;
+    //
+    //         const subjectLimit = document.createElement('span');
+    //         subjectLimit.classList.add('subject-info');
+    //         subjectLimit.textContent = subject.limitCount;
+    //
+    //         const registerForm = document.createElement('form');
+    //         registerForm.setAttribute('action', `/api/cart/${subject.id}`);
+    //         registerForm.setAttribute('method', 'post');
+    //
+    //         const registerButton = document.createElement('button');
+    //         registerButton.setAttribute('type', 'submit');
+    //         registerButton.setAttribute('id', 'register-button');
+    //         registerButton.textContent = '담기';
+    //
+    //         registerForm.appendChild(registerButton);
+    //
+    //         subjectItem.appendChild(subjectTime);
+    //         subjectItem.appendChild(subjectName);
+    //         subjectItem.appendChild(subjectCredit);
+    //         subjectItem.appendChild(subjectLimit);
+    //         subjectItem.appendChild(registerForm);
+    //
+    //         subjectsList.appendChild(subjectItem);
+    //     });
+    // }
+    //
+    // // 검색해서 백엔드에 입력값 전송
+    // document.getElementById('search-button').addEventListener('click', function(event) {
+    //     event.preventDefault();
+    //     const inputValue = document.getElementById('search-input').value;
+    //     clearSubjects();  // 검색 결과를 초기화
+    //     searchSubjects(inputValue, null);  // 새로운 검색을 시작, 커서는 null로 설정
+    // });
 
 </script>
 </body>
