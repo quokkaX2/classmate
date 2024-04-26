@@ -18,4 +18,6 @@ public interface ElasticCommonSubjectRepository extends ElasticsearchRepository<
 
     Optional<SearchSubject> findById(Long subjectId);
 
+    Page<SearchSubject> findAllByTitleContaining(String title,Pageable pageable);
+
 }
