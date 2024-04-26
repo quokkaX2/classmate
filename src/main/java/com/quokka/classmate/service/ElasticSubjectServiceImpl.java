@@ -29,8 +29,8 @@ public class ElasticSubjectServiceImpl implements ElasticSubjectService {
      * */
     @Override
     public Page<SubjectResponseDto> searchSubjectByTitle(Pageable pageable, String title) {
-//        Page<SearchSubject> searchSubjects = searchSubjectRepositoryImpl.searchSubjectsByTitle(title, pageable);
-        Page<SearchSubject> searchSubjects = elasticCommonSubjectRepository.findAllByTitleContaining(title, pageable);
+        Page<SearchSubject> searchSubjects = searchSubjectRepositoryImpl.searchSubjectsByTitle(title, pageable);
+//        Page<SearchSubject> searchSubjects = elasticCommonSubjectRepository.findAllByTitleContaining(title, pageable);
 
         List<SubjectResponseDto> response = searchSubjects.stream()
                 .map(SearchSubjectTransfer::fromDocument).collect(Collectors.toList());
