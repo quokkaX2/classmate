@@ -10,7 +10,8 @@ import org.springframework.data.elasticsearch.repository.config.EnableElasticsea
 @EnableElasticsearchRepositories(basePackages = "com.quokka.classmate.repository")
 public class ElasticConfig extends ElasticsearchConfiguration {
 
-    @Value("${spring.data.elasticsearch.url}")
+//    @Value("${spring.data.elasticsearch.url}")
+    @Value("${spring.elasticsearch.rest.uris}")
     private String elasticUrl;
     @Override
     public ClientConfiguration clientConfiguration() {

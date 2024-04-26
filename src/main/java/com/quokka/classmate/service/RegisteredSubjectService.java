@@ -145,13 +145,6 @@ public class RegisteredSubjectService {
         subject.cutCount();
         subjectRepository.save(subject);
 
-        // Also update the Elasticsearch document
-        SearchSubject searchSubject = searchSubjectRepositoryImpl.findById(subject.getId()).orElseThrow(
-                () -> new IllegalArgumentException("No subject found in Elasticsearch.")
-        );
-        searchSubject.cutCount(); // decrement limitCount in Elasticsearch document
-        searchSubjectRepositoryImpl.save(searchSubject); // Save the updated document back to Elasticsearch
-
         // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
         student.plusCurrentCredit(subjectCredit);
         registeredSubject.changeRegisterStatus(); // 상태값
