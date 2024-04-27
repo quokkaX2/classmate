@@ -12,5 +12,5 @@ public class PaginationResponseDto<T> {
     private final long totalDataCount;
     private final int currentPage;
     private final int totalPage;
-
+    private final String nextCursor;
 }

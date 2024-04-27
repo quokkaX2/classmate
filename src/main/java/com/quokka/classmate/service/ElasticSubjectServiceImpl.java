@@ -39,4 +39,18 @@ public class ElasticSubjectServiceImpl implements ElasticSubjectService {
         return new PageImpl<>(response, pageable, searchSubjects.getTotalElements());
     }
 
+    @Override
+    public Page<SubjectResponseDto> searchNativeQuery(String title, int pageNumber, int pageSize) {
+
+        Page<SearchSubject> searchSubjects = searchSubjectRepositoryImpl.searchSubjectsByTitleWithCursor(title, pageNumber, pageSize);
+
+        List<SubjectResponseDto> response = searchSubjects.stream()
+                .map(SearchSubjectTransfer::fromDocument).collect(Collectors.toList());
+
+
+        //content pageable, total
+        return new PageImpl<>(response, searchSubjects.getPageable(), searchSubjects.getTotalElements());
+
+    }
+
 }

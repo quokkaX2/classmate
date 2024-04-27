@@ -1,11 +1,15 @@
 package com.quokka.classmate.domain.document;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.quokka.classmate.utility.WeekTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.*;
+
+import java.time.LocalDateTime;
 
 
 @Getter
@@ -14,6 +18,7 @@ import org.springframework.data.elasticsearch.annotations.*;
 @Setting(settingPath = "/static/elastic/elastic-settings.json")
 @Mapping(mappingPath = "/static/elastic/subject-mappings.json")
 @Document(indexName = "subjects")
+@JsonIgnoreProperties(value = { "@version" }, ignoreUnknown = true)
 public class SearchSubject {
     @Id
     @Field(name = "id", type = FieldType.Long)
@@ -23,6 +28,7 @@ public class SearchSubject {
     private String title;
 
     @Field(name = "limit_count", type = FieldType.Integer)
+    @JsonProperty("limit_count")
     private Integer limitCount;
 
     @Field(name = "time", type = FieldType.Integer)
@@ -30,6 +36,9 @@ public class SearchSubject {
 
     @Field(name = "credit", type = FieldType.Integer)
     private Integer credit;
+
+    @JsonProperty("modification_time")
+    private LocalDateTime modificationTime;
     public SearchSubject(String title, Integer limitCount, Integer time, Integer credit) {
         this.title = title;
         this.limitCount = limitCount;
