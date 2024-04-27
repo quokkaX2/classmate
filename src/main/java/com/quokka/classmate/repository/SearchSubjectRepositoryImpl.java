@@ -39,11 +39,21 @@ public class SearchSubjectRepositoryImpl implements SearchSubjectRepository{
 //        Criteria criteria = new Criteria("title").matches(title);
 
         // 2번 개선책
+//        Query query = NativeQuery.builder()
+//                .withQuery(q -> q
+//                        .match(m -> m
+//                                .field("title")
+//                                .query(title)
+//                        )
+//                )
+//                .withPageable(pageable)
+//                .build();
+
         Query query = NativeQuery.builder()
                 .withQuery(q -> q
-                        .match(m -> m
+                        .term(t -> t
                                 .field("title")
-                                .query(title)
+                                .value(title)
                         )
                 )
                 .withPageable(pageable)
