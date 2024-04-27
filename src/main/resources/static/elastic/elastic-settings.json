@@ -2,7 +2,16 @@
   "analysis": {
     "analyzer": {
       "korean": {
-        "type": "nori"
+        "type": "nori",
+        "decompound_mode": "mixed",
+        "user_dictionary": "user_dict.txt",
+        "stopwords": ["의", "와", "과", "은", "는", "이", "가", "을", "를", "으로", "에서", "로", "에", "와의", "과의", "이랑", "랑"]
+      }
+    },
+    "tokenizer": {
+      "nori_tokenizer": {
+        "type": "nori_tokenizer",
+        "user_dictionary": "user_dict.txt"
       }
     }
   }
