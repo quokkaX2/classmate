@@ -30,18 +30,22 @@ public class SearchSubjectRepositoryImpl implements SearchSubjectRepository{
 
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
 
+        // 커서 기반 match 쿼리
+//        Query query = NativeQuery.builder()
+//                .withQuery(q -> q
+//                        .match(m -> m
+//                                .field("title")
+//                                .query(title)
+//                        )
+//                )
+//                .withPageable(pageable)
+//                .build();
+
+        // 커서 기반 term 쿼리
         Query query = NativeQuery.builder()
-                .withQuery(q -> q
-                        .match(m -> m
-                                .field("title")
-                                .query(title)
-                        )
-                )
+                .withQuery(q -> q.term(m -> m.field("title").value(title)))
                 .withPageable(pageable)
                 .build();
-
-//        Query query = NativeQuery.builder()
-//                .withQuery(q -> q.term(m -> m.field("title").value(title))).build();
 
         SearchHits<SearchSubject> searchHits = elasticsearchOperations.search(query, SearchSubject.class);
 
