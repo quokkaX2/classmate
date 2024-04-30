@@ -4,7 +4,6 @@ import com.quokka.classmate.service.QueueService;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import net.javacrumbs.shedlock.spring.annotation.SchedulerLock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +19,6 @@ public class EventScheduler {
 //    }
 //
     @Scheduled(fixedDelay = 1000)
-    @SchedulerLock(name = "EventScheduler_periodicQueue")
     public void periodicQueue() {
         log.info("스케쥴러");
         queueService.process();
