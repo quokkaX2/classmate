@@ -143,7 +143,7 @@ public class RegisteredSubjectService {
 
         // 과목의 잔여 자리 수 감소
         subject.cutCount();
-        //subjectRepository.save(subject);
+        subjectRepository.save(subject);
 
         // 수강 신청 성공 시, 상태값 true로 변경 & 학생 학점 갱신
         student.plusCurrentCredit(subjectCredit);
