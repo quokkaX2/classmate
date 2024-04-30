@@ -9,7 +9,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 @EnableCaching
 @EnableScheduling
-@EnableSchedulerLock(defaultLockAtMostFor = "5m")
+@EnableSchedulerLock(defaultLockAtMostFor = "30s")
 public class ClassmateApplication {
 
     public static void main(String[] args) {
