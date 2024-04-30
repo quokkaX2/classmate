@@ -53,6 +53,10 @@ dependencies {
 
     // elastic
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+
+    //schedlock
+    implementation 'net.javacrumbs.shedlock:shedlock-spring:5.8.0'
+    implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:5.8.0'
 }
 
 tasks.named('test') {
