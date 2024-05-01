@@ -25,25 +25,25 @@ public class SubjectApiController {
     private final ElasticSubjectService elasticSubjectService;
 
     // cursor 기반
-    @GetMapping(params = "title")
-    public ResponseDto<PaginationResponseDto<SubjectResponseDto>> findByKeyWord(@RequestParam String title,
-                                                                                @RequestParam(defaultValue = "0") int page,
-                                                                                @RequestParam(defaultValue = "10") int size
-    ) {
-        Page<SubjectResponseDto> itemPage = elasticSubjectService.searchNativeQuery(title, page, size);
+    // @GetMapping(params = "title")
+    // public ResponseDto<PaginationResponseDto<SubjectResponseDto>> findByKeyWord(@RequestParam String title,
+    //                                                                             @RequestParam(defaultValue = "0") int page,
+    //                                                                             @RequestParam(defaultValue = "10") int size
+    // ) {
+    //     Page<SubjectResponseDto> itemPage = elasticSubjectService.searchNativeQuery(title, page, size);
 
-        return ResponseDto.<PaginationResponseDto<SubjectResponseDto>>builder()
-                .success(true)
-                .status(HttpStatus.OK)
-                .data(PaginationResponseDto.<SubjectResponseDto>builder()
-                        .dataList(itemPage.getContent())
-                        .totalDataCount(itemPage.getTotalElements())
-                        .currentPage(itemPage.getNumber())
-                        .totalPage(itemPage.getTotalPages())
-                        .nextCursor(itemPage.hasNext() ? String.valueOf(itemPage.getNumber() + 1) : null)
-                        .build())
-                .build();
-    }
+    //     return ResponseDto.<PaginationResponseDto<SubjectResponseDto>>builder()
+    //             .success(true)
+    //             .status(HttpStatus.OK)
+    //             .data(PaginationResponseDto.<SubjectResponseDto>builder()
+    //                     .dataList(itemPage.getContent())
+    //                     .totalDataCount(itemPage.getTotalElements())
+    //                     .currentPage(itemPage.getNumber())
+    //                     .totalPage(itemPage.getTotalPages())
+    //                     .nextCursor(itemPage.hasNext() ? String.valueOf(itemPage.getNumber() + 1) : null)
+    //                     .build())
+    //             .build();
+    // }
 
     // offset 기반
 //    @GetMapping(params = "title")
@@ -68,15 +68,15 @@ public class SubjectApiController {
 //
 //    }
 
-//        @GetMapping("/api/search")
-//    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
-//                                                         @RequestParam(required = false) Long cursor,
-//                                                         @RequestParam(defaultValue = "10") int size) {
-//        if (input.isEmpty()) {
-//            throw new IllegalArgumentException("검색어를 입력해주세요.");
-//        }
-//        return ResponseEntity.ok(subjectService.searchByCursor(input, cursor, size));
-//    }
+    @GetMapping("/api/search")
+    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
+                                                        @RequestParam(required = false) Long cursor,
+                                                        @RequestParam(defaultValue = "10") int size) {
+        if (input.isEmpty()) {
+            throw new IllegalArgumentException("검색어를 입력해주세요.");
+        }
+        return ResponseEntity.ok(subjectService.searchByCursor(input, cursor, size));
+    }
 //    @GetMapping("/api/search")
 //    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
 //                                                         @RequestParam(defaultValue = "0") int page,
