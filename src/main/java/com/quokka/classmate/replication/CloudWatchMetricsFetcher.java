@@ -1,4 +1,4 @@
-package com.quokka.classmate.global.config;
+package com.quokka.classmate.replication;
 
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cloudwatch.AmazonCloudWatch;

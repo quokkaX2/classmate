@@ -1,4 +1,4 @@
-package com.quokka.classmate.global.config;
+package com.quokka.classmate.replication;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
