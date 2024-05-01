@@ -17,9 +17,8 @@ import java.util.HashMap;
 public class DataSourceConfiguration {
 
     private static final String MASTER_SERVER = "MASTER";
-    private static final String REPLICA_SERVER = "REPLICA";
+    private static final String REPLICA1_SERVER = "REPLICA1";
     private static final String REPLICA2_SERVER = "REPLICA2";
-
     private static final String REPLICA3_SERVER = "REPLICA3";
 
     @Bean
@@ -31,9 +30,9 @@ public class DataSourceConfiguration {
     }
 
     @Bean
-    @Qualifier(REPLICA_SERVER)
-    @ConfigurationProperties(prefix = "spring.datasource.replica")
-    public DataSource replicaDataSource() {
+    @Qualifier(REPLICA1_SERVER)
+    @ConfigurationProperties(prefix = "spring.datasource.replica1")
+    public DataSource replica1DataSource() {
         return DataSourceBuilder.create()
                 .build();
     }
@@ -57,7 +56,7 @@ public class DataSourceConfiguration {
     @Bean
     public DataSource routingDataSource(
             @Qualifier(MASTER_SERVER) DataSource masterDataSource,
-            @Qualifier(REPLICA_SERVER) DataSource replicaDataSource,
+            @Qualifier(REPLICA1_SERVER) DataSource replica1DataSource,
             @Qualifier(REPLICA2_SERVER) DataSource replica2DataSource,
             @Qualifier(REPLICA3_SERVER) DataSource replica3DataSource
     ) {
@@ -66,7 +65,7 @@ public class DataSourceConfiguration {
 
         HashMap<Object, Object> dataSourceMap = new HashMap<>();
         dataSourceMap.put("master", masterDataSource);
-        dataSourceMap.put("replica", replicaDataSource);
+        dataSourceMap.put("replica1", replica1DataSource);
         dataSourceMap.put("replica2", replica2DataSource);
         dataSourceMap.put("replica3", replica3DataSource);
 
@@ -79,7 +78,7 @@ public class DataSourceConfiguration {
     @Bean
     @Primary
     public DataSource dataSource() {
-        return new LazyConnectionDataSourceProxy(routingDataSource(masterDataSource(), replicaDataSource(), replica2DataSource(), replica3DataSource()));
+        return new LazyConnectionDataSourceProxy(routingDataSource(masterDataSource(), replica1DataSource(), replica2DataSource(), replica3DataSource()));
     }
 
 }
