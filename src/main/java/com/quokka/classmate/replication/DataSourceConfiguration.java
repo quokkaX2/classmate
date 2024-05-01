@@ -47,7 +47,7 @@ public class DataSourceConfiguration {
 
     @Bean
     @Qualifier(REPLICA3_SERVER)
-    @ConfigurationProperties(prefix = "spring.database.replica3")
+    @ConfigurationProperties(prefix = "spring.datasource.replica3")
     public DataSource replica3DataSource() {
         return DataSourceBuilder.create()
                 .build();
