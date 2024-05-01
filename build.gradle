@@ -57,9 +57,6 @@ dependencies {
     //schedlock
     implementation 'net.javacrumbs.shedlock:shedlock-spring:5.8.0'
     implementation 'net.javacrumbs.shedlock:shedlock-provider-redis-spring:5.8.0'
-
-    //AWS SDK for CloudWatch
-    implementation 'com.amazonaws:aws-java-sdk-cloudwatch:1.12.118'
 }
 
 tasks.named('test') {
