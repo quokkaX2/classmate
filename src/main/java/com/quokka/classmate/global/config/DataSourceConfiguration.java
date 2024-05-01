@@ -20,6 +20,8 @@ public class DataSourceConfiguration {
     private static final String REPLICA_SERVER = "REPLICA";
     private static final String REPLICA2_SERVER = "REPLICA2";
 
+    private static final String REPLICA3_SERVER = "REPLICA3";
+
     @Bean
     @Qualifier(MASTER_SERVER)
     @ConfigurationProperties(prefix = "spring.datasource.master")
@@ -45,10 +47,19 @@ public class DataSourceConfiguration {
     }
 
     @Bean
+    @Qualifier(REPLICA3_SERVER)
+    @ConfigurationProperties(prefix = "spring.database.replica3")
+    public DataSource replica3DataSource() {
+        return DataSourceBuilder.create()
+                .build();
+    }
+
+    @Bean
     public DataSource routingDataSource(
             @Qualifier(MASTER_SERVER) DataSource masterDataSource,
             @Qualifier(REPLICA_SERVER) DataSource replicaDataSource,
-            @Qualifier(REPLICA2_SERVER) DataSource replica2DataSource
+            @Qualifier(REPLICA2_SERVER) DataSource replica2DataSource,
+            @Qualifier(REPLICA3_SERVER) DataSource replica3DataSource
     ) {
         CloudWatchMetricsFetcher metricsFetcher = new CloudWatchMetricsFetcher();
         RoutingDataSource routingDataSource = new RoutingDataSource(metricsFetcher);
@@ -57,6 +68,7 @@ public class DataSourceConfiguration {
         dataSourceMap.put("master", masterDataSource);
         dataSourceMap.put("replica", replicaDataSource);
         dataSourceMap.put("replica2", replica2DataSource);
+        dataSourceMap.put("replica3", replica3DataSource);
 
         routingDataSource.setTargetDataSources(dataSourceMap);
         routingDataSource.setDefaultTargetDataSource(masterDataSource);
@@ -67,7 +79,7 @@ public class DataSourceConfiguration {
     @Bean
     @Primary
     public DataSource dataSource() {
-        return new LazyConnectionDataSourceProxy(routingDataSource(masterDataSource(), replicaDataSource(), replica2DataSource()));
+        return new LazyConnectionDataSourceProxy(routingDataSource(masterDataSource(), replicaDataSource(), replica2DataSource(), replica3DataSource()));
     }
 
 }
