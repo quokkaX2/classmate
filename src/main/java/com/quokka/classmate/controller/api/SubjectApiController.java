@@ -6,6 +6,7 @@ import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.service.ElasticSubjectService;
 import com.quokka.classmate.service.SubjectService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
