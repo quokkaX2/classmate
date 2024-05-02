@@ -24,15 +24,23 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
 
             log.info("CPU Utilization - Replica1: {}, Replica2: {}, Replica3: {}", replica1Cpu, replica2Cpu, replica3Cpu);
 
-            if (replica1Cpu <= replica2Cpu && replica1Cpu <= replica3Cpu) {
-                log.info("use - replica1");
-                return "replica1";
-            } else if (replica2Cpu <= replica1Cpu && replica2Cpu <= replica3Cpu) {
-                log.info("use - replica2");
-                return "replica2";
-            } else {
-                log.info("use - replica3");
-                return "replica3";
+            Random random = new Random();
+            int randomReplica = random.nextInt(3) + 1; // 1, 2, 3 중에서 랜덤하게 선택
+    
+            switch (randomReplica) {
+                case 1:
+                    log.info("use - replica1");
+                    return "replica1";
+                case 2:
+                    log.info("use - replica2");
+                    return "replica2";
+                case 3:
+                    log.info("use - replica3");
+                    return "replica3";
+                default:
+                    // 예기치 못한 경우에는 기본값으로 master를 사용합니다.
+                    log.warn("use - master");
+                    return "master";
             }
         }
         log.info("use - master");
