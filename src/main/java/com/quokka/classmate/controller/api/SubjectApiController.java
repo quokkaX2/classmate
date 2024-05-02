@@ -74,7 +74,7 @@ public class SubjectApiController {
     public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String title,
                                                         @RequestParam(required = false) Long cursor,
                                                         @RequestParam(defaultValue = "10") int size) {
-        if (input.isEmpty()) {
+        if (title.isEmpty()) {
             throw new IllegalArgumentException("검색어를 입력해주세요.");
         }
         return ResponseEntity.ok(subjectService.searchByCursor(title, cursor, size));
