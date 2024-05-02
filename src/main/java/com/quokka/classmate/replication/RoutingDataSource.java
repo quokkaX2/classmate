@@ -23,7 +23,7 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
         //     double replica2Cpu = metricsFetcher.getAverageCPUUtilization("replica2", 300);
         //     double replica3Cpu = metricsFetcher.getAverageCPUUtilization("replica3", 300);
 
-            log.info("CPU Utilization - Replica1: {}, Replica2: {}, Replica3: {}", replica1Cpu, replica2Cpu, replica3Cpu);
+            // log.info("CPU Utilization - Replica1: {}, Replica2: {}, Replica3: {}", replica1Cpu, replica2Cpu, replica3Cpu);
 
             Random random = new Random();
             int randomReplica = random.nextInt(3) + 1; // 1, 2, 3 중에서 랜덤하게 선택
