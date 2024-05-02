@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
 import org.springframework.lang.Nullable;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
+import java.util.Random;
 
 @Slf4j
 public class RoutingDataSource extends AbstractRoutingDataSource {
@@ -17,10 +18,10 @@ public class RoutingDataSource extends AbstractRoutingDataSource {
     @Nullable
     @Override
     protected Object determineCurrentLookupKey() {
-        if (TransactionSynchronizationManager.isCurrentTransactionReadOnly()) {
-            double replica1Cpu = metricsFetcher.getAverageCPUUtilization("replica1", 300);
-            double replica2Cpu = metricsFetcher.getAverageCPUUtilization("replica2", 300);
-            double replica3Cpu = metricsFetcher.getAverageCPUUtilization("replica3", 300);
+        // if (TransactionSynchronizationManager.isCurrentTransactionReadOnly()) {
+        //     double replica1Cpu = metricsFetcher.getAverageCPUUtilization("replica1", 300);
+        //     double replica2Cpu = metricsFetcher.getAverageCPUUtilization("replica2", 300);
+        //     double replica3Cpu = metricsFetcher.getAverageCPUUtilization("replica3", 300);
 
             log.info("CPU Utilization - Replica1: {}, Replica2: {}, Replica3: {}", replica1Cpu, replica2Cpu, replica3Cpu);
 
