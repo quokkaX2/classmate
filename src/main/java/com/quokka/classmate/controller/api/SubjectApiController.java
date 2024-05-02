@@ -25,6 +25,7 @@ public class SubjectApiController {
     private final ElasticSubjectService elasticSubjectService;
 
     // cursor 기반
+    // 엘라스틱 적용 내용입니다
     @GetMapping(params = "title")
     public ResponseDto<PaginationResponseDto<SubjectResponseDto>> findByKeyWord(@RequestParam String title,
                                                                                 @RequestParam(defaultValue = "0") int page,
