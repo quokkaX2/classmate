@@ -73,7 +73,7 @@ public class SubjectService {
 
         return ResponseEntity.ok().body(subjects.getContent());
     }
-
+    @Transactional(readOnly = true)
     public List<SubjectResponseDto> searchByCursor(String input, Long cursor, int size) {
         List<Subject> subjects = subjectRepository.findByTitleWithCursor(input, cursor, size);
         List<SubjectResponseDto> response = subjects

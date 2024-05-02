@@ -6,6 +6,7 @@ import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.service.ElasticSubjectService;
 import com.quokka.classmate.service.SubjectService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -31,7 +32,7 @@ public class SubjectApiController {
                                                                                 @RequestParam(defaultValue = "0") int page,
                                                                                 @RequestParam(defaultValue = "10") int size
     ) {
-        Page<SubjectResponseDto> itemPage = elasticSubjectService.searchNativeQuery(title, page, size);
+        Page<SubjectResponseDto> itemPage = elasticSubjectService.searchNativeQuery(title, page, size)
 
         return ResponseDto.<PaginationResponseDto<SubjectResponseDto>>builder()
                 .success(true)
@@ -69,15 +70,15 @@ public class SubjectApiController {
 //
 //    }
 
-//        @GetMapping("/api/search")
-//    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
+//     @GetMapping("/api/search")
+//     public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
 //                                                         @RequestParam(required = false) Long cursor,
 //                                                         @RequestParam(defaultValue = "10") int size) {
-//        if (input.isEmpty()) {
-//            throw new IllegalArgumentException("검색어를 입력해주세요.");
-//        }
-//        return ResponseEntity.ok(subjectService.searchByCursor(input, cursor, size));
-//    }
+//         if (input.isEmpty()) {
+//             throw new IllegalArgumentException("검색어를 입력해주세요.");
+//         }
+//         return ResponseEntity.ok(subjectService.searchByCursor(input, cursor, size));
+//     }
 //    @GetMapping("/api/search")
 //    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
 //                                                         @RequestParam(defaultValue = "0") int page,
