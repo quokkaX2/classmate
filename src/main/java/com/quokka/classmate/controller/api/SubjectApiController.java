@@ -32,7 +32,7 @@ public class SubjectApiController {
                                                                                 @RequestParam(defaultValue = "0") int page,
                                                                                 @RequestParam(defaultValue = "10") int size
     ) {
-        Page<SubjectResponseDto> itemPage = elasticSubjectService.searchNativeQuery(title, page, size)
+        Page<SubjectResponseDto> itemPage = elasticSubjectService.searchNativeQuery(title, page, size);
 
         return ResponseDto.<PaginationResponseDto<SubjectResponseDto>>builder()
                 .success(true)
