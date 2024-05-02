@@ -70,14 +70,14 @@ public class SubjectApiController {
 //
 //    }
 
-    @GetMapping("/api/search")
-    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
+    @GetMapping(params = "title")
+    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String title,
                                                         @RequestParam(required = false) Long cursor,
                                                         @RequestParam(defaultValue = "10") int size) {
         if (input.isEmpty()) {
             throw new IllegalArgumentException("검색어를 입력해주세요.");
         }
-        return ResponseEntity.ok(subjectService.searchByCursor(input, cursor, size));
+        return ResponseEntity.ok(subjectService.searchByCursor(title, cursor, size));
     }
 //    @GetMapping("/api/search")
 //    public ResponseEntity<?> getSubjectsByInputAndCursor(@RequestParam String input,
