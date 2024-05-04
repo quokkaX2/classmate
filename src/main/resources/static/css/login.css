@@ -32,8 +32,33 @@ main {
 }
 
 .introduce {
+    width: 51%;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome {
+    color: #e3be82;
+    text-align: center;
+    flex: 1;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.introduce-detail {
+    list-style-type: none;
+    text-align: center;
+    flex: 2;
+    padding-top: 20px;
+}
+
+.detail-content {
+    padding: 5px;
+    text-align: left;
+    margin-top: 15px;
 }
 
 .container {
@@ -50,7 +75,7 @@ main {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-h2 {
+.login {
     flex:1;
     text-align: center;
     margin-bottom: 20px;
