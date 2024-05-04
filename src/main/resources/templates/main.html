@@ -286,6 +286,11 @@
     let totalPages = 0;
 
     function searchSubjects(title, page) {
+        if (!title) {
+            alert('과목 이름을 입력해주세요.');
+            return;
+        }
+
         let url = `/api/search?title=${encodeURIComponent(title)}`;
         if (page !== null) {
             url += `&page=${page}`;
@@ -313,6 +318,8 @@
                 alert('An error occurred while fetching the data.');
             });
     }
+
+
 
     // Load more button event listener
     document.getElementById('load-more').addEventListener('click', function() {
