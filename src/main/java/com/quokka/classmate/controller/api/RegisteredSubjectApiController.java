@@ -9,6 +9,7 @@ import com.quokka.classmate.global.security.UserDetailsImpl;
 import com.quokka.classmate.service.QueueService;
 import com.quokka.classmate.service.RegisteredSubjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +29,14 @@ public class RegisteredSubjectApiController {
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) {
 
-        registeredSubjectService.createRegisteredSubject(subjectId, userDetails.getUser().getId());
-
-        return ResponseEntity.ok(new ApiResponseDto("수강 과목이 장바구니에 추가 되었습니다."));
+        try {
+            registeredSubjectService.createRegisteredSubject(subjectId, userDetails.getUser().getId());
+            return ResponseEntity.ok(new ApiResponseDto("수강 과목이 장바구니에 추가되었습니다."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ApiResponseDto(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponseDto("서버 오류가 발생했습니다."));
+        }
     }
 
     // 수강 과목 장바구니에서 삭제
@@ -65,9 +71,15 @@ public class RegisteredSubjectApiController {
     public ResponseEntity<?> registrationSubject(
             @PathVariable Long subjectId,
             @AuthenticationPrincipal UserDetailsImpl userDetails) throws JsonProcessingException {
-        RedisQueueRequestDto requestDto = new RedisQueueRequestDto(userDetails.getUser().getId(), subjectId);
-        queueService.addQueue(subjectId, requestDto);
-        return ResponseEntity.ok(new ApiResponseDto("대기열 추가에 성공 했습니다."));
+        try {
+            RedisQueueRequestDto requestDto = new RedisQueueRequestDto(userDetails.getUser().getId(), subjectId);
+            queueService.addQueue(subjectId, requestDto);
+            return ResponseEntity.ok(new ApiResponseDto("대기열 추가에 성공 했습니다."));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(new ApiResponseDto(e.getMessage()));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponseDto("서버 오류가 발생했습니다."));
+        }
     }
 
     @DeleteMapping("/api/register/{subjectId}")
