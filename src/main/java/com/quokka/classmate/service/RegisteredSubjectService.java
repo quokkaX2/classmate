@@ -136,6 +136,13 @@ public class RegisteredSubjectService {
         if (registeredSubject.isRegistered()) {
             throw new IllegalArgumentException("이미 수강신청이 완료된 과목입니다.");
         }
+        List<RegisteredSubject> registeredSubjects = registeredSubjectRepository.findByStudentId(studentId);
+
+        for (RegisteredSubject registered : registeredSubjects) {
+            if (registered.isRegistered() && isTimeOverlap(subject, registered.getSubject())) {
+                throw new IllegalArgumentException(registered.getSubject().getTitle()+ "수업과 시간이 겹칩니다.");
+            }
+        }
 
         // 수강 신청 가능한 학점을 초과하는지 확인한다.
         Integer subjectCredit = subject.getCredit();
@@ -149,6 +156,16 @@ public class RegisteredSubjectService {
         registeredSubject.changeRegisterStatus(); // 상태값
 
         return subject;
+    }
+
+    private boolean isTimeOverlap(Subject subject1, Subject subject2) {
+        int startTime1 = subject1.getTime();
+        int startTime2 = subject2.getTime();
+
+        if (startTime1 == startTime2) {
+            return true;
+        }
+        return false;
     }
 
     // 수강 신청 취소

@@ -26,4 +26,6 @@ public interface RegisteredSubjectRepository extends JpaRepository<RegisteredSub
             "where rs.student.id = :studentId " +
             "and rs.isRegistered = true")
     List<RegisteredSubject> findByStudentIdAndIsRegisteredTrue(Long studentId);
+
+    List<RegisteredSubject> findByStudentId(Long studentId);
 }

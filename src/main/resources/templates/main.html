@@ -225,49 +225,63 @@
         <p class="navMenu" id="profile">My Page</p>
     </div>
 </header>
-    <main>
-<!--        <div class="field"></div>-->
+<main>
+    <div class="field">
+        <div class="subject-container">
+            <form class="search-component" action="/api/search" method="GET">
+                <input type="text" id="search-input" name="input" placeholder="과목 이름을 입력하세요">
+                <button type="submit" id="search-button">검색</button>
+            </form>
 
-        <div class="field">
-            <div class="subject-container">
-                <form class="search-component" action="/api/search" method="GET">
-                    <input type="text" id="search-input" name="input" placeholder="과목 이름을 입력하세요">
-                    <button type="submit" id="search-button">검색</button>
-                </form>
-
-                <!-- 검색 결과가 있을 때 -->
-                <div class="subjects-component" >
-                    <div class="subject-introduce">
-                        <span class="subject-time-title">시간</span>
-                        <span class="subject-name">과목</span>
-                        <span class="subject-info">학점</span>
-                        <span class="subject-info">잔여 인원</span>
-                        <span class="subject-info">장바구니</span>
-                    </div>
-                    <div class="subjects">
-<!--                        <li class="subject" th:each="subject : ${subjects}">-->
-<!--                            <span class="subject-time" th:text="${subject.time}"></span>-->
-<!--                            <span class="subject-name" th:text="${subject.title}"></span>-->
-<!--                            <span class="subject-info" th:text="${subject.credit}"></span>-->
-<!--                            <span class="subject-info" th:text="${subject.limitCount}"></span>-->
-<!--                            <form class="register-button-info" th:action="@{/api/cart/{subjectId}(subjectId=${subject.id})}" method="post">-->
-<!--                                <button type="submit" id="register-button">신청</button>-->
-<!--                            </form>-->
-<!--                        </li>-->
-                    </div>
-                    <button id="load-more" style="width:100%; height:50px;">더 보기</button>
-
-<!--                    &lt;!&ndash; 검색 결과가 없을 때 &ndash;&gt;-->
-<!--                    <div class="non-result" th:if="${#lists.isEmpty(subjects)}">-->
-<!--                        <p>강의를 검색하세요</p>-->
-<!--                    </div>-->
+            <!-- 검색 결과가 있을 때 -->
+            <div class="subjects-component">
+                <div class="subject-introduce">
+                    <span class="subject-time-title">시간</span>
+                    <span class="subject-name">과목</span>
+                    <span class="subject-info">학점</span>
+                    <span class="subject-info">잔여 인원</span>
+                    <span class="subject-info">장바구니</span>
                 </div>
+                <div class="subjects">
+                    <!-- Dynamic content will be added here -->
+                </div>
+                <button id="load-more" style="width:100%; height:50px;">더 보기</button>
             </div>
         </div>
-
-    </main>
+    </div>
+</main>
 <script th:src="@{/js/navbar.js}"></script>
 <script>
+    document.querySelector('.subjects').addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        if (event.target && event.target.tagName === 'FORM') {
+            const formData = new FormData(event.target);
+
+            fetch(event.target.getAttribute('action'), {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => {
+                    if (!response.ok) {
+                        return response.json().then(data => {
+                            throw new Error(data.message);
+                        });
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    alert(data.message);
+                })
+                .catch(error => {
+                    alert(error.message);
+                });
+        }
+
+    });
+
+
+
     let currentPage = 0;
     let totalPages = 0;
 
