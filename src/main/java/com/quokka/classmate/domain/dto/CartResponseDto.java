@@ -8,7 +8,7 @@ public class CartResponseDto {
     private Long subjectId;
     private String title;
     private Integer limitCount;
-    private Integer time;
+    private String time;
     private Integer credit;
     private boolean isRegistered;
 
@@ -16,7 +16,7 @@ public class CartResponseDto {
         this.subjectId = registeredSubject.getSubject().getId();
         this.title = registeredSubject.getSubject().getTitle();
         this.limitCount = registeredSubject.getSubject().getLimitCount();
-        this.time = registeredSubject.getSubject().getTime();
+        this.time = registeredSubject.getSubject().getClassTime();
         this.credit = registeredSubject.getSubject().getCredit();
         this.isRegistered = registeredSubject.isRegistered();
     }
