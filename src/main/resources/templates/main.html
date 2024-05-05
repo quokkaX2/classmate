@@ -11,20 +11,17 @@
             width: 100%;
             height: 100%;
             display: flex;
-            /*flex-direction: row;*/
             justify-content: center;
             align-items: center;
         }
 
         .field {
-            /*border: 10px solid purple;*/
             padding: 1rem;
             width: 50%;
             height: 30rem;
         }
 
         .subject-container {
-            /*border: 2px solid purple;*/
             border-radius: 20px;
             box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
             padding: 1rem;
@@ -36,9 +33,7 @@
         }
 
         .search-component {
-            /*border: 2px solid purple;*/
             border-radius: 5px;
-            /*box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);*/
             height: 8%;
             display: flex;
             flex-direction: row;
@@ -71,150 +66,45 @@
             cursor: grab;
         }
 
-        .subject-introduce {
-            display: flex;
-            flex-direction: row;
-        }
-
-        .subjects-component {
-            /*border: 2px solid purple;*/
-            box-shadow: inset 0 0 3px 0 rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
-            height: 84%;
-            display: flex;
-            flex-direction: column;
-            padding-right: 0.25rem;
-            padding-left: 0.25rem;
+        .subjects-container {
+            height: 80%;
+            overflow-y: auto;
         }
 
         .subjects {
-            /*border: 2px solid purple;*/
-            list-style-type: none;
-            padding: 0.5rem;
-            width: 97%;
-            overflow-y: auto;
-            display: inline-block;
+            width: 100%;
+            border-collapse: collapse;
         }
 
-        .subject {
-            /*border: 2px solid purple;*/
-            box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
-            width: 99%;
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-            height: 1.9rem;
-            display: flex;
-            flex-direction: row;
+        .subjects th,
+        .subjects td {
+            border: 1px solid #dddddd;
+            text-align: center;
+            padding: 8px;
         }
 
-        .subject-time-title {
-            flex: 2.7;
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .subjects th {
+            background-color: #f2f2f2;
         }
 
-        .subject-time {
-            flex: 2.7;
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        #load-more {
+            display: none;
         }
 
-        .subject-info {
-            flex: 1;
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        /* Add this CSS to keep the table header fixed */
+        .subjects thead {
+            position: sticky;
+            top: 0;
+            background-color: #f2f2f2; /* You can adjust the background color as needed */
+            z-index: 1; /* Ensure the header appears above other content */
         }
-
-        .subject-name {
-            flex: 4.2;
-            margin-right: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .subject-info:last-child {
-            margin-right: 0;
-        }
-
-        .register-button-info {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        #register-button {
-            /*flex: 1;*/
-            background-color: #b2d2ff;
-            border: 1px transparent solid;
-            width: 80%;
-            height: 90%;
-            font-size: 14px;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        #register-button:hover {
-            opacity: 0.6;
-            cursor: pointer;
-        }
-
-        #register-button:active {
-            opacity: 1.4;
-            cursor: grab;
-        }
-
-        .non-result {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-        .non-result p {
-            font-size: 20px;
-        }
-
 
     </style>
     <title>main</title>
     <link rel="stylesheet" th:href="@{/css/navbar.css}" />
-
 </head>
 
 <body>
-<!--    필요시 헤더 추가 공간-->
-<!--<nav class="navbar navbar-expand-custom navbar-mainbg">-->
-<!--    <a class="navbar-brand navbar-logo" href="#">수강신청 페이지(메인 페이지)</a>-->
-<!--    <button class="navbar-toggler" type="button" aria-controls="navbarSupportedContent" aria-expanded="false"-->
-<!--            aria-label="Toggle navigation">-->
-<!--        <i class="fas fa-bars text-white"></i>-->
-<!--    </button>-->
-<!--    <div class="collapse navbar-collapse" id="navbarSupportedContent">-->
-<!--        <ul class="navbar-nav ml-auto">-->
-<!--            <div class="hori-selector"><div class="left"></div><div class="right"></div></div>-->
-<!--            <li class="nav-item" th:classappend="${currentPage} == 'courses' ? 'active' : ''">-->
-<!--                <a class="nav-link" href="/">Courses</a>-->
-<!--            </li>-->
-<!--            <li class="nav-item" th:classappend="${currentPage} == 'cart' ? 'active' : ''">-->
-<!--                <a class="nav-link" href="/cart">Cart</a>-->
-<!--            </li>-->
-<!--&lt;!&ndash;            <li class="nav-item" th:classappend="${currentPage} == 'mypage' ? 'active' : ''">&ndash;&gt;-->
-<!--&lt;!&ndash;                <a class="nav-link" href="#">My Page</a>&ndash;&gt;-->
-<!--&lt;!&ndash;            </li>&ndash;&gt;-->
-
-<!--        </ul>-->
-<!--    </div>-->
-<!--</nav>-->
-
 <header class="navbar">
     <div class="leftBox">
         <p class="navTitle">수강신청 페이지</p>
@@ -234,19 +124,23 @@
             </form>
 
             <!-- 검색 결과가 있을 때 -->
-            <div class="subjects-component">
-                <div class="subject-introduce">
-                    <span class="subject-time-title">시간</span>
-                    <span class="subject-name">과목</span>
-                    <span class="subject-info">학점</span>
-                    <span class="subject-info">잔여 인원</span>
-                    <span class="subject-info">장바구니</span>
-                </div>
-                <div class="subjects">
+            <div class="subjects-container">
+                <table class="subjects">
+                    <thead>
+                    <tr>
+                        <th>시간</th>
+                        <th>과목</th>
+                        <th>학점</th>
+                        <th>잔여 인원</th>
+                        <th>장바구니</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <!-- Dynamic content will be added here -->
-                </div>
-                <button id="load-more" style="width:100%; height:50px;">더 보기</button>
+                    </tbody>
+                </table>
             </div>
+            <button id="load-more" style="width:100%; height:50px;">더 보기</button>
         </div>
     </div>
 </main>
@@ -305,13 +199,13 @@
             })
             .then(data => {
                 if (data.data.dataList.length === 0) {
-                    document.getElementById('load-more').style.display = 'none'; // Hide load more button if no data
+                    document.getElementById('load-more').style.display = 'none'; // Hide the button if no data
                     return;
                 }
                 displaySubjects(data.data.dataList);
                 currentPage = data.data.currentPage;
                 totalPages = data.data.totalPage;
-                document.getElementById('load-more').style.display = 'block'; // Show load more button if data exists
+                document.getElementById('load-more').style.display = 'block'; // Show the button if data exists
             })
             .catch(error => {
                 console.error('Error:', error);
@@ -331,34 +225,43 @@
 
     // Clear existing search results
     function clearSubjects() {
-        const subjectsList = document.querySelector('.subjects');
+        const subjectsList = document.querySelector('.subjects').querySelector('tbody');
         subjectsList.innerHTML = ''; // Clear the content
     }
 
     // Display search results on the page
+    // Display search results on the page
     function displaySubjects(subjects) {
-        const subjectsList = document.querySelector('.subjects');
-        console.log(subjects);
+        const subjectsTable = document.querySelector('.subjects');
+        if (!subjectsTable) {
+            console.error('Table body not found');
+            return;
+        }
+
+        let tbody = subjectsTable.querySelector('tbody');
+        if (!tbody) {
+            // If tbody doesn't exist, create it
+            tbody = document.createElement('tbody');
+            subjectsTable.appendChild(tbody);
+        }
 
         subjects.forEach(subject => {
-            const subjectItem = document.createElement('div');
-            subjectItem.classList.add('subject');
+            const subjectItem = document.createElement('tr'); // Create a table row
 
-            const subjectTime = document.createElement('span');
-            subjectTime.classList.add('subject-time');
+            // Creating table cells for each subject attribute
+            const subjectTime = document.createElement('td');
             subjectTime.textContent = subject.time;
 
-            const subjectName = document.createElement('span');
-            subjectName.classList.add('subject-name');
+            const subjectName = document.createElement('td');
             subjectName.textContent = subject.title;
 
-            const subjectCredit = document.createElement('span');
-            subjectCredit.classList.add('subject-info');
+            const subjectCredit = document.createElement('td');
             subjectCredit.textContent = subject.credit;
 
-            const subjectLimit = document.createElement('span');
-            subjectLimit.classList.add('subject-info');
+            const subjectLimit = document.createElement('td');
             subjectLimit.textContent = subject.limitCount;
+
+            const registerCell = document.createElement('td'); // Create a table cell for the button
 
             const registerForm = document.createElement('form');
             registerForm.setAttribute('action', `/api/cart/${subject.id}`);
@@ -369,16 +272,20 @@
             registerButton.textContent = '담기';
 
             registerForm.appendChild(registerButton);
+            registerCell.appendChild(registerForm); // Append the form to the table cell
 
+            // Appending cells to the table row
             subjectItem.appendChild(subjectTime);
             subjectItem.appendChild(subjectName);
             subjectItem.appendChild(subjectCredit);
             subjectItem.appendChild(subjectLimit);
-            subjectItem.appendChild(registerForm);
+            subjectItem.appendChild(registerCell); // Append the button cell to the row
 
-            subjectsList.appendChild(subjectItem);
+            // Appending the row to the table body
+            tbody.appendChild(subjectItem);
         });
     }
+
 
     // Search button event listener
     document.getElementById('search-button').addEventListener('click', function(event) {
@@ -387,101 +294,6 @@
         clearSubjects(); // Clear previous search results
         searchSubjects(title, 0); // Start a new search, initialize at page 0
     });
-    // let lastCursor = null; // 마지막 데이터의 ID 저장
-    //
-    // function searchSubjects(inputValue, cursor) {
-    //     let url = `/api/search?input=${encodeURIComponent(inputValue)}`;
-    //     if (cursor) {
-    //         url += `&cursor=${cursor}`;
-    //     }
-    //
-    //     fetch(url)
-    //         .then(response => {
-    //             if (!response.ok) {
-    //                 throw new Error('Network response was not ok');
-    //             }
-    //             return response.json();
-    //         })
-    //         .then(data => {
-    //             if (data.length === 0) {
-    //                 document.getElementById('load-more').style.display = 'none'; // 더 이상 데이터가 없으면 버튼 숨기기
-    //                 return;
-    //             }
-    //             displaySubjects(data);
-    //             lastCursor = data[data.length - 1].id; // 마지막 항목의 ID를 커서로 저장
-    //             document.getElementById('load-more').style.display = 'block'; // 데이터가 있으면 버튼 보이기
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //             alert('An error occurred while fetching the data.');
-    //         });
-    // }
-    //
-    // // "더 보기" 버튼에 이벤트 리스너 추가
-    // document.getElementById('load-more').addEventListener('click', function() {
-    //     const inputValue = document.getElementById('search-input').value;
-    //     searchSubjects(inputValue, lastCursor); // 마지막 커서와 함께 검색 실행
-    // });
-    //
-    // // 기존 검색 결과를 지우는 함수
-    // function clearSubjects() {
-    //     const subjectsList = document.querySelector('.subjects');
-    //     subjectsList.innerHTML = ''; // 내용을 모두 지움
-    // }
-    //
-    // // 입력 데이터 화면에 표시
-    // function displaySubjects(subjects) {
-    //     const subjectsList = document.querySelector('.subjects');
-    //     console.log(subjects)
-    //
-    //     subjects.forEach(subject => {
-    //         const subjectItem = document.createElement('div');
-    //         subjectItem.classList.add('subject');
-    //
-    //         const subjectTime = document.createElement('span');
-    //         subjectTime.classList.add('subject-time');
-    //         subjectTime.textContent = subject.time;
-    //
-    //         const subjectName = document.createElement('span');
-    //         subjectName.classList.add('subject-name');
-    //         subjectName.textContent = subject.title;
-    //
-    //         const subjectCredit = document.createElement('span');
-    //         subjectCredit.classList.add('subject-info');
-    //         subjectCredit.textContent = subject.credit;
-    //
-    //         const subjectLimit = document.createElement('span');
-    //         subjectLimit.classList.add('subject-info');
-    //         subjectLimit.textContent = subject.limitCount;
-    //
-    //         const registerForm = document.createElement('form');
-    //         registerForm.setAttribute('action', `/api/cart/${subject.id}`);
-    //         registerForm.setAttribute('method', 'post');
-    //
-    //         const registerButton = document.createElement('button');
-    //         registerButton.setAttribute('type', 'submit');
-    //         registerButton.setAttribute('id', 'register-button');
-    //         registerButton.textContent = '담기';
-    //
-    //         registerForm.appendChild(registerButton);
-    //
-    //         subjectItem.appendChild(subjectTime);
-    //         subjectItem.appendChild(subjectName);
-    //         subjectItem.appendChild(subjectCredit);
-    //         subjectItem.appendChild(subjectLimit);
-    //         subjectItem.appendChild(registerForm);
-    //
-    //         subjectsList.appendChild(subjectItem);
-    //     });
-    // }
-    //
-    // // 검색해서 백엔드에 입력값 전송
-    // document.getElementById('search-button').addEventListener('click', function(event) {
-    //     event.preventDefault();
-    //     const inputValue = document.getElementById('search-input').value;
-    //     clearSubjects();  // 검색 결과를 초기화
-    //     searchSubjects(inputValue, null);  // 새로운 검색을 시작, 커서는 null로 설정
-    // });
 
 </script>
 </body>
