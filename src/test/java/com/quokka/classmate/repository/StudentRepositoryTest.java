@@ -1,6 +1,7 @@
 package com.quokka.classmate.repository;
 
 import com.quokka.classmate.domain.entity.Student;
+import com.quokka.classmate.domain.repository.StudentRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

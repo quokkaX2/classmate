@@ -1,24 +1,14 @@
 package com.quokka.classmate.controller;
 
-import com.quokka.classmate.domain.entity.Student;
-import com.quokka.classmate.global.security.UserDetailsImpl;
-import com.quokka.classmate.service.RegisteredSubjectService;
-import com.quokka.classmate.service.SubjectService;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.quokka.classmate.domain.controller.routing.RegisteredSubjectController;
+import com.quokka.classmate.domain.service.RegisteredSubjectService;
+import com.quokka.classmate.domain.service.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 
 @WebMvcTest(RegisteredSubjectController.class)

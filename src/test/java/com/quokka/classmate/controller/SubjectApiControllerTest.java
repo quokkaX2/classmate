@@ -1,25 +1,20 @@
 package com.quokka.classmate.controller;
 
-import com.quokka.classmate.controller.api.SubjectApiController;
+import com.quokka.classmate.domain.controller.api.SubjectApiController;
 import com.quokka.classmate.domain.dto.SubjectResponseDto;
 import com.quokka.classmate.domain.entity.Subject;
-import com.quokka.classmate.service.SubjectService;
+import com.quokka.classmate.domain.service.SubjectService;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.security.test.context.support.WithMockUser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(SubjectApiController.class)
 @MockBean(JpaMetamodelMappingContext.class)

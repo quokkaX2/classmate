@@ -1,7 +1,8 @@
 package com.quokka.classmate.controller;
 
+import com.quokka.classmate.domain.controller.routing.StudentController;
 import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
-import com.quokka.classmate.service.StudentService;
+import com.quokka.classmate.domain.service.StudentService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

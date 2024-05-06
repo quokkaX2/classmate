@@ -1,18 +1,11 @@
 package com.quokka.classmate.repository;
 
-import com.quokka.classmate.domain.entity.RegisteredSubject;
-import com.quokka.classmate.domain.entity.Student;
-import com.quokka.classmate.domain.entity.Subject;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.quokka.classmate.domain.repository.RegisteredSubjectRepository;
+import com.quokka.classmate.domain.repository.StudentRepository;
+import com.quokka.classmate.domain.repository.SubjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
-
-import java.util.Optional;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 //@DataJpaTest // 테스트 종료 후, 트랜잭션 롤백이 돼서 실제 DB에 저장되지 않음
 //@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)

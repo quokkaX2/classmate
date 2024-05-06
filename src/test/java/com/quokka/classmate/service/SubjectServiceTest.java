@@ -1,21 +1,13 @@
 package com.quokka.classmate.service;
 
-import com.quokka.classmate.domain.dto.SubjectResponseDto;
-import com.quokka.classmate.domain.entity.Subject;
-import com.quokka.classmate.repository.SubjectRepository;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.quokka.classmate.domain.repository.SubjectRepository;
+import com.quokka.classmate.domain.service.SubjectService;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class) // JUnit 5와 Mockito 연동
 class SubjectServiceTest {

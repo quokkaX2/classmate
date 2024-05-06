@@ -2,7 +2,8 @@ package com.quokka.classmate.service;
 
 import com.quokka.classmate.domain.dto.StudentSignUpRequestDto;
 import com.quokka.classmate.domain.entity.Student;
-import com.quokka.classmate.repository.StudentRepository;
+import com.quokka.classmate.domain.repository.StudentRepository;
+import com.quokka.classmate.domain.service.StudentService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

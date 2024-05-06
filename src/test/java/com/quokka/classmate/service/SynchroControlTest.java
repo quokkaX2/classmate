@@ -2,10 +2,11 @@ package com.quokka.classmate.service;
 
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.domain.entity.Subject;
-import com.quokka.classmate.facade.RedissonLockFacade;
-import com.quokka.classmate.repository.RegisteredSubjectRepository;
-import com.quokka.classmate.repository.StudentRepository;
-import com.quokka.classmate.repository.SubjectRepository;
+import com.quokka.classmate.domain.service.RegisteredSubjectService;
+import com.quokka.classmate.global.facade.RedissonLockFacade;
+import com.quokka.classmate.domain.repository.RegisteredSubjectRepository;
+import com.quokka.classmate.domain.repository.StudentRepository;
+import com.quokka.classmate.domain.repository.SubjectRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
