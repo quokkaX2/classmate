@@ -8,16 +8,31 @@
 
     <!--  css  -->
     <link rel="stylesheet" type="text/css" href="/css/login.css">
+    <style>
+
+    </style>
 </head>
 <body>
-<div class="container">
-    <h2>로그인</h2>
-    <input type="text" id="email" name="email" placeholder="Email" required>
-    <input type="password" id="password" name="password" placeholder="Password" required>
-    <button class="login-btn" onclick="login()">로그인</button>
-    <button class="signup-btn" onclick="window.location.href = '/signup'">회원가입</button>
-    <div id="login-failed" style="display: none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
-</div>
+    <div class="field">
+        <div class="introduce">
+            <h2 class="welcome">클래스메이트는 여러분의 수강신청과 함께 합니다</h2>
+<!--            <img src="../static/img/logo.png" alt="logo">-->
+            <ul class="introduce-detail">
+                <li class="detail-content">수강신청 서비스, classmate에 오신 것을 환영합니다</li>
+                <li class="detail-content">대용량 트래픽이 몰려도 안정적인 서비스를 제공합니다</li>
+                <li class="detail-content">공정하고 신뢰성 있는 수강신청 결과를 보장합니다</li>
+                <li class="detail-content">여러분의 성공적인 수강신청을 기원합니다</li>
+            </ul>
+        </div>
+        <div class="container">
+            <h2 class="login">로그인</h2>
+            <input type="text" id="email" name="email" placeholder="Email" required>
+            <input type="password" id="password" name="password" placeholder="Password" required>
+            <button class="login-btn" onclick="login()">로그인</button>
+            <button class="signup-btn" onclick="window.location.href = '/signup'">회원가입</button>
+            <div id="login-failed" style="display: none" class="alert alert-danger" role="alert">로그인에 실패하였습니다.</div>
+        </div>
+    </div>
 </body>
 </html>
 
@@ -53,11 +68,13 @@
                     localStorage.setItem("userId", userId);
                 } else {
                     console.log('statusCode: ' + response.status);
+                    alert("로그인에 실패하였습니다. 다시 확인해주세요.")
                     window.location.href = '/login?error';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                alert("로그인에 실패하였습니다. 다시 확인해주세요.")
                 window.location.href = '/login?error';
             });
     }

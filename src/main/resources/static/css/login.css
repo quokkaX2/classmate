@@ -1,45 +1,112 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    /*background-color: #f4f4f4;*/
     margin: 0;
     padding: 0;
+    display: flex;
+    height: 100vh;
+    /*flex-direction: row;*/
+    justify-content: center;
+    align-items: center;
 }
+
+main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    /*flex-direction: row;*/
+    justify-content: center;
+    align-items: center;
+}
+
+.field {
+    /*border: 10px solid purple;*/
+    border-radius: 20px;
+    padding: 1rem;
+    width: 65%;
+    height: 30rem;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.5);
+}
+
+.introduce {
+    width: 51%;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.welcome {
+    color: #e3be82;
+    text-align: center;
+    flex: 1;
+    align-items: center;
+    padding-top: 20px;
+}
+
+.introduce-detail {
+    list-style-type: none;
+    text-align: center;
+    flex: 2;
+    padding-top: 20px;
+}
+
+.detail-content {
+    padding: 5px;
+    text-align: left;
+    margin-top: 15px;
+}
+
 .container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    /*position: absolute;*/
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*top: 50%;*/
+    /*left: 50%;*/
+    /*transform: translate(-50%, -50%);*/
     width: 400px; /* 수정된 부분 */
     background: #fff;
     padding: 20px;
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
-h2 {
+.login {
+    flex:1;
     text-align: center;
     margin-bottom: 20px;
 }
 input[type="text"], input[type="password"], .login-btn, .signup-btn {
+    flex:0.5;
     width: calc(100% - 20px);
     padding: 10px;
-    margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 3px;
     box-sizing: border-box;
-    display: block;
+    margin: 20px;
+    /*display: block;*/
 }
 .login-btn, .signup-btn {
-    background: #007bff;
+    background: #e3be82;
     color: #fff;
     border: none;
     cursor: pointer;
 }
 .login-btn:hover {
-    background: #0056b3;
+    background: #e5a85e;
 }
 .signup-btn {
     background: #28a745;
 }
 .signup-btn:hover {
     background: #218838;
+}
+
+#login-failed {
+    text-align: center;
+    color: red;
 }
