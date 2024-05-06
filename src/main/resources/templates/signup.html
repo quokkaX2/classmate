@@ -7,16 +7,30 @@
     <link rel="stylesheet" type="text/css" href="/css/login.css">
 </head>
 <body>
-<div class="container">
-    <h2>회원가입</h2>
-    <form id="signupForm">
-        <input type="text" name="email" id="email" placeholder="Email" required>
-        <input type="password" name="password" id="password" placeholder="Password" required>
-        <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
-        <input type="text" name="name" id="name" placeholder="Name" required>
-        <button class="signup-btn" type="button" id="signupButton">회원가입</button>
-    </form>
-    <div class="error-message"></div>
+<div class="field">
+    <div class="introduce">
+        <h2 class="welcome">클래스메이트는 여러분의 수강신청과 함께 합니다</h2>
+        <!--            <img src="../static/img/logo.png" alt="logo">-->
+        <ul class="introduce-detail">
+            <li class="detail-content">수강신청 서비스, classmate에 오신 것을 환영합니다</li>
+            <li class="detail-content">대용량 트래픽이 몰려도 안정적인 서비스를 제공합니다</li>
+            <li class="detail-content">공정하고 신뢰성 있는 수강신청 결과를 보장합니다</li>
+            <li class="detail-content">여러분의 성공적인 수강신청을 기원합니다</li>
+        </ul>
+    </div>
+    <div class="container">
+        <div class="signup" style="display: flex; justify-content: center">
+            <h2 class="signup-text">회원가입</h2>
+        </div>
+        <form id="signupForm">
+            <input type="text" name="email" id="email" placeholder="Email" required>
+            <input type="password" name="password" id="password" placeholder="Password" required>
+            <input type="password" name="confirmPassword" id="confirmPassword" placeholder="Confirm Password" required>
+            <input type="text" name="name" id="name" placeholder="Name" required>
+            <button class="signup-btn" type="button" id="signupButton">회원가입</button>
+        </form>
+        <div class="error-message"></div>
+    </div>
 </div>
 
 <script>
