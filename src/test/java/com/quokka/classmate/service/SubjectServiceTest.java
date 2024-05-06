@@ -1,31 +1,31 @@
-//package com.quokka.classmate.service;
-//
-//import com.quokka.classmate.domain.dto.SubjectResponseDto;
-//import com.quokka.classmate.domain.entity.Subject;
-//import com.quokka.classmate.repository.SubjectRepository;
-//import org.junit.jupiter.api.DisplayName;
-//import org.junit.jupiter.api.Test;
-//import org.junit.jupiter.api.extension.ExtendWith;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.junit.jupiter.MockitoExtension;
-//
-//import java.util.ArrayList;
-//import java.util.List;
-//import java.util.Optional;
-//
-//import static org.assertj.core.api.Assertions.assertThat;
-//import static org.mockito.Mockito.when;
-//
-//@ExtendWith(MockitoExtension.class) // JUnit 5와 Mockito 연동
-//class SubjectServiceTest {
-//
-//    @Mock // Mock 객체 생성
-//    private SubjectRepository subjectRepository;
-//
-//    @InjectMocks // Mock 객체 레포지토리 주입
-//    private SubjectService subjectService;
-//
+package com.quokka.classmate.service;
+
+import com.quokka.classmate.domain.dto.SubjectResponseDto;
+import com.quokka.classmate.domain.entity.Subject;
+import com.quokka.classmate.repository.SubjectRepository;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class) // JUnit 5와 Mockito 연동
+class SubjectServiceTest {
+
+    @Mock // Mock 객체 생성
+    private SubjectRepository subjectRepository;
+
+    @InjectMocks // Mock 객체 레포지토리 주입
+    private SubjectService subjectService;
+
 //    @Test
 //    @DisplayName("강의 과목 전체 조회 시, 누락되는 과목이 없어야 한다.")
 //    void findAll() {
@@ -53,25 +53,25 @@
 //            assertThat(result.get(i).getCredit()).isEqualTo(3);
 //        }
 //    }
+
+//    @Test
+//    @DisplayName("과목 키워드 검색 시, 해당 키워드를 포함하는 과목이 반환되어야 한다.")
+//    void testFindByKeyword() {
+//        // given
+//        String keyword = "검색";
+//        List<Subject> mockSubjects = new ArrayList<>();
+//        mockSubjects.add(new Subject("과목1 검색", 30, 3, 3));
+//        mockSubjects.add(new Subject("검색 과목2", 30, 3, 3));
+//        mockSubjects.add(new Subject("과목3", 30, 3, 3));
+//        when(subjectRepository.findByTitleContaining(keyword)).thenReturn(
+//                mockSubjects.stream().filter(subject -> subject.getTitle().contains(keyword)).toList());
 //
-////    @Test
-////    @DisplayName("과목 키워드 검색 시, 해당 키워드를 포함하는 과목이 반환되어야 한다.")
-////    void testFindByKeyword() {
-////        // given
-////        String keyword = "검색";
-////        List<Subject> mockSubjects = new ArrayList<>();
-////        mockSubjects.add(new Subject("과목1 검색", 30, 3, 3));
-////        mockSubjects.add(new Subject("검색 과목2", 30, 3, 3));
-////        mockSubjects.add(new Subject("과목3", 30, 3, 3));
-////        when(subjectRepository.findByTitleContaining(keyword)).thenReturn(
-////                mockSubjects.stream().filter(subject -> subject.getTitle().contains(keyword)).toList());
-////
-////        // when
-////        List<SubjectResponseDto> result = subjectService.findByKeyword(keyword);
-////
-////        // then
-////        assertThat(result.size()).isEqualTo(2); // 검색 키워드 포함하는 단어 개수
-////        assertThat(result.get(0).getTitle()).isEqualTo("과목1 검색");
-////        assertThat(result.get(1).getTitle()).isEqualTo("검색 과목2");
-////    }
-//}
+//        // when
+//        List<SubjectResponseDto> result = subjectService.findByKeyword(keyword);
+//
+//        // then
+//        assertThat(result.size()).isEqualTo(2); // 검색 키워드 포함하는 단어 개수
+//        assertThat(result.get(0).getTitle()).isEqualTo("과목1 검색");
+//        assertThat(result.get(1).getTitle()).isEqualTo("검색 과목2");
+//    }
+}
