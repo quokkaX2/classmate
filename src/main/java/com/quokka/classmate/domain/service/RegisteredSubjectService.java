@@ -5,7 +5,7 @@ import com.quokka.classmate.domain.entity.RegisteredSubject;
 import com.quokka.classmate.domain.entity.Student;
 import com.quokka.classmate.domain.entity.Subject;
 import com.quokka.classmate.domain.repository.*;
-import com.quokka.classmate.repository.*;
+//import com.quokka.classmate.repository.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
