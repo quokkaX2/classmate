@@ -35,15 +35,17 @@ public class QueueService {
     public void process() {
         Set<String> redisQueue = redisTemplate.opsForZSet().range(Redis.ADD_QUEUE.getCategory(), 0, SIZE);
         assert redisQueue != null;
+
         redisQueue.parallelStream().forEach(info -> {
-            redisTemplate.opsForZSet().remove(Redis.ADD_QUEUE.getCategory(), info);
             try {
+                redisTemplate.opsForZSet().remove(Redis.ADD_QUEUE.getCategory(), info);
                 RedisQueueRequestDto requestDto = objectMapper.readValue(info, RedisQueueRequestDto.class);
                 handleItem(requestDto);
                 redisTemplate.opsForZSet().add(Redis.SUCCESS.getCategory(), info, System.currentTimeMillis());
             } catch (Exception e) {
+                // Handle the exception here without rethrowing it
                 redisTemplate.opsForZSet().add(Redis.FAIL.getCategory(), info, System.currentTimeMillis());
-                throw new IllegalArgumentException(e);
+                log.error("An error occurred while processing queue item: {}", e.getMessage(), e);
             }
         });
     }
