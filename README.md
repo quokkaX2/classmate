@@ -42,7 +42,7 @@
 
 | 카테고리 | 사용 기술 |
 | --- | --- |
-| Backend | JAVA, Spring Boot, Spring JPA, Spring Security |
+| Backend | JAVA, Spring Boot, Spring Data JPA, Spring Security |
 | TEST | JMeter, JUnit5, Postman |
 | CI/CD | Github Actions, AWS S3, AWS CodeDeploy |
 | Database | AWS RDS(MySQL), Redis |
