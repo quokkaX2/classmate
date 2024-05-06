@@ -1,9 +1,8 @@
 package com.quokka.classmate.global.security;
 
 import com.quokka.classmate.domain.entity.Student;
-import com.quokka.classmate.repository.StudentRepository;
+import com.quokka.classmate.domain.repository.StudentRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

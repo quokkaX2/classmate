@@ -1,6 +1,6 @@
 package com.quokka.classmate.domain.entity;
 
-import com.quokka.classmate.utility.WeekTime;
+import com.quokka.classmate.domain.utility.WeekTime;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

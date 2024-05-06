@@ -2,7 +2,7 @@ package com.quokka.classmate.domain.document;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.quokka.classmate.utility.WeekTime;
+import com.quokka.classmate.domain.utility.WeekTime;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
