@@ -30,7 +30,7 @@
 
 5️⃣  **Elastic Search - Log Stash - Kibana 체계**: 빠르고 정확한 검색 기능을 통해 사용자 경험을 향상시킵니다.
 
-대규모 트래픽 부하 테스트를 거친 결과, 한 번에 _____의 수강 신청을 _____TPS의 처리량으로 문제 없이 처리할 수 있으며, 동시에 20000명의 검색 요청도 평균 6-700ms의 응답 속도로 처리가 가능한 고가용성, 안정성, 신뢰성을 확보한 프로젝트 입니다.
+대규모 트래픽 부하 테스트를 거친 결과, 한 번에 10만 명의 수강 신청을 약 **1500 TPS**의 처리량으로 문제 없이 처리할 수 있으며, 동시에 20000명의 검색 요청도 평균 6-700ms의 응답 속도로 처리가 가능한 고가용성, 안정성, 신뢰성을 확보한 프로젝트 입니다.
 
 **CLASSMATE**에서 테크놀로지가 만들어내는 안정성을 **직접** 경험하세요.
 
@@ -207,24 +207,11 @@ TPS : **598**
 
 | 요구사항 | 선택 기술 | 기술 선택 이유 |
 | --- | --- | --- |
-| 🪣 데이터 베이스 | MySQL
-PostgreSQL | MySQL은 PostgreSQL보다 읽기 성능에 강점을 가지고 있습니다. 복잡한 쿼리가 없고 쓰기 작업 보단 읽기 작업이 더 많은 현재 프로젝트에 적합한 MySQL을 선택하였습니다. |
-| 📈 부하 테스트 | Jmeter 
-nGrinder | nGrinder의 가장 큰 단점이 현재까지의 default 지원 자바 버전이 여전히 8이며, 최대 Java 11까지 지원되기 때문에 현재 프로젝트의 기반 프로그래밍 언어인 Java 17에 호환되는 JMeter를 선택하였습니다. |
-| 🖥️ 모니터링 | Prometheus
-Grafana
-Pinpoint | Spring boot에서 내보내는 메트릭들을 프로메테우스로 손쉽게 수집할 수 있고, 그라파나 대시보드를 import 해오면 주요 지표 시각화에 적은 시간이 들게 됩니다. 또한 오픈소스로 무료로 이용 가능하기 때문에 선택하였습니다. |
-| ⚡️ 응답 속도, TPS 개선 | Redis
-Memcached | Memcached는 string 데이터 타입만 지원합니다. 반면에 Redis는 hash, set, list, string 등 다양한 데이터 구조를 지원합니다.
-
-Redis는 In Memory 데이터 저장소로서, 디스크 기반의 데이터 접근보다 데이터 I/O 속도가 빠릅니다. 반복적인 읽기에 대한 응답 속도 개선과 DB 부하를 줄일 수 있기에 선택하였습니다. |
-| 🔍 검색 성능 개선 | Elastic search
-Log Stash
-Kibana
-Native Query | Elastic search는 텍스트를 토큰 단위로 분리, 분석하는 루씬 엔진과 http 메소드를 기반으로 운영 체제에 구애받지 않는 검색 환경을 제공하는 외부 라이브러리이며 데이터 로그 추적 및 수집을 맡는 Log Stash 및 검색 데이터 분석 및 모니터링을 맡는 Kibana를 통한 ELK 체계를 통해 빠르면서도 다양한 검색 조건을 제시하고 확장성을 고려할 수 있어서 선택하였습니다. |
-| ⚙️ CI/CD | Github Actions Jenkins | Jenkins보다 설정이 단순하고, CI 서버 구축이 따로 필요 없으며 GitHub와 연동이 용이하며 사용 경험이 있는 GitHub Actions를 선택하였습니다. |
-| 💬 소켓 통신 | Web socket
-SSE
-WebFlux | SSE에 비해 연결 제한이 없고 러닝커브가 낮으며 프로젝트 기간을 고려하였을 때, 사용 경험이 있는 WebSocket을 선택하였습니다. |
-| 🥔DB 복제 | Replication
-Sharding | 초기에는 DB 복제와 샤딩 모두 적용하고자 하였습니다. 하지만, 초기 ERD 구성이 샤딩을 고려하지 않았기 때문에 복제를 선택하여 적용하게 되었습니다. |
+| 🪣 데이터 베이스 | **MySQL** vs PostgreSQL | MySQL은 PostgreSQL보다 읽기 성능에 강점을 가지고 있습니다. 복잡한 쿼리가 없고 쓰기 작업 보단 읽기 작업이 더 많은 현재 프로젝트에 적합한 MySQL을 선택하였습니다. |
+| 📈 부하 테스트 | **Jmeter** vs nGrinder | nGrinder의 가장 큰 단점이 현재까지의 default 지원 자바 버전이 여전히 8이며, 최대 Java 11까지 지원되기 때문에 현재 프로젝트의 기반 프로그래밍 언어인 Java 17에 호환되는 JMeter를 선택하였습니다. |
+| 🖥️ 모니터링 | **Prometheus, Grafana** vs Pinpoint | Spring boot에서 내보내는 메트릭들을 프로메테우스로 손쉽게 수집할 수 있고, 그라파나 대시보드를 import 해오면 주요 지표 시각화에 적은 시간이 들게 됩니다. 또한 오픈소스로 무료로 이용 가능하기 때문에 선택하였습니다. |
+| ⚡️ 응답 속도, TPS 개선 | **Redis** vs Memcached | Memcached는 string 데이터 타입만 지원합니다. 반면에 Redis는 hash, set, list, string 등 다양한 데이터 구조를 지원합니다. Redis는 In Memory 데이터 저장소로서, 디스크 기반의 데이터 접근보다 데이터 I/O 속도가 빠릅니다. 반복적인 읽기에 대한 응답 속도 개선과 DB 부하를 줄일 수 있기에 선택하였습니다. |
+| 🔍 검색 성능 개선 | **Elastic search, Log Stash, Kibana** vs Native Query | Elastic search는 텍스트를 토큰 단위로 분리, 분석하는 루씬 엔진과 http 메소드를 기반으로 운영 체제에 구애받지 않는 검색 환경을 제공하는 외부 라이브러리이며 데이터 로그 추적 및 수집을 맡는 Log Stash 및 검색 데이터 분석 및 모니터링을 맡는 Kibana를 통한 ELK 체계를 통해 빠르면서도 다양한 검색 조건을 제시하고 확장성을 고려할 수 있어서 선택하였습니다. |
+| ⚙️ CI/CD | **Github Actions** vs Jenkins | Jenkins보다 설정이 단순하고, CI 서버 구축이 따로 필요 없으며 GitHub와 연동이 용이하며 사용 경험이 있는 GitHub Actions를 선택하였습니다. |
+| 💬 소켓 통신 | **Web socket** vs SSE vs WebFlux | SSE에 비해 연결 제한이 없고 러닝커브가 낮으며 프로젝트 기간을 고려하였을 때, 사용 경험이 있는 WebSocket을 선택하였습니다. |
+| 🥔DB 복제 | **Replication** vs Sharding | 초기에는 DB 복제와 샤딩 모두 적용하고자 하였습니다. 하지만, 초기 ERD 구성이 샤딩을 고려하지 않았기 때문에 복제를 선택하여 적용하게 되었습니다. |
